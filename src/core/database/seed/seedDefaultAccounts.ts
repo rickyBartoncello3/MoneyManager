@@ -1,0 +1,64 @@
+import {accountLocalDataSource} from '@/src/data/local/accounts/accountLocalDataSource';
+
+export async function seedDefaultAccounts() {
+  const count = await accountLocalDataSource.count();
+
+  if (count > 0) return;
+
+  const now = new Date().toISOString();
+
+  await accountLocalDataSource.insertMany([
+    {
+      id: 'acc_cash_ars',
+      name: 'Cash pesos',
+      type: 'cash',
+      icon: 'cash',
+      currency_code: 'ARS',
+      initial_balance_minor: 0,
+      include_in_total: 1,
+      archived_at: null,
+      created_at: now,
+      updated_at: now,
+      deleted_at: null,
+    },
+    {
+      id: 'acc_cash_usd',
+      name: 'Cash dollars',
+      type: 'cash',
+      icon: 'cash',
+      currency_code: 'USD',
+      initial_balance_minor: 0,
+      include_in_total: 1,
+      archived_at: null,
+      created_at: now,
+      updated_at: now,
+      deleted_at: null,
+    },
+    {
+      id: 'acc_bbva_visa',
+      name: 'BBVA Visa',
+      type: 'creditCard',
+      icon: 'credit-card',
+      currency_code: 'ARS',
+      initial_balance_minor: 0,
+      include_in_total: 1,
+      archived_at: null,
+      created_at: now,
+      updated_at: now,
+      deleted_at: null,
+    },
+    {
+      id: 'acc_bbva_mastercard',
+      name: 'BBVA Mastercard',
+      type: 'creditCard',
+      icon: 'credit-card',
+      currency_code: 'ARS',
+      initial_balance_minor: 0,
+      include_in_total: 1,
+      archived_at: null,
+      created_at: now,
+      updated_at: now,
+      deleted_at: null,
+    },
+  ]);
+}

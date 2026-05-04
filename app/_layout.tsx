@@ -2,13 +2,14 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import {useFonts} from 'expo-font';
 import {Stack} from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import 'react-native-reanimated';
 
 import {PaperProvider} from 'react-native-paper';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import {AppProviders} from '@/src/application/providers/AppProviders';
 import {ThemeProvider} from '@/src/application/providers/ThemeProvider';
+import {bootstrapApp} from '@/src/application/bootstrap/bootstrap';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -24,12 +25,24 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  const [bootstrapped, setBootstrapped] = useState(false);
   const [loaded, error] = useFonts({
     SpaceMono: require('../src//assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
   });
+  useEffect(() => {
+    async function start() {
+      if (!loaded) {
+        return null;
+      }
+      await bootstrapApp();
+      setBootstrapped(true);
+      await SplashScreen.hideAsync();
+    }
 
-  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
+    start();
+  }, [loaded]);
+
   useEffect(() => {
     if (error) throw error;
   }, [error]);
@@ -39,7 +52,6 @@ export default function RootLayout() {
       SplashScreen.hideAsync();
     }
   }, [loaded]);
-
   if (!loaded) {
     return null;
   }

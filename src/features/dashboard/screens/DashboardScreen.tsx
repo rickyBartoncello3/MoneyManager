@@ -1,6 +1,6 @@
 import {Text, View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import {useContext} from 'react';
+import {useContext, useMemo} from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {CustomView} from '@/src/shared/components/ui/CustomView';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
@@ -8,125 +8,72 @@ import {getRandomInt} from '@/src/shared/utils/getRandomInt';
 import {HeroCard} from '@/src/features/dashboard/components/HeroCard/HeroCard';
 import {Highlights} from '@/src/features/dashboard/components/Highlight/Highlight';
 import {CategoriesSummary} from '@/src/features/dashboard/components/CategoriesSummary/CategoriesSummary';
-import {CategoryItem} from '@/src/features/dashboard/components/CategoriesSummary/interfaces';
 import {AccountsSummary} from '@/src/features/dashboard/components/AccountsSummary/AccountsSummary';
-import {AccountItem} from '@/src/features/dashboard/components/AccountsSummary/interfaces';
+import {useCategoriesQuery} from '@/src/features/categories/queries/useCategoriesQuery';
+import {useUsdToArsQuery} from '@/src/features/exchangeRates/queries/useUsdToArsQuery';
+import {useAccountsQuery} from '@/src/features/accounts/queries/useAccountsQuery';
 
 export const DashboardScreen = () => {
   const {colors} = useContext(ThemeContext);
   const {top} = useSafeAreaInsets();
+  const {data: categoriesDto = []} = useCategoriesQuery();
+  const {data: accountsList = []} = useAccountsQuery();
+  const {data: usdToArs} = useUsdToArsQuery();
+
+  const accounts = useMemo(() => {
+    return accountsList.map(account => {
+      const amount = getRandomInt(0, 1000);
+      return {
+        id: account.id,
+        name: account.name,
+        type: account.type,
+        currency: account.currencyCode,
+        balance: account.type === 'creditCard' ? -amount : amount,
+        equivalentInMainCurrency:
+          account.currencyCode === 'USD' && usdToArs
+            ? amount * Number(usdToArs.rate)
+            : undefined,
+        mainCurrency: 'ARS',
+      };
+    });
+  }, [accountsList, usdToArs]);
+
+  const categories = useMemo(() => {
+    let remainingAmount = 1000;
+
+    const categoriesWithAmount = categoriesDto
+      .filter(category => category.type === 'expense')
+      .map(category => {
+        const amount = getRandomInt(0, remainingAmount);
+
+        remainingAmount -= amount;
+
+        return {
+          ...category,
+          amount,
+        };
+      });
+
+    const totalAmount = categoriesWithAmount.reduce(
+      (sum, category) => sum + category.amount,
+      0,
+    );
+
+    return categoriesWithAmount
+      .map(category => ({
+        ...category,
+        percentage:
+          totalAmount > 0
+            ? Number(((category.amount / totalAmount) * 100).toFixed(1))
+            : 0,
+      }))
+      .sort((a, b) => b.amount - a.amount)
+      .filter(category => category.amount > 0);
+  }, [categoriesDto]);
 
   const monthlyBudget = getRandomInt(0, 1000000);
   const spent = getRandomInt(0, monthlyBudget);
 
-  const categories: CategoryItem[] = [
-    {
-      id: 'food',
-      name: 'Comida',
-      amount: 120000,
-      percentage: 29,
-      color: '#22C55E',
-    },
-    {
-      id: 'transport',
-      name: 'Transporte',
-      amount: 75000,
-      percentage: 18,
-      color: '#2563EB',
-    },
-    {
-      id: 'home',
-      name: 'Casa',
-      amount: 60000,
-      percentage: 14,
-      color: '#FACC15',
-    },
-    {
-      id: 'outings',
-      name: 'Salidas',
-      amount: 45000,
-      percentage: 11,
-      color: '#F43F5E',
-    },
-    {
-      id: 'health',
-      name: 'Salud',
-      amount: 30000,
-      percentage: 7,
-      color: '#8B5CF6',
-    },
-    {
-      id: 'others',
-      name: 'Otros',
-      amount: 30000,
-      percentage: 7,
-      color: '#CBD5E1',
-    },
-    {
-      id: 'subscriptions',
-      name: 'Suscripciones',
-      amount: 25000,
-      percentage: 6,
-      color: '#FB923C',
-    },
-    {
-      id: 'shopping',
-      name: 'Compras',
-      amount: 20000,
-      percentage: 5,
-      color: '#06B6D4',
-    },
-    {
-      id: 'pets',
-      name: 'Mascotas',
-      amount: 10000,
-      percentage: 2,
-      color: '#A855F7',
-    },
-    {
-      id: 'travel',
-      name: 'Viajes',
-      amount: 5000,
-      percentage: 1,
-      color: '#64748B',
-    },
-  ];
-
-  const accounts: AccountItem[] = [
-    {
-      id: 'cash-ars',
-      name: 'Efectivo pesos',
-      type: 'cash',
-      currency: 'ARS',
-      balance: monthlyBudget,
-      mainCurrency: 'ARS',
-    },
-    {
-      id: 'cash-usd',
-      name: 'Efectivo dólar',
-      type: 'cash',
-      currency: 'USD',
-      balance: getRandomInt(0, 1000),
-      equivalentInMainCurrency: 481900,
-      mainCurrency: 'ARS',
-    },
-    {
-      id: 'bbva-visa',
-      name: 'Visa',
-      type: 'creditCard',
-      currency: 'ARS',
-      balance: getRandomInt(-100000, 0),
-      mainCurrency: 'ARS',
-    },
-    {
-      id: 'bbva-mastercard',
-      name: 'Mastercard',
-      type: 'creditCard',
-      currency: 'ARS',
-      balance: getRandomInt(-100000, 0),
-      mainCurrency: 'ARS',
-    },
-  ];
   return (
     <CustomView margin>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -181,6 +128,7 @@ export const DashboardScreen = () => {
               console.log('Ver todas las cuentas');
             }}
             onPressAccount={account => {
+              console.log(usdToArs?.rate);
               console.log('Cuenta seleccionada:', account.name);
             }}
           />
