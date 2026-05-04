@@ -1,0 +1,23 @@
+import * as React from 'react';
+import Svg, {SvgProps, Path} from 'react-native-svg';
+
+const Add01 = (props: SvgProps) => (
+  <Svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width="24"
+    height="24"
+    color="currentColor"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    {...props}
+  >
+    <Path d="M12.001 5.00003V19.002" />
+    <Path d="M19.002 12.002L4.99998 12.002" />
+  </Svg>
+);
+
+export default Add01;
