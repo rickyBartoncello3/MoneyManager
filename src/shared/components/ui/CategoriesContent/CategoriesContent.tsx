@@ -1,12 +1,9 @@
 import React, {useContext} from 'react';
-import {FlatList, Pressable, View} from 'react-native';
+import {FlatList, View} from 'react-native';
 import styles from './CategoriesContent.styles';
 import {CategoriesContentProps} from './interfaces';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import Text from '@/src/shared/components/ui/Text/Text';
-import {ArrowDownRight01Icon} from '@/src/shared/assets/icons';
-import {iconMapper} from '@/src/data/mappers/iconMapper';
-import {ICON_NAMES, IconName} from '@/src/shared/constants/iconNames';
 import {CategoryCard} from '@/src/shared/components/ui/CatergoryCard/CategoryCard';
 
 export const CategoriesContent = ({

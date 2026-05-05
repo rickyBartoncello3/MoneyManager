@@ -1,5 +1,4 @@
 import React, {useContext, useMemo, useState} from 'react';
-import {View} from 'react-native';
 import styles from './AddTransactionSheet.styles';
 import {AddTransactionBottomSheetProps, OperationType} from './interfaces';
 import {
@@ -10,7 +9,6 @@ import {
 } from '@gorhom/bottom-sheet';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import Text from '@/src/shared/components/ui/Text/Text';
-import {TransactionButton} from '@/src/shared/components/ui/TransactionButton/TransactionButton';
 import {SegmentedButtons} from 'react-native-paper';
 import {useCategoriesQuery} from '@/src/features/categories/queries/useCategoriesQuery';
 import {CategoriesContent} from '@/src/shared/components/ui/CategoriesContent/CategoriesContent';
@@ -47,11 +45,6 @@ export const AddTransactionBottomSheet = ({
       opacity={0.45}
     />
   );
-
-  const handlePressExpense = () => {
-    bottomSheetRef.current?.dismiss();
-    onPressExpense();
-  };
 
   return (
     <BottomSheetModal
