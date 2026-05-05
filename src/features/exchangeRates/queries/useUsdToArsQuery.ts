@@ -5,7 +5,7 @@ export function useUsdToArsQuery() {
   return useQuery({
     queryKey: ['exchange-rate', 'USD_ARS'],
     queryFn: exchangeRateRepository.refreshUsdToArs,
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1,
     retry: 1,
   });
 }

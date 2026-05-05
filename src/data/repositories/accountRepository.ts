@@ -4,7 +4,6 @@ import {accountLocalDataSource} from '@/src/data/local/accounts/accountLocalData
 export const accountRepository = {
   async getAccounts() {
     const rows = await accountLocalDataSource.findAll();
-    console.log({rows: rows[0]});
     return rows.map(accountMapper.localRowToDomain);
   },
 };

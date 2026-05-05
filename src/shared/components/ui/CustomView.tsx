@@ -2,6 +2,8 @@ import {StyleProp, View, ViewStyle} from 'react-native';
 import {ReactNode, useContext} from 'react';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import {globalStyles} from '@/src/shared/theme/theme';
+import {ScrollView} from 'react-native-gesture-handler';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 interface Props {
   style?: StyleProp<ViewStyle>;
@@ -11,6 +13,7 @@ interface Props {
 
 export const CustomView = ({style, children, margin = false}: Props) => {
   const {colors} = useContext(ThemeContext);
+  const {top} = useSafeAreaInsets();
 
   return (
     <View
@@ -21,7 +24,12 @@ export const CustomView = ({style, children, margin = false}: Props) => {
         style,
       ]}
     >
-      {children}
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{flexGrow: 1, marginTop: top}}
+      >
+        {children}
+      </ScrollView>
     </View>
   );
 };

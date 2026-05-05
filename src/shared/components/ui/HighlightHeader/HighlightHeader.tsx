@@ -1,8 +1,8 @@
 import React, {useContext} from 'react';
 import {View} from 'react-native';
 import styles from './HighlightHeader.styles';
-import {Chart01Icon, Chart03Icon} from '../../../../shared/assets/icons';
-import {HighlightHeaderProps} from '@/src/features/dashboard/components/HighlightHeader/interfaces';
+import {Chart01Icon, Chart03Icon} from '../../../assets/icons';
+import {HighlightHeaderProps} from '@/src/shared/components/ui/HighlightHeader/interfaces';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import Text from '@/src/shared/components/ui/Text/Text';
 

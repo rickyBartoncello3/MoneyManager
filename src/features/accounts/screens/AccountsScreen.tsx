@@ -32,8 +32,6 @@ export function AccountsScreen() {
     );
   }*/
 
-  console.log('categories:', error);
-
   return (
     <CustomView margin>
       <Text size={12} weight={300}>

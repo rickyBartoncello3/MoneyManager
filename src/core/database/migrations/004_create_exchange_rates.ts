@@ -6,7 +6,8 @@ export async function createExchangeRatesTable() {
       id TEXT PRIMARY KEY NOT NULL,
       from_currency TEXT NOT NULL,
       to_currency TEXT NOT NULL,
-      rate REAL NOT NULL,
+      buy REAL NOT NULL,
+      sell REAL NOT NULL,
       fetched_at TEXT NOT NULL,
       created_at TEXT NOT NULL,
       updated_at TEXT NOT NULL

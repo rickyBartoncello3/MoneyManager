@@ -4,17 +4,12 @@ export interface HighlightItem {
   id: string;
   title: string;
   subtitle: string;
-  percentage: number;
-  trend: HighlightTrend;
+  value: number;
   chartType: 'bar' | 'line';
-  values: number[];
 }
 
 export interface HighlightsProps {
-  weeklyPercentage: number;
-  monthlyPercentage: number;
-  weeklyValues: number[];
-  monthlyValues: number[];
+  highlightedItems: HighlightItem[];
 }
 
 export interface HighlightCardProps {
