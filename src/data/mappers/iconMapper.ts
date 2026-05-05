@@ -2,6 +2,7 @@ import {ComponentType} from 'react';
 import {
   Add01Icon,
   AddCircleIcon,
+  Car01Icon,
   Cash02Icon,
   Chart02Icon,
   CreditCardIcon,
@@ -25,4 +26,5 @@ export const iconMapper = {
   removeCircle: RemoveCircleIcon,
   add: Add01Icon,
   remove: Remove01Icon,
+  car: Car01Icon,
 } as Record<IconName, ComponentType<any>>;

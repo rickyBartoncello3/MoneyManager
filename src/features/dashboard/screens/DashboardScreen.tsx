@@ -103,8 +103,7 @@ export const DashboardScreen = () => {
           <Text style={{color: colors.text}}>Home</Text>
         </View>
       </View>
-
-      <View style={{gap: 8, marginBottom: 100}}>
+      <View style={{gap: 8, marginBottom: 130}}>
         <HeroCard
           currentBalance={monthlyBudget - spent}
           spent={spent}

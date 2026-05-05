@@ -8,8 +8,6 @@ import {useUsdToArsQuery} from '@/src/features/exchangeRates/queries/useUsdToArs
 export function ReportsScreen() {
   const {data: usdToArs} = useUsdToArsQuery();
 
-  console.log(usdToArs);
-
   const items: HighlightItem[] = [
     {
       id: 'weekly-spending',

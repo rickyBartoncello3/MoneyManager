@@ -1,7 +1,7 @@
-import React, {useContext, useMemo} from 'react';
+import React, {useContext, useMemo, useState} from 'react';
 import {View} from 'react-native';
 import styles from './AddTransactionSheet.styles';
-import {AddTransactionBottomSheetProps} from './interfaces';
+import {AddTransactionBottomSheetProps, OperationType} from './interfaces';
 import {
   BottomSheetBackdrop,
   BottomSheetBackdropProps,
@@ -11,12 +11,30 @@ import {
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import Text from '@/src/shared/components/ui/Text/Text';
 import {TransactionButton} from '@/src/shared/components/ui/TransactionButton/TransactionButton';
+import {SegmentedButtons} from 'react-native-paper';
+import {useCategoriesQuery} from '@/src/features/categories/queries/useCategoriesQuery';
+import {CategoriesContent} from '@/src/shared/components/ui/CategoriesContent/CategoriesContent';
 
 export const AddTransactionBottomSheet = ({
   bottomSheetRef,
   onPressExpense,
 }: AddTransactionBottomSheetProps) => {
   const {colors} = useContext(ThemeContext);
+  const [operationType, setOperationType] = useState<OperationType>('expense');
+  const {data: categories = []} = useCategoriesQuery();
+
+  const incomeCategories = useMemo(
+    () => categories.filter(category => category.type === 'income'),
+    [categories],
+  );
+
+  const expenseCategories = useMemo(
+    () => categories.filter(category => category.type === 'expense'),
+    [categories],
+  );
+
+  const visibleCategories =
+    operationType === 'income' ? incomeCategories : expenseCategories;
 
   const snapPoints = useMemo(() => ['32%'], []);
 
@@ -63,8 +81,34 @@ export const AddTransactionBottomSheet = ({
         >
           ¿Qué querés agregar?
         </Text>
+        <SegmentedButtons
+          value={operationType}
+          onValueChange={value => setOperationType(value as OperationType)}
+          buttons={[
+            {
+              value: 'income',
+              label: 'Income',
+            },
+            {
+              value: 'expense',
+              label: 'Expense',
+            },
+            {
+              value: 'transfer',
+              label: 'Transfer',
+            },
+          ]}
+          style={styles.segmented}
+        />
+        <CategoriesContent
+          title={operationType === 'income' ? 'Income categories' : 'Expense categories'}
+          categories={visibleCategories}
+          onCategoryPress={category => {
+            console.log(category);
+          }}
+        />
 
-        <View style={styles.actionsContainer}>
+        {/*<View style={styles.actionsContainer}>
           <TransactionButton
             handlePressIncome={handlePressExpense}
             icon={'add'}
@@ -75,7 +119,7 @@ export const AddTransactionBottomSheet = ({
             icon={'remove'}
             text={'Agregar un retiro'}
           />
-        </View>
+        </View>*/}
       </BottomSheetView>
     </BottomSheetModal>
   );

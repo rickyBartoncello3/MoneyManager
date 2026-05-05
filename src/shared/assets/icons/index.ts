@@ -1,5 +1,7 @@
 export {default as Add01Icon} from './Add01';
 export {default as AddCircleIcon} from './AddCircle';
+export {default as ArrowDownRight01Icon} from './ArrowDownRight01';
+export {default as Car01Icon} from './Car01';
 export {default as Cash02Icon} from './Cash02';
 export {default as Chart01Icon} from './Chart01';
 export {default as Chart02Icon} from './Chart02';
