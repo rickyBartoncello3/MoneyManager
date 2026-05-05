@@ -2,10 +2,7 @@ import React, {useContext} from 'react';
 import {View} from 'react-native';
 import styles from './Highlight.styles';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
-import {
-  HighlightItem,
-  HighlightsProps,
-} from '@/src/shared/components/ui/Highlight/interfaces';
+import {HighlightsProps} from '@/src/shared/components/ui/Highlight/interfaces';
 import Text from '@/src/shared/components/ui/Text/Text';
 import {HighlightCard} from '@/src/shared/components/ui/HighlightCard/HighlightCard';
 

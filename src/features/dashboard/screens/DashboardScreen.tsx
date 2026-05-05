@@ -1,8 +1,6 @@
 import {Text, View} from 'react-native';
 import styles from './Dashboard.styles';
-import {ScrollView} from 'react-native-gesture-handler';
 import {useContext, useMemo} from 'react';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {CustomView} from '@/src/shared/components/ui/CustomView';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import {getRandomInt} from '@/src/shared/utils/getRandomInt';
@@ -14,7 +12,6 @@ import {useCategoriesQuery} from '@/src/features/categories/queries/useCategorie
 import {useUsdToArsQuery} from '@/src/features/exchangeRates/queries/useUsdToArsQuery';
 import {useAccountsQuery} from '@/src/features/accounts/queries/useAccountsQuery';
 import {HighlightItem} from '@/src/shared/components/ui/Highlight/interfaces';
-import {db} from '@/src/core/database/db';
 
 export const DashboardScreen = () => {
   const {colors} = useContext(ThemeContext);

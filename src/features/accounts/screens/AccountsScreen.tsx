@@ -9,7 +9,7 @@ import {CategoryRow} from '@/src/features/dashboard/components/CategoryRow/Categ
 import {getRandomInt} from '@/src/shared/utils/getRandomInt';
 
 export function AccountsScreen() {
-  const {data: accounts = [], isLoading, error} = useAccountsQuery();
+  const {data: accounts = [], isLoading} = useAccountsQuery();
   const {data: categories = []} = useCategoriesQuery();
 
   if (isLoading) {
@@ -21,16 +21,6 @@ export function AccountsScreen() {
       </View>
     );
   }
-
-  /*if (error) {
-    return (
-      <View>
-        <Text size={12} weight={300}>
-          Something went wrong.
-        </Text>
-      </View>
-    );
-  }*/
 
   return (
     <CustomView margin>

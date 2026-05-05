@@ -4,7 +4,6 @@ import {getRandomInt} from '@/src/shared/utils/getRandomInt';
 import {Highlights} from '@/src/shared/components/ui/Highlight/Highlight';
 import {HighlightItem} from '@/src/shared/components/ui/Highlight/interfaces';
 import {useUsdToArsQuery} from '@/src/features/exchangeRates/queries/useUsdToArsQuery';
-import {HighlightCard} from '@/src/shared/components/ui/HighlightCard/HighlightCard';
 
 export function ReportsScreen() {
   const {data: usdToArs} = useUsdToArsQuery();
