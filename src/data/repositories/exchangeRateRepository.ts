@@ -1,5 +1,6 @@
 import {exchangeRateLocalDataSource} from '@/src/data/local/exchangeRates/exchangeRatesLocalDataSource';
 import {exchangeRateRemoteDataSource} from '@/src/data/remote/exchangeRates/exchangeRatesRemoteDataSource';
+import {now} from '@/src/core/date/now';
 
 export const exchangeRateRepository = {
   async getLocalUsdToArs() {
@@ -10,8 +11,6 @@ export const exchangeRateRepository = {
     try {
       const remoteRate = await exchangeRateRemoteDataSource.getUsdToArs();
 
-      const now = new Date().toISOString();
-
       await exchangeRateLocalDataSource.upsert({
         id: 'USD_ARS',
         from_currency: 'ARS',
@@ -19,8 +18,8 @@ export const exchangeRateRepository = {
         buy: remoteRate.compra,
         sell: remoteRate.venta,
         fetched_at: remoteRate.fechaActualizacion,
-        created_at: now,
-        updated_at: now,
+        created_at: now(),
+        updated_at: now(),
       });
 
       return exchangeRateLocalDataSource.getUsdToArs();

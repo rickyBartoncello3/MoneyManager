@@ -1,5 +1,5 @@
-import {AccountsScreen} from '@/src/features/accounts/screens/AccountsScreen';
+import {TransactionsScreen} from '@/src/features/transactions/screens/TransactionsScreen';
 
 export default function AccountsRoute() {
-  return <AccountsScreen />;
+  return <TransactionsScreen />;
 }

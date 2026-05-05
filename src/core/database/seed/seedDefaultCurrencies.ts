@@ -1,11 +1,10 @@
 import {currencyLocalDataSource} from '@/src/data/local/currencies/currencyLocalDataSource';
+import {now} from '@/src/core/date/now';
 
 export async function seedDefaultCurrencies() {
   const count = await currencyLocalDataSource.count();
 
   if (count > 0) return;
-
-  const now = new Date().toISOString();
 
   await currencyLocalDataSource.insertMany([
     {
@@ -14,8 +13,8 @@ export async function seedDefaultCurrencies() {
       symbol: '$',
       minor_units: 2,
       is_base: 1,
-      created_at: now,
-      updated_at: now,
+      created_at: now(),
+      updated_at: now(),
     },
     {
       code: 'USD',

@@ -1,11 +1,10 @@
 import {accountLocalDataSource} from '@/src/data/local/accounts/accountLocalDataSource';
+import {now} from '@/src/core/date/now';
 
 export async function seedDefaultAccounts() {
   const count = await accountLocalDataSource.count();
 
   if (count > 0) return;
-
-  const now = new Date().toISOString();
 
   await accountLocalDataSource.insertMany([
     {
@@ -17,8 +16,8 @@ export async function seedDefaultAccounts() {
       initial_balance_minor: 0,
       include_in_total: 1,
       archived_at: null,
-      created_at: now,
-      updated_at: now,
+      created_at: now(),
+      updated_at: now(),
       deleted_at: null,
     },
     {

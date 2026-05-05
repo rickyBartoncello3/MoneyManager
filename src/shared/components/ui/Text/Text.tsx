@@ -1,8 +1,9 @@
 import {Text as RNText} from 'react-native';
-import React, {FC, useMemo} from 'react';
+import React, {FC, useContext, useMemo} from 'react';
 import styles from './Text.styles';
 import {TextProps} from './interfaces';
 import typography from '@/src/shared/theme/typography';
+import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 
 export const fontFamilyMap: {[key: number]: string} = {
   400: typography.fontFamily.Plus_Jakarta_Sans_400,
@@ -46,6 +47,7 @@ const DEFAULT_SIZE = 16;
 const DEFAULT_WEIGHT = 400;
 
 const Text: FC<TextProps> = ({size, weight, style, ...props}) => {
+  const {colors} = useContext(ThemeContext);
   const dynamicStyle = useMemo(() => {
     const selectedFontFamily = fontFamilyMap[weight] || fontFamilyMap[DEFAULT_WEIGHT];
     const selectedFontSize = fontSizeMap[size] || fontSizeMap[DEFAULT_SIZE];
@@ -55,8 +57,9 @@ const Text: FC<TextProps> = ({size, weight, style, ...props}) => {
       fontFamily: selectedFontFamily,
       fontSize: selectedFontSize,
       lineHeight: selectedLineHeight,
+      color: colors.text,
     };
-  }, [size, weight]);
+  }, [size, weight, colors.text]);
 
   const accessibilityLabel = useMemo(() => {
     return props.children && typeof props.children === 'string'

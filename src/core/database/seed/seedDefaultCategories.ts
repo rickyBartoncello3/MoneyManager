@@ -1,11 +1,10 @@
 import {categoryLocalDataSource} from '@/src/data/local/categories/categoryLocalDataSource';
+import {now} from '@/src/core/date/now';
 
 export async function seedDefaultCategories() {
   const count = await categoryLocalDataSource.count();
 
   if (count > 0) return;
-
-  const now = new Date().toISOString();
 
   await categoryLocalDataSource.insertMany([
     // Expenses
@@ -16,8 +15,8 @@ export async function seedDefaultCategories() {
       icon: 'food',
       color: '#22C55E',
       archived_at: null,
-      created_at: now,
-      updated_at: now,
+      created_at: now(),
+      updated_at: now(),
       deleted_at: null,
     },
     {

@@ -1,6 +1,6 @@
 import React, {useContext, useMemo, useState} from 'react';
 import styles from './AddTransactionSheet.styles';
-import {AddTransactionBottomSheetProps, OperationType} from './interfaces';
+import {AddTransactionBottomSheetProps} from './interfaces';
 import {
   BottomSheetBackdrop,
   BottomSheetBackdropProps,
@@ -12,13 +12,13 @@ import Text from '@/src/shared/components/ui/Text/Text';
 import {SegmentedButtons} from 'react-native-paper';
 import {useCategoriesQuery} from '@/src/features/categories/queries/useCategoriesQuery';
 import {CategoriesContent} from '@/src/shared/components/ui/CategoriesContent/CategoriesContent';
+import {TransactionType} from '@/src/domain/transactions/TransactionType';
 
 export const AddTransactionBottomSheet = ({
   bottomSheetRef,
-  onPressExpense,
 }: AddTransactionBottomSheetProps) => {
   const {colors} = useContext(ThemeContext);
-  const [operationType, setOperationType] = useState<OperationType>('expense');
+  const [operationType, setOperationType] = useState<TransactionType>('expense');
   const {data: categories = []} = useCategoriesQuery();
 
   const incomeCategories = useMemo(
@@ -76,7 +76,7 @@ export const AddTransactionBottomSheet = ({
         </Text>
         <SegmentedButtons
           value={operationType}
-          onValueChange={value => setOperationType(value as OperationType)}
+          onValueChange={value => setOperationType(value as TransactionType)}
           buttons={[
             {
               value: 'income',
