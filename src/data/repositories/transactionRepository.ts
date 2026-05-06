@@ -23,4 +23,9 @@ export const transactionRepository = {
 
     return transaction;
   },
+
+  async getSummaryByCategory() {
+    const rows = await transactionLocalDataSource.getTotalsByCategory();
+    return rows.map(transactionMapper.localRowToCategorySummary);
+  },
 };

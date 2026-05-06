@@ -10,6 +10,7 @@ export function useCreateTransactionMutation() {
       queryClient.invalidateQueries({queryKey: ['transactions']});
       queryClient.invalidateQueries({queryKey: ['accounts']});
       queryClient.invalidateQueries({queryKey: ['dashboard']});
+      queryClient.invalidateQueries({queryKey: ['category-breakdown']});
     },
   });
 }

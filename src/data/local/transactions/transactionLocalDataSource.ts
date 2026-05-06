@@ -1,5 +1,5 @@
 import {db} from '@/src/core/database/db';
-import {TransactionRow} from './transactionRow';
+import {CategoryExpenseTotalRow, TransactionRow} from './transactionRow';
 
 export const transactionLocalDataSource = {
   async findAll(): Promise<TransactionRow[]> {
@@ -65,5 +65,19 @@ export const transactionLocalDataSource = {
         row.deleted_at,
       ],
     );
+  },
+
+  async getTotalsByCategory(): Promise<CategoryExpenseTotalRow[]> {
+    return db.getAll<CategoryExpenseTotalRow>(`
+    SELECT
+      category_id,
+      type,
+      SUM(amount) as total
+    FROM transactions
+    WHERE deleted_at IS NULL
+      AND category_id IS NOT NULL
+    GROUP BY category_id
+    ORDER BY total DESC;
+  `);
   },
 };

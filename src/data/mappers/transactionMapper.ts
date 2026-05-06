@@ -1,5 +1,11 @@
-import {Transaction} from '@/src/domain/transactions/Transaction';
-import {TransactionRow} from '@/src/data/local/transactions/transactionRow';
+import {
+  Transaction,
+  TransactionCategoryWithTotal,
+} from '@/src/domain/transactions/Transaction';
+import {
+  CategoryExpenseTotalRow,
+  TransactionRow,
+} from '@/src/data/local/transactions/transactionRow';
 
 export const transactionMapper = {
   domainToLocalRow(transaction: Transaction): TransactionRow {
@@ -41,6 +47,14 @@ export const transactionMapper = {
       createdAt: row.created_at,
       updatedAt: row.updated_at,
       deletedAt: row.deleted_at,
+    };
+  },
+
+  localRowToCategorySummary(row: CategoryExpenseTotalRow): TransactionCategoryWithTotal {
+    return {
+      id: row.category_id,
+      total: row.total,
+      type: row.type,
     };
   },
 };

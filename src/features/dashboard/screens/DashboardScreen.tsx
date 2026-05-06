@@ -12,12 +12,35 @@ import {useCategoriesQuery} from '@/src/features/categories/queries/useCategorie
 import {useUsdToArsQuery} from '@/src/features/exchangeRates/queries/useUsdToArsQuery';
 import {useAccountsQuery} from '@/src/features/accounts/queries/useAccountsQuery';
 import {HighlightItem} from '@/src/shared/components/ui/Highlight/interfaces';
+import {useCategoryBreakdownQuery} from '@/src/features/transactions/queries/useCategoryBreakdownQuery';
+import {router} from 'expo-router';
 
 export const DashboardScreen = () => {
   const {colors} = useContext(ThemeContext);
   const {data: categoriesDto = []} = useCategoriesQuery();
   const {data: accountsList = []} = useAccountsQuery();
-  const {data: usdToArs} = useUsdToArsQuery();
+  const {data: usdToArs = []} = useUsdToArsQuery();
+  const {data: categorySummary = []} = useCategoryBreakdownQuery();
+
+  let expenseSummary = categorySummary.filter(c => c.type === 'expense' && c.total > 0);
+  const totalSpend = expenseSummary.reduce((sum, item) => sum + item.total, 0);
+  expenseSummary = expenseSummary
+    .map(c => {
+      const {color, name} = categoriesDto.find(category => category.id === c.id)!;
+      return {
+        ...c,
+        id: c.id,
+        color,
+        name,
+        percentage:
+          totalSpend > 0 ? Number(((c.total / totalSpend) * 100).toFixed(1)) : 0,
+      };
+    })
+    .sort((a, b) => b.total - a.total);
+
+  const totalSave = categorySummary
+    .filter(c => c.type === 'income')
+    .reduce((sum, item) => sum + item.total, 0);
 
   const accounts = useMemo(() => {
     return accountsList.map(account => {
@@ -36,42 +59,6 @@ export const DashboardScreen = () => {
       };
     });
   }, [accountsList, usdToArs]);
-
-  const categories = useMemo(() => {
-    let remainingAmount = 1000;
-
-    const categoriesWithAmount = categoriesDto
-      .filter(category => category.type === 'expense')
-      .map(category => {
-        const amount = getRandomInt(0, remainingAmount);
-
-        remainingAmount -= amount;
-
-        return {
-          ...category,
-          amount,
-        };
-      });
-
-    const totalAmount = categoriesWithAmount.reduce(
-      (sum, category) => sum + category.amount,
-      0,
-    );
-
-    return categoriesWithAmount
-      .map(category => ({
-        ...category,
-        percentage:
-          totalAmount > 0
-            ? Number(((category.amount / totalAmount) * 100).toFixed(1))
-            : 0,
-      }))
-      .sort((a, b) => b.amount - a.amount)
-      .filter(category => category.amount > 0);
-  }, [categoriesDto]);
-
-  const monthlyBudget = getRandomInt(0, 1000000);
-  const spent = getRandomInt(0, monthlyBudget);
 
   const items: HighlightItem[] = [
     {
@@ -105,20 +92,23 @@ export const DashboardScreen = () => {
       </View>
       <View style={{gap: 8, marginBottom: 130}}>
         <HeroCard
-          currentBalance={monthlyBudget - spent}
-          spent={spent}
-          monthlyBudget={monthlyBudget}
+          currentBalance={totalSave - totalSpend}
+          spent={totalSpend}
+          monthlyBudget={totalSave}
         />
         <Highlights highlightedItems={items} />
 
         <CategoriesSummary
-          categories={categories}
+          categories={expenseSummary}
           maxVisible={6}
           onPressShowMore={() => {
             console.log('Mostrar todas las categorías');
           }}
           onPressCategory={category => {
-            console.log('Categoría seleccionada:', category.name);
+            router.push({
+              pathname: '/(tabs)/transactions',
+              params: {categoryId: category.id},
+            });
           }}
         />
         <AccountsSummary

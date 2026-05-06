@@ -1,7 +1,7 @@
 export interface CategoryItem {
   id: string;
   name: string;
-  amount: number;
+  total: number;
   percentage: number;
   color: string;
   iconName?: string;

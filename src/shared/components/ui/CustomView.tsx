@@ -5,13 +5,19 @@ import {globalStyles} from '@/src/shared/theme/theme';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-interface Props {
+interface CustomViewProps {
+  isScrolling?: boolean;
   style?: StyleProp<ViewStyle>;
   children?: ReactNode;
   margin?: boolean;
 }
 
-export const CustomView = ({style, children, margin = false}: Props) => {
+export const CustomView = ({
+  isScrolling = true,
+  style,
+  children,
+  margin = false,
+}: CustomViewProps) => {
   const {colors} = useContext(ThemeContext);
   const {top} = useSafeAreaInsets();
 
@@ -24,12 +30,16 @@ export const CustomView = ({style, children, margin = false}: Props) => {
         style,
       ]}
     >
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{flexGrow: 1, marginTop: top}}
-      >
-        {children}
-      </ScrollView>
+      {isScrolling ? (
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{flexGrow: 1, marginTop: top}}
+        >
+          {children}
+        </ScrollView>
+      ) : (
+        children
+      )}
     </View>
   );
 };

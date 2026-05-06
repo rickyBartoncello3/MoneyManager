@@ -15,3 +15,9 @@ export type Transaction = {
   updatedAt: string;
   deletedAt: string | null;
 };
+
+export interface TransactionCategoryWithTotal {
+  id: string;
+  total: number;
+  type: TransactionType;
+}

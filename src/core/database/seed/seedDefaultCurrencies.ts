@@ -22,8 +22,8 @@ export async function seedDefaultCurrencies() {
       symbol: 'US$',
       minor_units: 2,
       is_base: 0,
-      created_at: now,
-      updated_at: now,
+      created_at: now(),
+      updated_at: now(),
     },
     {
       code: 'EUR',
@@ -31,8 +31,8 @@ export async function seedDefaultCurrencies() {
       symbol: '€',
       minor_units: 2,
       is_base: 0,
-      created_at: now,
-      updated_at: now,
+      created_at: now(),
+      updated_at: now(),
     },
   ]);
 }

@@ -52,7 +52,7 @@ export default function RootLayout() {
       SplashScreen.hideAsync();
     }
   }, [loaded]);
-  if (!loaded) {
+  if (!loaded || !bootstrapped) {
     return null;
   }
 

@@ -36,7 +36,7 @@ export function AccountsScreen() {
               category={{
                 id: category.id,
                 name: category.name,
-                amount: getRandomInt(0, 1000000),
+                total: getRandomInt(0, 1000000),
                 percentage: getRandomInt(0, 100),
                 color: category.color,
               }}

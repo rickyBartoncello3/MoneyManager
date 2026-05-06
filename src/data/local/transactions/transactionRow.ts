@@ -17,3 +17,9 @@ export type TransactionRow = {
   updated_at: string;
   deleted_at: string | null;
 };
+
+export type CategoryExpenseTotalRow = {
+  category_id: string;
+  type: TransactionType;
+  total: number;
+};

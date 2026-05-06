@@ -58,7 +58,7 @@ export const CategoryRow = ({
             },
           ]}
         >
-          {formatMoney(category.amount, currencySymbol)}
+          {formatMoney(category.total, currencySymbol)}
         </Text>
 
         <Text

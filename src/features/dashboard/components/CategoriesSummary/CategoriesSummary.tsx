@@ -6,8 +6,6 @@ import {CategoriesSummaryProps} from '@/src/features/dashboard/components/Catego
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import {Card} from '@/src/shared/components/ui/Card/Card';
 import Text from '@/src/shared/components/ui/Text/Text';
-import {DonutChart} from '@/src/shared/components/ui/DonutChart/DonutChart';
-import {formatMoney} from '@/src/shared/utils/formatMoney';
 import {CategoryRow} from '@/src/features/dashboard/components/CategoryRow/CategoryRow';
 
 export const CategoriesSummary = ({
@@ -18,7 +16,7 @@ export const CategoriesSummary = ({
   onPressShowMore,
   onPressCategory,
 }: CategoriesSummaryProps) => {
-  const {colors, isDark} = useContext(ThemeContext);
+  const {colors} = useContext(ThemeContext);
   const [showAll, setShowAll] = useState(false);
 
   const visibleCategories = useMemo(
@@ -27,12 +25,6 @@ export const CategoriesSummary = ({
   );
 
   const hiddenCategoriesCount = Math.max(categories.length - maxVisible, 0);
-
-  const totalAmount = categories.reduce((total, category) => {
-    return total + category.amount;
-  }, 0);
-
-  const chartTrackColor = isDark ? 'rgba(255,255,255,0.10)' : 'rgba(15,23,42,0.08)';
 
   return (
     <Card>
@@ -71,16 +63,6 @@ export const CategoriesSummary = ({
         </View>
       </View>
       <View style={styles.chartAndList}>
-        <View style={styles.chartContainer}>
-          <DonutChart
-            categories={categories}
-            centerLabel="gastado"
-            centerValue={formatMoney(totalAmount, currencySymbol)}
-            textColor={colors.text}
-            mutedTextColor={colors.textSecondary}
-            trackColor={chartTrackColor}
-          />
-        </View>
         <View style={styles.listContainer}>
           {visibleCategories.map(category => (
             <CategoryRow
