@@ -70,7 +70,7 @@ export const CategoryRow = ({
             },
           ]}
         >
-          {category.percentage}%
+          {category.percentage.toFixed(0)}%
         </Text>
       </View>
     </Pressable>

@@ -64,9 +64,9 @@ export const CategoriesSummary = ({
       </View>
       <View style={styles.chartAndList}>
         <View style={styles.listContainer}>
-          {visibleCategories.map(category => (
+          {visibleCategories.map((category, index) => (
             <CategoryRow
-              key={category.id}
+              key={index.toString()}
               category={category}
               currencySymbol={currencySymbol}
               onPress={onPressCategory}

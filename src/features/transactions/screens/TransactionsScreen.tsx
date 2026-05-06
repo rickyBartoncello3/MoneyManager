@@ -6,7 +6,6 @@ import {useCreateTransactionMutation} from '@/src/features/transactions/queries/
 import {Button} from '@/src/shared/components/ui/Button';
 import {CategoryType} from '@/src/domain/categories/CategoryType';
 import {useCategoriesQuery} from '@/src/features/categories/queries/useCategoriesQuery';
-import {useMemo} from 'react';
 import {now} from '@/src/core/date/now';
 import {getRandomInt} from '@/src/shared/utils/getRandomInt';
 import {CustomView} from '@/src/shared/components/ui/CustomView';
@@ -24,21 +23,13 @@ export function TransactionsScreen() {
 
   const type = randomWord(['expense', 'income']) as CategoryType;
 
-  const categoriesSelected = useMemo(
-    () => categories?.filter(c => c.type === type).map(c => c.id),
-    [categories, type],
-  ) || ['category_not_found'];
+  const categoriesSelected = categories?.filter(c => c.type === type).map(c => c.id);
 
   const category = randomWord(categoriesSelected || ['cat_salary']);
 
   const amount = getRandomInt(0, 1000);
 
   const handleCreateMock = () => {
-    console.log(
-      'createTransactionMutation',
-      createTransactionMutation.error,
-      createTransactionMutation.isPending,
-    );
     createTransactionMutation.mutate({
       amount: amount,
       currency: 'ARS',
