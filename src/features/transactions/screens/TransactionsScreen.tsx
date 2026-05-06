@@ -26,7 +26,7 @@ export function TransactionsScreen() {
 
   const categoriesSelected = useMemo(
     () => categories?.filter(c => c.type === type).map(c => c.id),
-    [categories],
+    [categories, type],
   ) || ['category_not_found'];
 
   const category = randomWord(categoriesSelected || ['cat_salary']);

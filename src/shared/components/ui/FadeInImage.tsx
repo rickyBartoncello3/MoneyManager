@@ -1,6 +1,4 @@
-import {useState} from 'react';
-import {ActivityIndicator, Animated, ImageStyle, StyleProp, View} from 'react-native';
-import {useAnimation} from '../../../r.presentation/hooks/useAnimation.tsx';
+import {ImageStyle, StyleProp} from 'react-native';
 
 interface Props {
   uri: string;
@@ -8,7 +6,7 @@ interface Props {
 }
 
 export const FadeInImage = ({uri, style}: Props) => {
-  const {animatedOpacity, fadeIn} = useAnimation();
+  /*const {animatedOpacity, fadeIn} = useAnimation();
   const [isLoading, setIsLoading] = useState(true);
 
   return (
@@ -26,5 +24,5 @@ export const FadeInImage = ({uri, style}: Props) => {
         style={[style, {opacity: animatedOpacity}]}
       />
     </View>
-  );
+  );*/
 };

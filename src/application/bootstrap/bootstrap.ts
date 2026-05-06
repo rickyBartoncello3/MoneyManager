@@ -2,7 +2,6 @@ import {runMigrations} from '@/src/core/database/migrations';
 import {seedDefaultAccounts} from '@/src/core/database/seed/seedDefaultAccounts';
 import {seedDefaultCategories} from '@/src/core/database/seed/seedDefaultCategories';
 import {seedDefaultCurrencies} from '@/src/core/database/seed/seedDefaultCurrencies';
-import {devResetAllTables} from '@/src/core/database/migrations/dev_reset_all';
 
 export const bootstrapApp = async () => {
   console.log('[BOOTSTRAP] starting');

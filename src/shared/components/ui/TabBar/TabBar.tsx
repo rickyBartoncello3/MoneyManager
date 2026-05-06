@@ -63,12 +63,7 @@ const TabBar = ({state, descriptors, navigation}: BottomTabBarProps) => {
         };
 
         return route.name === TabRoutes.ADD ? (
-          <TabBarAddButton
-            key={route.key}
-            isFocused={isFocused}
-            children={undefined}
-            onPress={onPress}
-          />
+          <TabBarAddButton key={route.key} isFocused={isFocused} onPress={onPress} />
         ) : (
           <TabBarButton
             key={route.key}
@@ -85,7 +80,6 @@ const TabBar = ({state, descriptors, navigation}: BottomTabBarProps) => {
             testID={options.tabBarButtonTestID}
             onPress={onPress}
             onLongPress={onLongPress}
-            children={undefined}
             isFocused={isFocused}
           />
         );
