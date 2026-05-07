@@ -6,5 +6,6 @@ export type AccountSummary = {
   name: string;
   type: AccountType;
   currency: CurrencyCode;
+  symbol: string;
   balance: number;
 };

@@ -2,8 +2,6 @@
 
 import {useMemo} from 'react';
 import {useDashboardQuery} from '../queries/useDashboardQuery';
-import {HighlightItem} from '@/src/shared/components/ui/Highlight/interfaces';
-import dashboardStyles from '@/src/features/dashboard/screens/Dashboard.styles';
 //import {useSettingsStore} from '@/src/store/settingsStore';
 
 const getCurrentMonth = () => {

@@ -6,6 +6,7 @@ import {
   CategoryExpenseSummaryRow,
   SpendingTotalRow,
 } from './dashboardRows';
+import {TransactionType} from '@/src/domain/transactions/TransactionType';
 
 function getMonthRange(month: string) {
   const [year, monthNumber] = month.split('-').map(Number);
@@ -26,6 +27,7 @@ export const dashboardLocalDataSource = {
         a.name,
         a.type,
         a.currency_code,
+        c.symbol,
         a.initial_balance_minor,
         COALESCE(SUM(
           CASE
@@ -43,6 +45,8 @@ export const dashboardLocalDataSource = {
       LEFT JOIN transactions t
         ON t.account_id = a.id
         AND t.deleted_at IS NULL
+      LEFT JOIN currencies c
+        ON c.code = a.currency_code
       WHERE a.deleted_at IS NULL
       GROUP BY a.id, a.name, a.type, a.currency_code, a.initial_balance_minor
       ORDER BY a.created_at ASC;
@@ -73,8 +77,9 @@ export const dashboardLocalDataSource = {
     return Number(row?.total ?? 0);
   },
 
-  async getExpenseCategoryBreakdownByMonth(
+  async getCategoryBreakdownByMonth(
     month: string,
+    type: TransactionType = 'expense',
   ): Promise<CategoryExpenseSummaryRow[]> {
     const {start, end} = getMonthRange(month);
 
@@ -87,16 +92,16 @@ export const dashboardLocalDataSource = {
         c.icon as category_icon,
         COALESCE(SUM(t.amount), 0) as total
       FROM transactions t
-      INNER JOIN categories c ON c.id = t.category_id
+      LEFT JOIN categories c ON c.id = t.category_id
       WHERE t.deleted_at IS NULL
-        AND t.type = 'expense'
+        AND t.type = ?
         AND t.category_id IS NOT NULL
         AND t.occurred_at >= ?
         AND t.occurred_at <= ?
       GROUP BY c.id, c.name, c.color, c.icon
       ORDER BY total DESC;
       `,
-      [start, end],
+      [type, start, end],
     );
   },
 

@@ -67,6 +67,47 @@ export const transactionLocalDataSource = {
     );
   },
 
+  async insertMany(rows: TransactionRow[]) {
+    for (const row of rows) {
+      await db.run(
+        `
+      INSERT OR IGNORE INTO transactions (
+        id,
+        type,
+        amount,
+        currency,
+        amount_in_main_currency,
+        main_currency,
+        account_id,
+        category_id,
+        occurred_at,
+        note,
+        exchange_rate_to_main_currency,
+        created_at,
+        updated_at,
+        deleted_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+      `,
+        [
+          row.id,
+          row.type,
+          row.amount,
+          row.currency,
+          row.amount_in_main_currency,
+          row.main_currency,
+          row.account_id,
+          row.category_id,
+          row.occurred_at,
+          row.note,
+          row.exchange_rate_to_main_currency,
+          row.created_at,
+          row.updated_at,
+          row.deleted_at,
+        ],
+      );
+    }
+  },
+
   async getTotalsByCategory(): Promise<CategoryExpenseTotalRow[]> {
     return db.getAll<CategoryExpenseTotalRow>(`
     SELECT

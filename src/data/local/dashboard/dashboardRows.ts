@@ -8,6 +8,7 @@ export type AccountSummaryRow = {
   name: string;
   type: AccountType;
   currency_code: CurrencyCode;
+  symbol: string;
   initial_balance_minor: number;
   income_total: number | null;
   expense_total: number | null;

@@ -67,6 +67,7 @@ export const dashboardRepository = {
     const previousMonth = getPreviousMonth(month);
 
     const accountsRows = await dashboardLocalDataSource.getAccountsSummary();
+
     const accounts = accountsRows.map(dashboardMapper.accountSummaryRowToDomain);
 
     //TODO REPLACE WITH CURRENT ACCOUNT
@@ -78,11 +79,13 @@ export const dashboardRepository = {
       await dashboardLocalDataSource.getSpentByMonth(previousMonth);
 
     const categoryRows =
-      await dashboardLocalDataSource.getExpenseCategoryBreakdownByMonth(month);
+      await dashboardLocalDataSource.getCategoryBreakdownByMonth(month);
 
     const categories = categoryRows.map(row =>
       dashboardMapper.categoryExpenseSummaryRowToDomain(row, spentThisMonth),
     );
+
+    console.log('Categories with percentage:', categories);
 
     const currentWeekRange = getCurrentWeekRange();
     const previousWeekRange = getPreviousWeekRange();

@@ -1,6 +1,7 @@
-export type CurrencyCode = 'ARS' | 'USD' | 'EUR';
+import {AccountType} from '@/src/domain/accounts/AccountType';
+import {AccountSummary} from '@/src/domain/dashboard/AccountSummary';
 
-export type AccountType = 'cash' | 'bank' | 'creditCard' | 'wallet';
+export type CurrencyCode = 'ARS' | 'USD' | 'EUR';
 
 export interface AccountItem {
   id: string;
@@ -13,9 +14,9 @@ export interface AccountItem {
 }
 
 export interface AccountsSummaryProps {
-  accounts: AccountItem[];
+  accounts: AccountSummary[];
   mainCurrency?: CurrencyCode;
   title?: string;
   onPressSeeAll?: () => void;
-  onPressAccount?: (account: AccountItem) => void;
+  onPressAccount?: (account: AccountSummary) => void;
 }

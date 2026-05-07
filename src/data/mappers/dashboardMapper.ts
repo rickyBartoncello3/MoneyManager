@@ -17,6 +17,7 @@ export const dashboardMapper = {
       name: row.name,
       type: row.type,
       currency: row.currency_code,
+      symbol: row.symbol,
       balance: row.initial_balance_minor + income - expense,
     };
   },

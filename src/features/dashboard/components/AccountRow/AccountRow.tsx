@@ -80,7 +80,7 @@ export const AccountRow = ({account, onPress}: AccountRowProps) => {
             },
           ]}
         >
-          {formatMoney(account.balance, account.currency)}
+          {formatMoney(account.balance, account.symbol)}
         </Text>
 
         {showEquivalent ? (
