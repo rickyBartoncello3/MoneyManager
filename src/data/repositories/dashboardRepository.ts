@@ -3,7 +3,6 @@
 import {dashboardLocalDataSource} from '@/src/data/local/dashboard/dashboardLocalDataSource';
 import {dashboardMapper} from '@/src/data/mappers/dashboardMapper';
 import {DashboardSummary} from '@/src/domain/dashboard/DashboardSummary';
-import {CurrencyCode} from '@/src/domain/money/Currency';
 
 const getPreviousMonth = (month: string) => {
   const [year, monthNumber] = month.split('-').map(Number);
@@ -60,9 +59,9 @@ const calculatePercentageChange = (current: number, previous: number) => {
 export const dashboardRepository = {
   async getSummary(params: {
     month: string;
-    mainCurrency: CurrencyCode;
+    accountIdCurrency: string;
   }): Promise<DashboardSummary> {
-    const {month, mainCurrency} = params;
+    const {month, accountIdCurrency} = params;
 
     const previousMonth = getPreviousMonth(month);
 
@@ -70,21 +69,25 @@ export const dashboardRepository = {
 
     const accounts = accountsRows.map(dashboardMapper.accountSummaryRowToDomain);
 
-    //TODO REPLACE WITH CURRENT ACCOUNT
-    const currentBalance = accounts.find(a => a.id === 'acc_cash_ars')?.balance || 0;
+    const accountCurrency = accounts.find(a => a.id === accountIdCurrency)!;
+    const currentBalance = accounts.find(a => a.id === accountCurrency?.id)?.balance || 0;
 
     const spentThisMonth = await dashboardLocalDataSource.getSpentByMonth(month);
 
     const spentPreviousMonth =
       await dashboardLocalDataSource.getSpentByMonth(previousMonth);
 
-    const categoryRows =
-      await dashboardLocalDataSource.getCategoryBreakdownByMonth(month);
+    const categoryRows = await dashboardLocalDataSource.getCategoryBreakdownByMonth(
+      month,
+      accountCurrency.id,
+    );
 
     const categories = categoryRows.map(row =>
       dashboardMapper.categoryExpenseSummaryRowToDomain(row, spentThisMonth),
     );
 
+    const expenseCategories = categories.filter(c => c.type === 'expense');
+    const incomeCategories = categories.filter(c => c.type === 'income');
     console.log('Categories with percentage:', categories);
 
     const currentWeekRange = getCurrentWeekRange();
@@ -104,17 +107,18 @@ export const dashboardRepository = {
 
     const monthlyChange = calculatePercentageChange(spentThisMonth, spentPreviousMonth);
 
-    const budget = currentBalance;
-    const available = budget - spentThisMonth;
-    const budgetProgress = budget === 0 ? 0 : (spentThisMonth / budget) * 100;
+    const income = incomeCategories.reduce((acc, cat) => acc + cat.total, 0);
+    const available = income - spentThisMonth;
+    const budgetProgress =
+      currentBalance === 0 ? 0 : Number(spentThisMonth / currentBalance);
 
     return {
       month,
-      mainCurrency,
+      accountCurrency,
 
       currentBalance,
       spentThisMonth,
-      budget,
+      income,
       available,
       budgetProgress,
 
@@ -128,7 +132,7 @@ export const dashboardRepository = {
         percentageChange: monthlyChange,
       },
 
-      categories,
+      categories: expenseCategories,
       accounts,
     };
   },

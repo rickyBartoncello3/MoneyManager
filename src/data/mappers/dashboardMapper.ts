@@ -1,7 +1,5 @@
-// src/data/mappers/dashboardMapper.ts
-
 import {AccountSummary} from '@/src/domain/dashboard/AccountSummary';
-import {CategoryExpenseSummary} from '@/src/domain/dashboard/CategoryExpenseSummary';
+import {CategorySummary} from '@/src/domain/dashboard/CategorySummary';
 import {
   AccountSummaryRow,
   CategoryExpenseSummaryRow,
@@ -25,12 +23,13 @@ export const dashboardMapper = {
   categoryExpenseSummaryRowToDomain(
     row: CategoryExpenseSummaryRow,
     totalSpent: number,
-  ): CategoryExpenseSummary {
+  ): CategorySummary {
     return {
       categoryId: row.category_id,
       name: row.category_name,
       color: row.category_color,
       total: Number(row.total),
+      type: row.type,
       percentage: totalSpent === 0 ? 0 : (Number(row.total) / totalSpent) * 100,
     };
   },

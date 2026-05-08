@@ -2,7 +2,7 @@
 
 import {useMemo} from 'react';
 import {useDashboardQuery} from '../queries/useDashboardQuery';
-//import {useSettingsStore} from '@/src/store/settingsStore';
+import {useSettingsStore} from '@/src/store/settings/slice';
 
 const getCurrentMonth = () => {
   const now = new Date();
@@ -13,13 +13,15 @@ const getCurrentMonth = () => {
 };
 
 export const useDashboardViewModel = () => {
-  const mainCurrency = 'ARS';
+  const accountIdCurrency = useSettingsStore(state => state.accountIdCurrency);
+
+  console.log('useDashboardViewModel', accountIdCurrency);
 
   const selectedMonth = useMemo(() => getCurrentMonth(), []);
 
   const dashboardQuery = useDashboardQuery({
     month: selectedMonth,
-    mainCurrency,
+    accountIdCurrency,
   });
 
   const spendingInsight = [

@@ -1,12 +1,9 @@
-// src/data/local/dashboard/dashboardLocalDataSource.ts
-
 import {db} from '@/src/core/database/db';
 import {
   AccountSummaryRow,
   CategoryExpenseSummaryRow,
   SpendingTotalRow,
 } from './dashboardRows';
-import {TransactionType} from '@/src/domain/transactions/TransactionType';
 
 function getMonthRange(month: string) {
   const [year, monthNumber] = month.split('-').map(Number);
@@ -79,7 +76,7 @@ export const dashboardLocalDataSource = {
 
   async getCategoryBreakdownByMonth(
     month: string,
-    type: TransactionType = 'expense',
+    account_id: string,
   ): Promise<CategoryExpenseSummaryRow[]> {
     const {start, end} = getMonthRange(month);
 
@@ -90,18 +87,20 @@ export const dashboardLocalDataSource = {
         c.name as category_name,
         c.color as category_color,
         c.icon as category_icon,
+        t.account_id,
+        t.type,
         COALESCE(SUM(t.amount), 0) as total
       FROM transactions t
       LEFT JOIN categories c ON c.id = t.category_id
       WHERE t.deleted_at IS NULL
-        AND t.type = ?
         AND t.category_id IS NOT NULL
         AND t.occurred_at >= ?
         AND t.occurred_at <= ?
+        AND t.account_id = ?
       GROUP BY c.id, c.name, c.color, c.icon
       ORDER BY total DESC;
       `,
-      [type, start, end],
+      [start, end, account_id],
     );
   },
 

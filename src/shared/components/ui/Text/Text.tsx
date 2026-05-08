@@ -4,6 +4,7 @@ import styles from './Text.styles';
 import {TextProps} from './interfaces';
 import typography from '@/src/shared/theme/typography';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
+import {verticalScale} from '@/src/shared/theme/scaling';
 
 export const fontFamilyMap: {[key: number]: string} = {
   400: typography.fontFamily.Plus_Jakarta_Sans_400,
@@ -15,32 +16,57 @@ export const fontFamilyMap: {[key: number]: string} = {
 };
 
 export const fontSizeMap: {[key: number]: number} = {
-  8: typography.fontSize.xll_small_8,
-  10: typography.fontSize.xl_small_10,
-  12: typography.fontSize.x_small_12,
-  14: typography.fontSize.small_14,
-  16: typography.fontSize.regular_16,
-  18: typography.fontSize.x_regular_18,
-  20: typography.fontSize.xl_regular_20,
-  22: typography.fontSize.xxl_regular_22,
-  24: typography.fontSize.large_24,
-  28: typography.fontSize.extraLarge_28,
-  32: typography.fontSize.extra_extra_large_32,
-  40: typography.fontSize.extraExtraLarge_40,
+  8: typography.fontSize.xxs,
+  10: typography.fontSize.xs,
+  12: typography.fontSize.sm,
+  14: typography.fontSize.md,
+  16: typography.fontSize.base,
+  18: typography.fontSize.lg,
+
+  20: typography.fontSize.xl,
+  22: typography.fontSize['2xl'],
+  24: typography.fontSize['3xl'],
+  26: typography.fontSize['4xl'],
+  28: typography.fontSize['5xl'],
+  30: typography.fontSize['6xl'],
+  32: typography.fontSize['7xl'],
+  34: typography.fontSize['8xl'],
+  36: typography.fontSize['9xl'],
+  38: typography.fontSize['10xl'],
+  40: typography.fontSize['11xl'],
+  44: typography.fontSize['12xl'],
+  48: typography.fontSize['13xl'],
+  52: typography.fontSize['14xl'],
+  56: typography.fontSize['15xl'],
+  60: typography.fontSize['16xl'],
 };
 
 export const lineHeightMap: {[key: number]: number} = {
-  8: 10,
-  10: 14,
-  12: 14,
-  14: 20,
-  16: 24,
-  18: 24,
-  20: 28,
-  24: 36,
-  28: 40,
-  32: 44,
-  40: 46,
+  8: verticalScale(10),
+  10: verticalScale(14),
+  12: verticalScale(16),
+  14: verticalScale(20),
+  16: verticalScale(24),
+  18: verticalScale(26),
+
+  20: verticalScale(28),
+  22: verticalScale(30),
+  24: verticalScale(32),
+  26: verticalScale(36),
+  28: verticalScale(40),
+  30: verticalScale(42),
+
+  32: verticalScale(44),
+  34: verticalScale(46),
+  36: verticalScale(48),
+  38: verticalScale(52),
+  40: verticalScale(56),
+
+  44: verticalScale(60),
+  48: verticalScale(64),
+  52: verticalScale(68),
+  56: verticalScale(72),
+  60: verticalScale(76),
 };
 
 const DEFAULT_SIZE = 16;

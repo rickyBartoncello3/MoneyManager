@@ -13,7 +13,7 @@ export async function seedDefaultAccounts() {
       type: 'cash',
       icon: 'cash',
       currency_code: 'ARS',
-      initial_balance_minor: 0,
+      initial_balance_minor: 980726,
       include_in_total: 1,
       archived_at: null,
       created_at: now(),

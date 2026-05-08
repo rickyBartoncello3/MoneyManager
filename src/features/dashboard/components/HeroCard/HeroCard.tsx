@@ -17,15 +17,12 @@ export const HeroCard = ({
   currentBalance,
   spent,
   monthlyBudget,
+  progress,
   currencySymbol = '$',
   title = 'Saldo actual',
   badgeLabel = 'Disponible ahora',
 }: HeroCardProps) => {
   const {colors} = useContext(ThemeContext);
-
-  const budgetProgress = monthlyBudget > 0 ? spent / monthlyBudget : 0;
-
-  const normalizedProgress = Math.min(Math.max(budgetProgress, 0), 1);
 
   return (
     <Card
@@ -53,7 +50,7 @@ export const HeroCard = ({
               {title}
             </Text>
             <Text
-              size={40}
+              size={36}
               weight={800}
               style={[
                 styles.amount,
@@ -72,7 +69,7 @@ export const HeroCard = ({
           </View>
 
           <CircularProgress
-            progress={normalizedProgress}
+            progress={progress}
             color={colors.primary}
             trackColor="rgba(255,255,255,0.22)"
             textColor={colors.balanceCardText}

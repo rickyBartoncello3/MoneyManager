@@ -1,21 +1,20 @@
-import {CurrencyCode} from '@/src/domain/money/Currency';
 import {AccountSummary} from './AccountSummary';
-import {CategoryExpenseSummary} from './CategoryExpenseSummary';
+import {CategorySummary} from './CategorySummary';
 import {InsightSummary} from './InsightSummary';
 
 export type DashboardSummary = {
   month: string;
-  mainCurrency: CurrencyCode;
+  accountCurrency: AccountSummary;
 
   currentBalance: number;
   spentThisMonth: number;
-  budget: number;
+  income: number;
   available: number;
   budgetProgress: number;
 
   weeklySpendingInsight: InsightSummary;
   monthlySpendingInsight: InsightSummary;
 
-  categories: CategoryExpenseSummary[];
+  categories: CategorySummary[];
   accounts: AccountSummary[];
 };

@@ -2,18 +2,33 @@ import {RFValue} from 'react-native-responsive-fontsize';
 import {standardHeight} from '@/src/shared/theme/scaling';
 
 const fontSize = {
-  xll_small_8: RFValue(8, standardHeight),
-  xl_small_10: RFValue(10, standardHeight),
-  x_small_12: RFValue(12, standardHeight),
-  small_14: RFValue(14, standardHeight),
-  regular_16: RFValue(16, standardHeight),
-  x_regular_18: RFValue(18, standardHeight),
-  xl_regular_20: RFValue(20, standardHeight),
-  xxl_regular_22: RFValue(22, standardHeight),
-  large_24: RFValue(24, standardHeight),
-  extraLarge_28: RFValue(28, standardHeight),
-  extra_extra_large_32: RFValue(32, standardHeight),
-  extraExtraLarge_40: RFValue(40, standardHeight),
+  // Extra small
+  xxs: RFValue(8, standardHeight),
+  xs: RFValue(10, standardHeight),
+  sm: RFValue(12, standardHeight),
+
+  // Body
+  md: RFValue(14, standardHeight),
+  base: RFValue(16, standardHeight),
+  lg: RFValue(18, standardHeight),
+
+  // Titles
+  xl: RFValue(20, standardHeight),
+  '2xl': RFValue(22, standardHeight),
+  '3xl': RFValue(24, standardHeight),
+  '4xl': RFValue(26, standardHeight),
+  '5xl': RFValue(28, standardHeight),
+  '6xl': RFValue(30, standardHeight),
+  '7xl': RFValue(32, standardHeight),
+  '8xl': RFValue(34, standardHeight),
+  '9xl': RFValue(36, standardHeight),
+  '10xl': RFValue(38, standardHeight),
+  '11xl': RFValue(40, standardHeight),
+  '12xl': RFValue(44, standardHeight),
+  '13xl': RFValue(48, standardHeight),
+  '14xl': RFValue(52, standardHeight),
+  '15xl': RFValue(56, standardHeight),
+  '16xl': RFValue(60, standardHeight),
 };
 
 const fontFamily = {

@@ -11,9 +11,11 @@ import {router} from 'expo-router';
 import {useDashboardViewModel} from '@/src/features/dashboard/hooks/useDashboardViewModel';
 import Text from '@/src/shared/components/ui/Text/Text';
 
-export const DashboardScreen = () => {
+const DashboardScreen = () => {
   const {colors} = useContext(ThemeContext);
   const vm = useDashboardViewModel();
+
+  console.log(vm.data.budgetProgress);
 
   if (vm.isLoading) {
     return (
@@ -57,9 +59,10 @@ export const DashboardScreen = () => {
       </View>
       <View style={{gap: 8, marginBottom: 130}}>
         <HeroCard
-          currentBalance={dashboard.currentBalance || 0}
+          currentBalance={dashboard.currentBalance!}
           spent={dashboard.spentThisMonth || 0}
           monthlyBudget={dashboard.available || 0}
+          progress={dashboard.budgetProgress!}
         />
 
         <Highlights highlightedItems={dashboard.spendingInsight} />
@@ -91,3 +94,5 @@ export const DashboardScreen = () => {
     </CustomView>
   );
 };
+
+export default DashboardScreen;
