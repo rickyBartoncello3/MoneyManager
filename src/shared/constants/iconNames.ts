@@ -33,6 +33,8 @@ export const ICON_NAMES = {
   CREDIT_CARD: 'creditCard',
 
   ARROW_RIGHT: 'arrowRight01',
+  CALENDAR: 'calendar',
+  NOTE: 'note',
 } as const;
 
 export type IconName = (typeof ICON_NAMES)[keyof typeof ICON_NAMES];

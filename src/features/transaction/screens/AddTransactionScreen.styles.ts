@@ -3,7 +3,8 @@
 import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
-  root: {
+  root: {flex: 1},
+  container: {
     flex: 1,
     paddingBottom: 50,
     justifyContent: 'space-between',
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
     letterSpacing: -1,
   },
 
-    boxContainer: {gap: 16},
+  boxContainer: {gap: 16},
 
   row: {
     flexDirection: 'row',

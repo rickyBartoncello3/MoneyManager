@@ -31,9 +31,13 @@ export const Box = ({title, subTitle, icon, onPress}: BoxProps) => {
           <Text weight={700} size={12} style={styles.title}>
             {title}
           </Text>
-          <Text weight={700} size={12}>
-            {subTitle}
-          </Text>
+          {typeof subTitle === 'string' ? (
+            <Text weight={700} size={12}>
+              {subTitle}
+            </Text>
+          ) : (
+            subTitle
+          )}
         </View>
         <CustomIcon name={ICON_NAMES.ARROW_RIGHT} size={20} color={colors.text} />
       </TouchableOpacity>

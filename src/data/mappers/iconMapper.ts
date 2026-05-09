@@ -30,6 +30,8 @@ import {
   WalletAdd01Icon,
   ArrowRight01Icon,
   DollarCircleIcon,
+  Calendar01Icon,
+  Note01Icon,
 } from '@hugeicons/core-free-icons';
 import {IconName} from '@/src/shared/constants/iconNames';
 
@@ -75,4 +77,6 @@ export const iconMapper = {
   moneyReceive: MoneyReceiveIcon,
   arrowRight01: ArrowRight01Icon,
   dollarCircle: DollarCircleIcon,
+  calendar: Calendar01Icon,
+  note: Note01Icon,
 } as unknown as Record<IconName, IconSvgElement>;

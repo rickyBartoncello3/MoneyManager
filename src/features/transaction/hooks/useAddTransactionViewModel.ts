@@ -12,6 +12,8 @@ import {useSettingsStore} from '@/src/store/settings/slice';
 import {useDashboardQuery} from '@/src/features/dashboard/queries/useDashboardQuery';
 import {AccountSummary} from '@/src/domain/dashboard/AccountSummary';
 import {getCurrentMonth} from '@/src/shared/utils/getCurrentMonth';
+import dayjs from 'dayjs';
+import {DateType} from 'react-native-ui-datepicker';
 
 export const useAddTransactionViewModel = () => {
   const {isDark, colors} = useContext(ThemeContext);
@@ -24,6 +26,7 @@ export const useAddTransactionViewModel = () => {
     accountIdCurrency,
   });
 
+  const dateTimePickerSheetRef = useRef<BottomSheetModal>(null);
   const accountSheetRef = useRef<BottomSheetModal>(null);
   const categorySheetRef = useRef<BottomSheetModal>(null);
   const keyboardSheetRef = useRef<BottomSheetModal>(null);
@@ -31,8 +34,7 @@ export const useAddTransactionViewModel = () => {
   const [account, setAccount] = useState<AccountSummary>(
     summary?.accounts.find(a => a.id === accountIdCurrency)!,
   );
-
-  console.log('account', account);
+  const [date, setDate] = useState(dayjs());
 
   const [mode, setMode] = useState<TransactionMode>('expense');
   const [amount, setAmount] = useState('85.60');
@@ -50,6 +52,10 @@ export const useAddTransactionViewModel = () => {
       }));
   }, [mode, data]);
 
+  const openDateTimePickerSheet = () => {
+    dateTimePickerSheetRef.current?.present();
+  };
+
   const openAccountSheet = () => {
     accountSheetRef.current?.present();
   };
@@ -60,6 +66,11 @@ export const useAddTransactionViewModel = () => {
 
   const openKeyboardSheet = () => {
     keyboardSheetRef.current?.present();
+  };
+
+  const handleSelectDateTimePicker = (date: DateType) => {
+    setDate(date);
+    dateTimePickerSheetRef.current?.dismiss();
   };
 
   const handleSelectAccount = (account: AccountSummary) => {
@@ -77,8 +88,8 @@ export const useAddTransactionViewModel = () => {
       mode,
       amount,
       categoryId: category?.id,
-      accountId: 'acc_main_checking',
-      date: '2024-05-15',
+      accountId: account.id,
+      date: date,
     });
   };
 
@@ -88,21 +99,26 @@ export const useAddTransactionViewModel = () => {
     isLoading,
     accounts: summary?.accounts,
     categories,
+    dateTimePickerSheetRef,
     accountSheetRef,
     categorySheetRef,
     keyboardSheetRef,
     mode,
+    date,
     account,
     amount,
     category,
     setMode,
     setAmount,
     setCategory,
+    setDate,
+    openDateTimePickerSheet,
     openAccountSheet,
     openCategorySheet,
     openKeyboardSheet,
     handleSelectCategory,
     handleSelectAccount,
+    handleSelectDateTimePicker,
     handleSave,
   };
 };

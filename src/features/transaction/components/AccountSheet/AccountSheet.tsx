@@ -18,8 +18,6 @@ export const AccountSheet = ({
   const {colors} = useContext(ThemeContext);
   const snapPoints = useMemo(() => [], []);
 
-  console.log(accounts);
-
   return (
     <BottomSheetModal bottomSheetRef={bottomSheetRef} snapPoints={snapPoints}>
       <View style={styles.root}>
