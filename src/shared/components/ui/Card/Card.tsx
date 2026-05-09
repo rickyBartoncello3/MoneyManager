@@ -4,7 +4,7 @@ import {Card as RNCard} from 'react-native-paper';
 import {CardProps} from '@/src/shared/components/ui/Card/interfaces';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 
-export const Card = ({children}: CardProps) => {
+export const Card = ({children, style}: CardProps) => {
   const {colors} = useContext(ThemeContext);
 
   return (
@@ -16,6 +16,7 @@ export const Card = ({children}: CardProps) => {
           backgroundColor: colors.insightCardBackground,
           borderColor: colors.border,
         },
+        style,
       ]}
     >
       <RNCard.Content style={styles.content}>{children}</RNCard.Content>

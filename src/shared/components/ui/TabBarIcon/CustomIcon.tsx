@@ -2,22 +2,17 @@ import React from 'react';
 import type {TabBarIconProps} from './interfaces.ts';
 import {iconMapper} from '@/src/data/mappers/iconMapper';
 import {ICON_NAMES} from '@/src/shared/constants/iconNames';
+import {HugeiconsIcon} from '@hugeicons/react-native';
 
-export const TabBarIcon = ({
+export const CustomIcon = ({
   name,
   color,
   size = 24,
   strokeWidth = 1.8,
 }: TabBarIconProps) => {
-  const Icon = iconMapper[name] ?? iconMapper[ICON_NAMES.ADD_TRANSACTION];
+  const icon = iconMapper[name] ?? iconMapper[ICON_NAMES.ADD_TRANSACTION];
 
   return (
-    <Icon
-      width={size}
-      height={size}
-      color={color}
-      strokeWidth={strokeWidth}
-      fill={color}
-    />
+    <HugeiconsIcon icon={icon} size={size} color={color} strokeWidth={strokeWidth} />
   );
 };

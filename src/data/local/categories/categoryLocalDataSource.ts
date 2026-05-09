@@ -31,11 +31,12 @@ export const categoryLocalDataSource = {
           type,
           icon,
           color,
+          background_color,
           archived_at,
           created_at,
           updated_at,
           deleted_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
                 `,
         [
           row.id,
@@ -43,6 +44,7 @@ export const categoryLocalDataSource = {
           row.type,
           row.icon,
           row.color,
+          row.background_color,
           row.archived_at,
           row.created_at,
           row.updated_at,

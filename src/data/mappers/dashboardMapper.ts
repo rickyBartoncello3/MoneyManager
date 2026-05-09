@@ -14,6 +14,7 @@ export const dashboardMapper = {
       id: row.id,
       name: row.name,
       type: row.type,
+      icon: row.icon,
       currency: row.currency_code,
       symbol: row.symbol,
       balance: row.initial_balance_minor + income - expense,

@@ -9,6 +9,7 @@ export const categoryMapper = {
       type: row.type,
       icon: row.icon,
       color: row.color,
+      backgroundColor: row.background_color,
       archivedAt: row.archived_at,
       createdAt: row.created_at,
       updatedAt: row.updated_at,

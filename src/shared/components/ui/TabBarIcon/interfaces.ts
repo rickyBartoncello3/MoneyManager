@@ -1,4 +1,4 @@
-import {IconName} from '../../../constants/iconNames.ts';
+import {IconName} from '@/src/shared/constants/iconNames';
 
 export interface TabBarIconProps {
   name: IconName;

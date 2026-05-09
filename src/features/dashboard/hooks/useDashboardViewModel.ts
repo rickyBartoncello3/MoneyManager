@@ -3,19 +3,10 @@
 import {useMemo} from 'react';
 import {useDashboardQuery} from '../queries/useDashboardQuery';
 import {useSettingsStore} from '@/src/store/settings/slice';
-
-const getCurrentMonth = () => {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, '0');
-
-  return `${year}-${month}`;
-};
+import {getCurrentMonth} from '@/src/shared/utils/getCurrentMonth';
 
 export const useDashboardViewModel = () => {
   const accountIdCurrency = useSettingsStore(state => state.accountIdCurrency);
-
-  console.log('useDashboardViewModel', accountIdCurrency);
 
   const selectedMonth = useMemo(() => getCurrentMonth(), []);
 
@@ -40,6 +31,8 @@ export const useDashboardViewModel = () => {
       chartType: 'line',
     },
   ];
+
+  console.log('dashboardQuery', dashboardQuery.data?.accounts);
 
   return {
     month: selectedMonth,

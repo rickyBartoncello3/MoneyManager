@@ -7,9 +7,10 @@ import {ICON_NAMES} from '@/src/shared/constants/iconNames';
 import Text from '@/src/shared/components/ui/Text/Text';
 import {formatMoney} from '@/src/shared/utils/formatMoney';
 import {iconMapper} from '@/src/data/mappers/iconMapper';
+import {HugeiconsIcon} from '@hugeicons/react-native';
 
 export const AccountRow = ({account, onPress}: AccountRowProps) => {
-  const Icon = iconMapper[account.type] ?? iconMapper[ICON_NAMES.ADD_TRANSACTION];
+  const icon = iconMapper[account.icon] ?? iconMapper[ICON_NAMES.ADD_TRANSACTION];
   const {colors} = useContext(ThemeContext);
 
   const isNegative = account.balance < 0;
@@ -39,7 +40,7 @@ export const AccountRow = ({account, onPress}: AccountRowProps) => {
             },
           ]}
         >
-          <Icon name={account.type} color={colors.icon} width={20} height={20} />
+          <HugeiconsIcon icon={icon} size={20} color={colors.icon} />
         </View>
 
         <View style={styles.accountInfo}>

@@ -8,6 +8,7 @@ export async function createCategoriesTable() {
                                                   type TEXT NOT NULL,
                                                   icon TEXT NOT NULL,
                                                   color TEXT NOT NULL,
+                                                  background_color TEXT NOT NULL, 
                                                   archived_at TEXT,
                                                   created_at TEXT NOT NULL,
                                                   updated_at TEXT NOT NULL,

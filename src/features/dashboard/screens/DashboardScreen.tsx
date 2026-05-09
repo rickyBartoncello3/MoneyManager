@@ -15,8 +15,6 @@ const DashboardScreen = () => {
   const {colors} = useContext(ThemeContext);
   const vm = useDashboardViewModel();
 
-  console.log(vm.data.budgetProgress);
-
   if (vm.isLoading) {
     return (
       <CustomView>
@@ -40,7 +38,7 @@ const DashboardScreen = () => {
 
   return (
     <CustomView margin>
-      <View style={styles.container}>
+      <View style={styles.root}>
         <View>
           <Text size={22} weight={900} style={{color: colors.text}}>
             Home
@@ -57,7 +55,7 @@ const DashboardScreen = () => {
           </Text>
         </View>
       </View>
-      <View style={{gap: 8, marginBottom: 130}}>
+      <View style={styles.container}>
         <HeroCard
           currentBalance={dashboard.currentBalance!}
           spent={dashboard.spentThisMonth || 0}

@@ -1,11 +1,13 @@
 import {CurrencyCode} from '@/src/domain/money/Currency';
 import {AccountType} from '@/src/domain/accounts/AccountType';
 import {TransactionType} from '@/src/domain/transactions/TransactionType';
+import {IconName} from '@/src/shared/constants/iconNames';
 
 export type AccountSummaryRow = {
   id: string;
   name: string;
   type: AccountType;
+  icon: IconName;
   currency_code: CurrencyCode;
   symbol: string;
   initial_balance_minor: number;

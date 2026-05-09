@@ -4,17 +4,7 @@ import {
   CategoryExpenseSummaryRow,
   SpendingTotalRow,
 } from './dashboardRows';
-
-function getMonthRange(month: string) {
-  const [year, monthNumber] = month.split('-').map(Number);
-
-  const start = `${month}-01T00:00:00.000Z`;
-
-  const lastDay = new Date(year, monthNumber, 0).getDate();
-  const end = `${month}-${String(lastDay).padStart(2, '0')}T23:59:59.999Z`;
-
-  return {start, end};
-}
+import {getMonthRange} from '@/src/shared/utils/getMonthRange';
 
 export const dashboardLocalDataSource = {
   async getAccountsSummary(): Promise<AccountSummaryRow[]> {
@@ -23,6 +13,7 @@ export const dashboardLocalDataSource = {
         a.id,
         a.name,
         a.type,
+        a.icon,
         a.currency_code,
         c.symbol,
         a.initial_balance_minor,

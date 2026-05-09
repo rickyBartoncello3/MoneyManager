@@ -88,7 +88,6 @@ export const dashboardRepository = {
 
     const expenseCategories = categories.filter(c => c.type === 'expense');
     const incomeCategories = categories.filter(c => c.type === 'income');
-    console.log('Categories with percentage:', categories);
 
     const currentWeekRange = getCurrentWeekRange();
     const previousWeekRange = getPreviousWeekRange();

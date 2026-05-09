@@ -67,6 +67,7 @@ function RootLayoutNav() {
           <BottomSheetModalProvider>
             <Stack screenOptions={{headerShown: false}}>
               <Stack.Screen name="(tabs)" />
+              <Stack.Screen name="add-transaction" />
               <Stack.Screen name="modal" options={{presentation: 'modal'}} />
             </Stack>
           </BottomSheetModalProvider>

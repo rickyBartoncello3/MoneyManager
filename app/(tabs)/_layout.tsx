@@ -31,8 +31,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name={TabRoutes.ADD}
         options={{
-          title: '',
-          tabBarLabel: '',
+          title: 'Add',
+          tabBarLabel: 'Add',
         }}
       />
 

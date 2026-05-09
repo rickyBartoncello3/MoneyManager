@@ -1,4 +1,4 @@
-import {FlatList, View} from 'react-native';
+import {ActivityIndicator, FlatList, View} from 'react-native';
 import {useAccountsQuery} from '../queries/useAccountsQuery';
 import Text from '@/src/shared/components/ui/Text/Text';
 import {AccountRow} from '@/src/features/dashboard/components/AccountRow/AccountRow';
@@ -15,9 +15,7 @@ export function AccountsScreen() {
   if (isLoading) {
     return (
       <View>
-        <Text size={12} weight={300}>
-          Loading accounts...
-        </Text>
+        <ActivityIndicator />
       </View>
     );
   }

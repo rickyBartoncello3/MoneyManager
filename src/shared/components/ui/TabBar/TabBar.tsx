@@ -1,23 +1,17 @@
-import React, {useContext, useRef} from 'react';
+import React, {useContext} from 'react';
 import {View} from 'react-native';
 import styles from './TabBar.styles';
-import {BottomSheetModal} from '@gorhom/bottom-sheet';
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import TabBarAddButton from '@/src/shared/components/ui/TabBarAddButton/TabBarAddButton';
 import TabBarButton from '@/src/shared/components/ui/TabBarButton/TabBarButton';
-import {TabBarIcon} from '@/src/shared/components/ui/TabBarIcon/TabBarIcon';
-import {AddTransactionBottomSheet} from '@/src/shared/components/ui/AddTransactionSheet/AddTransactionSheet';
+import {CustomIcon} from '@/src/shared/components/ui/TabBarIcon/CustomIcon';
 import {TabRoutes} from '@/src/constants/tabRoutes';
 import {BlurView} from 'expo-blur';
+import {router} from 'expo-router';
 
 const TabBar = ({state, descriptors, navigation}: BottomTabBarProps) => {
   const {isDark} = useContext(ThemeContext);
-  const addSheetRef = useRef<BottomSheetModal>(null);
-
-  const openAddSheet = () => {
-    addSheetRef.current?.present();
-  };
 
   return (
     <BlurView intensity={55} tint={isDark ? 'dark' : 'light'} style={styles.root}>
@@ -49,10 +43,15 @@ const TabBar = ({state, descriptors, navigation}: BottomTabBarProps) => {
             canPreventDefault: true,
           });
 
-          if (!isFocused && !event.defaultPrevented && route.name !== TabRoutes.ADD) {
-            return navigation.navigate(route.name, route.params);
+          if (!isFocused && !event.defaultPrevented) {
+            if (route.name !== TabRoutes.ADD) {
+              return navigation.navigate(route.name, route.params);
+            } else {
+              return router.push({
+                pathname: '/add-transaction',
+              });
+            }
           }
-          openAddSheet();
         };
 
         const onLongPress = () => {
@@ -69,7 +68,7 @@ const TabBar = ({state, descriptors, navigation}: BottomTabBarProps) => {
             key={route.key}
             title={label}
             renderIcon={({color, strokeWidth}) => (
-              <TabBarIcon
+              <CustomIcon
                 name={String(label).toLowerCase()}
                 color={color}
                 strokeWidth={strokeWidth}
@@ -84,15 +83,6 @@ const TabBar = ({state, descriptors, navigation}: BottomTabBarProps) => {
           />
         );
       })}
-      <AddTransactionBottomSheet
-        bottomSheetRef={addSheetRef}
-        onPressIncome={() => {
-          console.log('Navigate to Add Income');
-        }}
-        onPressExpense={() => {
-          console.log('Navigate to Add Expense');
-        }}
-      />
     </BlurView>
   );
 };

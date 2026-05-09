@@ -22,7 +22,7 @@ export const bootstrapApp = async () => {
   await seedMonefyAprilMayTransactions();
   console.log('[BOOTSTRAP] seedMonefyAprilMayTransactions');
 
-  //  await devResetAllTables();
+  //await devResetAllTables();
 
   console.log('[BOOTSTRAP] finished');
 };

@@ -1,20 +1,59 @@
-import {ComponentType} from 'react';
 import {
+  Restaurant01Icon,
+  Bus03Icon,
+  ShoppingBag03Icon,
+  ShoppingCart01Icon,
+  Invoice03Icon,
+  FavouriteIcon,
+  Ticket01Icon,
+  GraduationScrollIcon,
+  BodyPartLegIcon,
+  Briefcase01Icon,
+  LaptopIcon,
+  GiftIcon,
+  HomeIcon,
+  LeftToRightListBulletIcon,
   Add01Icon,
   AddCircleIcon,
   Car01Icon,
   Cash02Icon,
   Chart02Icon,
   CreditCardIcon,
-  HomeIcon,
-  LeftToRightListBulletIcon,
   MoreHorizontalCircle01Icon,
   Remove01Icon,
   RemoveCircleIcon,
-} from '@/src/shared/assets/icons';
+  ToolsIcon,
+  MapsIcon,
+  Wallet01Icon,
+  ChartUpIcon,
+  MoneyReceiveIcon,
+  WalletAdd01Icon,
+  ArrowRight01Icon,
+  DollarCircleIcon,
+} from '@hugeicons/core-free-icons';
 import {IconName} from '@/src/shared/constants/iconNames';
 
+type IconSvgElement = readonly (readonly [
+  string,
+  {
+    readonly [key: string]: string | number;
+  },
+])[];
+
 export const iconMapper = {
+  restaurant: Restaurant01Icon,
+  bus: Bus03Icon,
+  shoppingBag: ShoppingBag03Icon,
+  shoppingCart: ShoppingCart01Icon,
+  invoice: Invoice03Icon,
+  heart: FavouriteIcon,
+  ticket: Ticket01Icon,
+  graduationCap: GraduationScrollIcon,
+  bodyPartLeg: BodyPartLegIcon,
+  briefcase: Briefcase01Icon,
+  laptop: LaptopIcon,
+  gift: GiftIcon,
+
   home: HomeIcon,
   transactions: LeftToRightListBulletIcon,
   addTransaction: AddCircleIcon,
@@ -27,4 +66,13 @@ export const iconMapper = {
   add: Add01Icon,
   remove: Remove01Icon,
   car: Car01Icon,
-} as Record<IconName, ComponentType<any>>;
+
+  tools: ToolsIcon,
+  map: MapsIcon,
+  wallet: Wallet01Icon,
+  deposit: WalletAdd01Icon,
+  chartUp: ChartUpIcon,
+  moneyReceive: MoneyReceiveIcon,
+  arrowRight01: ArrowRight01Icon,
+  dollarCircle: DollarCircleIcon,
+} as unknown as Record<IconName, IconSvgElement>;
