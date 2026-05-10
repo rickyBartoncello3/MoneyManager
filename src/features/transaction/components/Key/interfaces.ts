@@ -1,5 +1,5 @@
 export type KeyProps = {
-  key: number;
+  key: string;
   keyItem: string;
   handlePressKey: (key: string) => void;
 };

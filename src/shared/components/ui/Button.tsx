@@ -1,7 +1,8 @@
-import {Pressable, StyleProp, Text, ViewStyle} from 'react-native';
-import {globalStyles} from '../../theme/theme.tsx';
+import {StyleProp, Text, ViewStyle} from 'react-native';
 import {useContext} from 'react';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
+import {globalStyles} from '@/src/shared/theme/theme';
+import {TouchableRipple} from 'react-native-paper';
 
 interface Props {
   text: string;
@@ -14,7 +15,7 @@ export const Button = ({text, styles, onPress}: Props) => {
   const {colors} = useContext(ThemeContext);
 
   return (
-    <Pressable
+    <TouchableRipple
       onPress={onPress}
       style={({pressed}) => [
         globalStyles.btnPrimary,
@@ -35,6 +36,6 @@ export const Button = ({text, styles, onPress}: Props) => {
       >
         {text}
       </Text>
-    </Pressable>
+    </TouchableRipple>
   );
 };

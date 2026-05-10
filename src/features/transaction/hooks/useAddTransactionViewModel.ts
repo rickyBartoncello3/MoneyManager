@@ -14,31 +14,32 @@ import {AccountSummary} from '@/src/domain/dashboard/AccountSummary';
 import {getCurrentMonth} from '@/src/shared/utils/getCurrentMonth';
 import dayjs from 'dayjs';
 import {DateType} from 'react-native-ui-datepicker';
+import {useCreateTransactionMutation} from '@/src/features/transactions/queries/useCreateTransactionMutation';
+import {now} from '@/src/core/date/now';
 
 export const useAddTransactionViewModel = () => {
-  const {isDark, colors} = useContext(ThemeContext);
-  const {data = [], isLoading} = useCategoriesQuery();
+  const {colors} = useContext(ThemeContext);
+  const {data = []} = useCategoriesQuery();
   const accountIdCurrency = useSettingsStore(state => state.accountIdCurrency);
   const selectedMonth = useMemo(() => getCurrentMonth(), []);
-
+  const createTransactionMutation = useCreateTransactionMutation();
   const {data: summary} = useDashboardQuery({
     month: selectedMonth,
     accountIdCurrency,
   });
-
   const dateTimePickerSheetRef = useRef<BottomSheetModal>(null);
   const accountSheetRef = useRef<BottomSheetModal>(null);
   const categorySheetRef = useRef<BottomSheetModal>(null);
   const keyboardSheetRef = useRef<BottomSheetModal>(null);
 
-  const [account, setAccount] = useState<AccountSummary>(
-    summary?.accounts.find(a => a.id === accountIdCurrency)!,
-  );
-  const [date, setDate] = useState(dayjs());
+  const accountCurrency = summary?.accounts.find(a => a.id === accountIdCurrency);
 
+  const [account, setAccount] = useState<AccountSummary>(accountCurrency!);
+  const [date, setDate] = useState(dayjs());
   const [mode, setMode] = useState<TransactionMode>('expense');
-  const [amount, setAmount] = useState('85.60');
+  const [amount, setAmount] = useState('0');
   const [category, setCategory] = useState<CategoryOption | null>(null);
+  const [note, setNote] = useState<string>();
 
   const categories: CategoryOption[] = useMemo(() => {
     return data
@@ -83,20 +84,42 @@ export const useAddTransactionViewModel = () => {
     categorySheetRef.current?.dismiss();
   };
 
+  const handleChangeAmount = (amount: string) => {
+    const [integerPart, decimalPart] = amount.split(',');
+    if (
+      integerPart.length <= 9 &&
+      ((decimalPart && decimalPart?.length <= 3) || !decimalPart)
+    ) {
+      setAmount(amount);
+    }
+  };
+
+  const reset = () => {
+    setNote(undefined);
+    setDate(dayjs());
+    setAmount('0');
+    setCategory(null);
+  };
+
   const handleSave = () => {
-    console.log({
-      mode,
-      amount,
-      categoryId: category?.id,
+    createTransactionMutation.mutate({
+      amount: Number(amount),
+      currency: account.currency,
       accountId: account.id,
-      date: date,
+      categoryId: category?.id,
+      occurredAt: now(),
+      note,
+      type: mode,
+      mainCurrency: accountCurrency?.currency!,
+      exchangeRateToMainCurrency: 0,
     });
+
+    reset();
   };
 
   return {
-    isDark,
+    isLoading: createTransactionMutation.isPending,
     colors,
-    isLoading,
     accounts: summary?.accounts,
     categories,
     dateTimePickerSheetRef,
@@ -108,10 +131,10 @@ export const useAddTransactionViewModel = () => {
     account,
     amount,
     category,
+    note,
     setMode,
-    setAmount,
     setCategory,
-    setDate,
+    setNote,
     openDateTimePickerSheet,
     openAccountSheet,
     openCategorySheet,
@@ -119,6 +142,7 @@ export const useAddTransactionViewModel = () => {
     handleSelectCategory,
     handleSelectAccount,
     handleSelectDateTimePicker,
+    handleChangeAmount,
     handleSave,
   };
 };

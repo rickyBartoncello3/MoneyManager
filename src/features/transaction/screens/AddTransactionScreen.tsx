@@ -15,36 +15,40 @@ import {useAddTransactionViewModel} from '@/src/features/transaction/hooks/useAd
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {ICON_NAMES} from '@/src/shared/constants/iconNames';
 import {Box} from '@/src/features/transaction/components/Box/Box';
-import {Button} from '@/src/shared/components/ui/Button';
+import {Button} from '@/src/shared/components/ui/Button/Button';
 import {AccountSheet} from '@/src/features/transaction/components/AccountSheet/AccountSheet';
 import dayjs from 'dayjs';
 import {DateTimePickerSheet} from '@/src/features/transaction/components/DateTimePickerSheet/DateTimePickerSheet';
+import {AmountBlock} from '@/src/features/transaction/components/AmountBlock/AmountBlock';
 
 export const AddTransactionScreen = () => {
   const {
+    isLoading,
     colors,
-    categories,
     accounts,
+    categories,
     dateTimePickerSheetRef,
     accountSheetRef,
     categorySheetRef,
     keyboardSheetRef,
     mode,
     date,
-    amount,
     account,
+    amount,
     category,
+    note,
     setMode,
-    setAmount,
     setCategory,
+    setNote,
     openDateTimePickerSheet,
     openAccountSheet,
     openCategorySheet,
-    handleSelectAccount,
     openKeyboardSheet,
     handleSelectCategory,
-    handleSave,
+    handleSelectAccount,
     handleSelectDateTimePicker,
+    handleChangeAmount,
+    handleSave,
   } = useAddTransactionViewModel();
   const {top} = useSafeAreaInsets();
 
@@ -61,7 +65,7 @@ export const AddTransactionScreen = () => {
     >
       <CustomView margin isScrolling={false}>
         <View style={[styles.container, {marginTop: top}]}>
-          <View>
+          <View style={styles.boxContainer}>
             <View style={styles.header}>
               <Pressable onPress={() => router.back()}>
                 <Text weight={700} size={26}>
@@ -79,7 +83,6 @@ export const AddTransactionScreen = () => {
                 </Text>
               </Pressable>
             </View>
-
             <SegmentedButtons
               value={mode}
               onValueChange={value => {
@@ -93,19 +96,7 @@ export const AddTransactionScreen = () => {
               ]}
               style={styles.segmented}
             />
-
-            <Pressable onPress={openKeyboardSheet} style={styles.amountBlock}>
-              <Text weight={700} size={12} style={styles.amountLabel}>
-                Amount
-              </Text>
-              <Text
-                size={46}
-                weight={900}
-                style={[styles.amount, {color: colors.primary}]}
-              >
-                {amount}
-              </Text>
-            </Pressable>
+            <AmountBlock amount={amount} onPress={openKeyboardSheet} />
             <View style={styles.boxContainer}>
               <View style={styles.row}>
                 <Box
@@ -145,6 +136,7 @@ export const AddTransactionScreen = () => {
                 title={'Note'}
                 subTitle={
                   <TextInput
+                    value={note}
                     placeholder={'Add a note'}
                     mode={'outlined'}
                     outlineColor={'transparent'}
@@ -158,6 +150,7 @@ export const AddTransactionScreen = () => {
                     }}
                     textAlign={'left'}
                     textAlignVertical={'top'}
+                    onChangeText={setNote}
                   />
                 }
                 onPress={() => {}}
@@ -168,7 +161,12 @@ export const AddTransactionScreen = () => {
               />
             </View>
           </View>
-          <Button onPress={handleSave} text={'Save Transaction'} />
+          <Button
+            loading={isLoading}
+            disabled={Number(amount) === 0 || !category}
+            onPress={handleSave}
+            text={'Save Transaction'}
+          />
 
           <DateTimePickerSheet
             bottomSheetRef={dateTimePickerSheetRef}
@@ -193,7 +191,7 @@ export const AddTransactionScreen = () => {
           <AmountKeyboardSheet
             bottomSheetRef={keyboardSheetRef}
             amount={amount}
-            onChangeAmount={setAmount}
+            onChangeAmount={handleChangeAmount}
           />
         </View>
       </CustomView>

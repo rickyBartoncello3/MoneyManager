@@ -1,5 +1,5 @@
 import React, {useContext, useMemo, useState} from 'react';
-import {Pressable, View} from 'react-native';
+import {View} from 'react-native';
 
 import Text from '@/src/shared/components/ui/Text/Text';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
@@ -7,12 +7,13 @@ import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import styles from './AmountKeyboardSheet.styles';
 import {AmountKeyboardSheetProps} from '@/src/features/transaction/components/AmountKeyboardSheet/interfaces';
 import {BottomSheetModal} from '@/src/shared/components/ui/BottomSheetModal/BottomSheetModal';
-import {Button} from '@/src/shared/components/ui/Button';
+import {Button} from '@/src/shared/components/ui/Button/Button';
 import {Key} from '@/src/features/transaction/components/Key/Key';
+import {TouchableRipple} from 'react-native-paper';
 
-const smartButtons = ['+100', '+500', '+1,000'];
-const keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', ',', '0', '='];
-const operators = ['+', '-', '×', '/', '⌫'];
+const smartAddButtons = ['+100', '+500', '+1,000'];
+const numberKeys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', ',', '0', '='];
+const operatorKeys = ['+', '-', '×', '/', '⌫'];
 
 export const AmountKeyboardSheet = ({
   bottomSheetRef,
@@ -32,7 +33,10 @@ export const AmountKeyboardSheet = ({
       return;
     }
 
-    if (key === '=') {
+    const isOperator = operatorKeys.includes(key);
+    const isOperation = /^\d+(\.\d+)?[+\-×\/]\d+(\.\d+)?$/.test(expression);
+
+    if (key === '=' || (isOperation && isOperator)) {
       try {
         const safeExpression = expression.replace(/,/g, '.').replace(/×/g, '*');
 
@@ -40,7 +44,11 @@ export const AmountKeyboardSheet = ({
 
         const result = Function(`"use strict"; return (${safeExpression})`)();
 
-        const next = Number(result).toFixed(2);
+        const formattedResult = Number.isInteger(result)
+          ? result.toString()
+          : Number(result).toFixed(2);
+
+        const next = isOperator ? `${formattedResult}${key}` : formattedResult;
 
         setExpression(next);
         onChangeAmount(next);
@@ -51,7 +59,14 @@ export const AmountKeyboardSheet = ({
       return;
     }
 
-    const next = expression === '0' ? key : `${expression}${key}`;
+    const lastIndexIsOperation = operatorKeys.includes(expression[expression.length - 1]);
+
+    const next =
+      expression === '0'
+        ? key
+        : lastIndexIsOperation && !numberKeys.includes(key)
+          ? expression
+          : `${expression}${key}`;
     setExpression(next);
     onChangeAmount(next);
   };
@@ -69,8 +84,9 @@ export const AmountKeyboardSheet = ({
     <BottomSheetModal bottomSheetRef={bottomSheetRef} snapPoints={snapPoints}>
       <View style={styles.root}>
         <View style={styles.smartAddRow}>
-          {smartButtons.map(button => (
-            <Pressable
+          {smartAddButtons.map(button => (
+            <TouchableRipple
+              borderless
               key={button}
               onPress={() => handleSmartAdd(button)}
               style={styles.smartAddButton}
@@ -78,20 +94,23 @@ export const AmountKeyboardSheet = ({
               <Text size={14} weight={800} style={{color: colors.primary}}>
                 {button}
               </Text>
-            </Pressable>
+            </TouchableRipple>
           ))}
         </View>
+
         <View style={styles.keyboardGrid}>
-          {operators.map((key, index) => (
-            <Key key={index} keyItem={key} handlePressKey={handlePressKey} />
+          {operatorKeys.map(key => (
+            <Key key={key} keyItem={key} handlePressKey={handlePressKey} />
           ))}
         </View>
+
         <View style={styles.keyboardGrid}>
-          {keys.map((key, index) => (
-            <Key key={index} keyItem={key} handlePressKey={handlePressKey} />
+          {numberKeys.map(key => (
+            <Key key={key} keyItem={key} handlePressKey={handlePressKey} />
           ))}
         </View>
-        <Button text={'Save'} onPress={() => bottomSheetRef.current?.dismiss()} />
+
+        <Button text="Save" onPress={() => bottomSheetRef.current?.dismiss()} />
       </View>
     </BottomSheetModal>
   );

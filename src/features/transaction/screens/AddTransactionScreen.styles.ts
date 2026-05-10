@@ -17,14 +17,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
 
-  segmented: {
-    marginTop: 8,
-    marginBottom: 26,
-  },
+  segmented: {},
 
   amountBlock: {
     alignItems: 'center',
-    marginBottom: 28,
   },
 
   amountLabel: {

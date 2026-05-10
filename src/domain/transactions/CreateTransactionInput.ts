@@ -2,7 +2,7 @@ import {CurrencyCode} from '@/src/domain/money/Currency';
 import {TransactionType} from './TransactionType';
 
 export type CreateTransactionInput = {
-  type: Exclude<TransactionType, 'transfer'>;
+  type: TransactionType;
   amount: number;
   currency: CurrencyCode;
   accountId: string;
