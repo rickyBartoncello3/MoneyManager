@@ -1,4 +1,5 @@
-import {StyleSheet, TextStyle} from 'react-native';
+import {StyleSheet} from 'react-native';
+import {moderateScale} from '@/src/shared/theme/scaling';
 export interface ThemeColors {
   // Brand
   primary: string;
@@ -79,7 +80,7 @@ export interface ThemeFontSize {
 
 export interface ThemeTabLabelText {
   fontSize: number;
-  fontWeight: TextStyle['fontWeight'];
+  fontWeight: number;
   fontFamily: string;
   activeColor: string;
   inactiveColor: string;
@@ -196,12 +197,12 @@ export const darkColors: ThemeColors = {
 };
 
 export const spacing: ThemeSpacing = {
-  xs: 4,
-  sm: 8,
-  md: 12,
-  lg: 16,
-  xl: 20,
-  xxl: 24,
+  xs: moderateScale(4),
+  sm: moderateScale(8),
+  md: moderateScale(12),
+  lg: moderateScale(16),
+  xl: moderateScale(20),
+  xxl: moderateScale(24),
 };
 
 export const radius: ThemeRadius = {
@@ -224,7 +225,7 @@ export const fontSize: ThemeFontSize = {
 
 const lightTabLabel: ThemeTabLabelText = {
   fontSize: 12,
-  fontWeight: '600',
+  fontWeight: 600,
   fontFamily: 'System',
   activeColor: '#16A34A',
   inactiveColor: '#64748B',
@@ -232,7 +233,7 @@ const lightTabLabel: ThemeTabLabelText = {
 
 const darkTabLabel: ThemeTabLabelText = {
   fontSize: 12,
-  fontWeight: '600',
+  fontWeight: 600,
   fontFamily: 'System',
   activeColor: '#22C55E',
   inactiveColor: '#94A3B8',

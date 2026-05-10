@@ -5,7 +5,7 @@ import {CardProps} from '@/src/shared/components/ui/Card/interfaces';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 
 export const Card = ({children, style}: CardProps) => {
-  const {colors} = useContext(ThemeContext);
+  const {colors, currentTheme} = useContext(ThemeContext);
 
   return (
     <RNCard
@@ -15,11 +15,14 @@ export const Card = ({children, style}: CardProps) => {
         {
           backgroundColor: colors.insightCardBackground,
           borderColor: colors.border,
+          borderRadius: currentTheme.radius.xl,
         },
         style,
       ]}
     >
-      <RNCard.Content style={styles.content}>{children}</RNCard.Content>
+      <RNCard.Content style={{padding: currentTheme.spacing.xs}}>
+        {children}
+      </RNCard.Content>
     </RNCard>
   );
 };

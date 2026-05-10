@@ -16,7 +16,9 @@ export const Button = ({text, styles, onPress, ...props}: ButtonProps) => {
       style={[
         globalStyles.btnPrimary,
         {
-          backgroundColor: props.disabled ? colors.badgeBackground : colors.primary,
+          backgroundColor: props.disabled
+            ? currentTheme.tabLabel.inactiveColor
+            : currentTheme.tabLabel.activeColor,
         },
         styles,
       ]}

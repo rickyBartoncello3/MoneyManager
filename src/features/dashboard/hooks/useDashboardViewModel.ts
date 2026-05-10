@@ -1,5 +1,3 @@
-// src/features/dashboard/hooks/useDashboardViewModel.ts
-
 import {useMemo} from 'react';
 import {useDashboardQuery} from '../queries/useDashboardQuery';
 import {useSettingsStore} from '@/src/store/settings/slice';

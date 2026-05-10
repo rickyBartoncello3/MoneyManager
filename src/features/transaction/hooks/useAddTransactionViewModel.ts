@@ -1,7 +1,4 @@
-// src/features/dashboard/hooks/useDashboardViewModel.ts
-
-import {useContext, useMemo, useRef, useState} from 'react';
-import {ThemeContext} from '@/src/application/providers/ThemeProvider';
+import {useMemo, useRef, useState} from 'react';
 import {useCategoriesQuery} from '@/src/features/categories/queries/useCategoriesQuery';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
 import {
@@ -18,7 +15,6 @@ import {useCreateTransactionMutation} from '@/src/features/transactions/queries/
 import {now} from '@/src/core/date/now';
 
 export const useAddTransactionViewModel = () => {
-  const {colors} = useContext(ThemeContext);
   const {data = []} = useCategoriesQuery();
   const accountIdCurrency = useSettingsStore(state => state.accountIdCurrency);
   const selectedMonth = useMemo(() => getCurrentMonth(), []);
@@ -119,7 +115,6 @@ export const useAddTransactionViewModel = () => {
 
   return {
     isLoading: createTransactionMutation.isPending,
-    colors,
     accounts: summary?.accounts,
     categories,
     dateTimePickerSheetRef,

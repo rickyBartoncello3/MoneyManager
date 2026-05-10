@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Pressable, View} from 'react-native';
 import {SegmentedButtons, TextInput} from 'react-native-paper';
 import {router} from 'expo-router';
@@ -20,11 +20,11 @@ import {AccountSheet} from '@/src/features/transaction/components/AccountSheet/A
 import dayjs from 'dayjs';
 import {DateTimePickerSheet} from '@/src/features/transaction/components/DateTimePickerSheet/DateTimePickerSheet';
 import {AmountBlock} from '@/src/features/transaction/components/AmountBlock/AmountBlock';
+import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 
 export const AddTransactionScreen = () => {
   const {
     isLoading,
-    colors,
     accounts,
     categories,
     dateTimePickerSheetRef,
@@ -51,6 +51,7 @@ export const AddTransactionScreen = () => {
     handleSave,
   } = useAddTransactionViewModel();
   const {top} = useSafeAreaInsets();
+  const {colors, currentTheme} = useContext(ThemeContext);
 
   return (
     <KeyboardAwareScrollView
@@ -65,7 +66,7 @@ export const AddTransactionScreen = () => {
     >
       <CustomView margin isScrolling={false}>
         <View style={[styles.container, {marginTop: top}]}>
-          <View style={styles.boxContainer}>
+          <View style={{gap: currentTheme.spacing.md}}>
             <View style={styles.header}>
               <Pressable onPress={() => router.back()}>
                 <Text weight={700} size={26}>
@@ -84,6 +85,14 @@ export const AddTransactionScreen = () => {
               </Pressable>
             </View>
             <SegmentedButtons
+              theme={{
+                colors: {
+                  secondaryContainer: colors.primary,
+                  onSecondaryContainer: colors.text,
+                  primary: colors.primary,
+                  outline: colors.border,
+                },
+              }}
               value={mode}
               onValueChange={value => {
                 setMode(value as TransactionMode);
@@ -94,10 +103,9 @@ export const AddTransactionScreen = () => {
                 {value: 'income', label: 'Income'},
                 {value: 'transfer', label: 'Transfer'},
               ]}
-              style={styles.segmented}
             />
             <AmountBlock amount={amount} onPress={openKeyboardSheet} />
-            <View style={styles.boxContainer}>
+            <View style={{gap: currentTheme.spacing.md}}>
               <View style={styles.row}>
                 <Box
                   title={'Account'}

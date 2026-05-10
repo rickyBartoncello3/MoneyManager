@@ -1,9 +1,10 @@
 import React, {FC, useContext, useMemo} from 'react';
-import {TouchableOpacity, View, TouchableOpacityProps} from 'react-native';
+import {View, TouchableOpacityProps} from 'react-native';
 import styles from './TabBarButton.styles';
 import {TabBarButtonProps} from './interfaces';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import Text from '@/src/shared/components/ui/Text/Text';
+import {TouchableRipple} from 'react-native-paper';
 
 const TabBarButton: FC<TabBarButtonProps & TouchableOpacityProps> = ({
   title,
@@ -15,7 +16,7 @@ const TabBarButton: FC<TabBarButtonProps & TouchableOpacityProps> = ({
   const tabLabel = useMemo(() => currentTheme.tabLabel, [currentTheme.tabLabel]);
 
   return (
-    <TouchableOpacity {...props} style={styles.root}>
+    <TouchableRipple borderless {...props} style={styles.root}>
       <View style={styles.container}>
         <View style={styles.iconWrapper}>
           {renderIcon({
@@ -25,7 +26,7 @@ const TabBarButton: FC<TabBarButtonProps & TouchableOpacityProps> = ({
         </View>
         <Text
           size={tabLabel.fontSize}
-          weight={isFocused ? tabLabel.fontWeight : 400}
+          weight={isFocused ? Number(tabLabel.fontWeight) : 400}
           style={[
             styles.label,
             {
@@ -36,7 +37,7 @@ const TabBarButton: FC<TabBarButtonProps & TouchableOpacityProps> = ({
           {title}
         </Text>
       </View>
-    </TouchableOpacity>
+    </TouchableRipple>
   );
 };
 
