@@ -5,29 +5,29 @@ export const devResetAllTables = async () => {
     DROP TABLE IF EXISTS accounts;
   `);
 
-  console.log('[DB] accounts table reset successfully');
+  console.info('[DB] accounts table reset successfully');
 
   await db.exec(`
     DROP TABLE IF EXISTS categories;
   `);
 
-  console.log('[DB] categories table reset successfully');
+  console.info('[DB] categories table reset successfully');
 
   await db.exec(`
     DROP TABLE IF EXISTS currencies;
   `);
 
-  console.log('[DB] currencies table reset successfully');
+  console.info('[DB] currencies table reset successfully');
 
   await db.exec(`
     DROP TABLE IF EXISTS exchange_rates;
   `);
 
-  console.log('[DB] exchange_rates table reset successfully');
+  console.info('[DB] exchange_rates table reset successfully');
 
   await db.exec(`
     DROP TABLE IF EXISTS transactions;
   `);
 
-  console.log('[DB] transactions table reset successfully');
+  console.info('[DB] transactions table reset successfully');
 };

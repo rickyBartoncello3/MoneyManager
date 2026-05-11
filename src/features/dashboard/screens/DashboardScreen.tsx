@@ -24,7 +24,6 @@ const DashboardScreen = () => {
   }
 
   if (vm.error || !vm.data) {
-    console.log('Error loading dashboard data:', vm.error);
     return (
       <CustomView>
         <Text size={22} weight={900}>

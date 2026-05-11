@@ -1,3 +1,4 @@
+import * as SQLite from 'expo-sqlite';
 import {getMonthRange} from '@/src/shared/utils/getMonthRange';
 import {TransactionFilters} from '@/src/domain/transactions/TransactionFilters';
 
@@ -20,7 +21,7 @@ export const buildFiltersWhere = (filters?: TransactionFilters) => {
     params.push(filters.type);
   }
 
-  if (filters?.accountId) {
+  if (filters?.accountId && filters.accountId !== 'acc_all') {
     where.push('account_id = ?');
     params.push(filters.accountId);
   }
@@ -37,6 +38,6 @@ export const buildFiltersWhere = (filters?: TransactionFilters) => {
 
   return {
     whereSql: where.join(' AND '),
-    params,
+    params: params as SQLite.SQLiteBindParams,
   };
 };

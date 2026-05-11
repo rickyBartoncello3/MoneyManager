@@ -137,4 +137,55 @@ export const transactionLocalDataSource = {
       params,
     );
   },
+
+  async findById(id: string): Promise<TransactionRow | null> {
+    const row = await db.getFirst<TransactionRow>(
+      `
+      SELECT *
+      FROM transactions
+      WHERE id = ?
+        AND deleted_at IS NULL
+      LIMIT 1;
+      `,
+      [id],
+    );
+
+    return row ?? null;
+  },
+
+  async update(row: TransactionRow) {
+    await db.run(
+      `
+      UPDATE transactions
+      SET
+        type = ?,
+        amount = ?,
+        currency = ?,
+        amount_in_main_currency = ?,
+        main_currency = ?,
+        account_id = ?,
+        category_id = ?,
+        occurred_at = ?,
+        note = ?,
+        exchange_rate_to_main_currency = ?,
+        updated_at = ?
+      WHERE id = ?
+        AND deleted_at IS NULL;
+      `,
+      [
+        row.type,
+        row.amount,
+        row.currency,
+        row.amount_in_main_currency,
+        row.main_currency,
+        row.account_id,
+        row.category_id,
+        row.occurred_at,
+        row.note,
+        row.exchange_rate_to_main_currency,
+        row.updated_at,
+        row.id,
+      ],
+    );
+  },
 };

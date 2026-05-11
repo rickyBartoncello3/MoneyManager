@@ -6,19 +6,19 @@ import {
 
 type State = {
   theme: ThemeMode;
-  accountIdCurrency: string;
+  accountIdCurrent: string;
 };
 
 const initialState: State = {
   theme: 'system',
-  accountIdCurrency: 'acc_cash_ars',
+  accountIdCurrent: 'acc_cash_ars',
 };
 
 type Action = {
   theme: ThemeMode;
-  accountIdCurrency: string;
+  accountIdCurrent: string;
   setTheme: (theme: ThemeMode) => void;
-  setAccountCurrency: (account: string) => void;
+  setAccountCurrent: (account: string) => void;
   hydrate: () => Promise<void>;
 };
 
@@ -30,18 +30,18 @@ export const useSettingsStore = create<State & Action>(set => ({
     set({theme});
   },
 
-  setAccountCurrency: account => {
-    settingsLocalDataSource.setAccountCurrency(account);
-    set({accountIdCurrency: account});
+  setAccountCurrent: account => {
+    settingsLocalDataSource.setAccountCurrent(account);
+    set({accountIdCurrent: account});
   },
 
   hydrate: async () => {
     const theme = await settingsLocalDataSource.getTheme();
-    const currency = await settingsLocalDataSource.getAccountCurrency();
+    const current = await settingsLocalDataSource.getAccountCurrent();
 
     set({
       theme,
-      accountIdCurrency: currency,
+      accountIdCurrent: current,
     });
   },
 }));

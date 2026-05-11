@@ -5,24 +5,24 @@ import {seedDefaultCurrencies} from '@/src/core/database/seed/seedDefaultCurrenc
 import {seedMonefyAprilMayTransactions} from '@/src/core/database/seed/seedMonefyAprilMayTransactions';
 
 export const bootstrapApp = async () => {
-  console.log('[BOOTSTRAP] starting');
+  console.info('[BOOTSTRAP] starting');
 
   await runMigrations();
-  console.log('[BOOTSTRAP] migrations done');
+  console.info('[BOOTSTRAP] migrations done');
 
   await seedDefaultAccounts();
-  console.log('[BOOTSTRAP] accounts seeded');
+  console.info('[BOOTSTRAP] accounts seeded');
 
   await seedDefaultCategories();
-  console.log('[BOOTSTRAP] categories seeded');
+  console.info('[BOOTSTRAP] categories seeded');
 
   await seedDefaultCurrencies();
-  console.log('[BOOTSTRAP] currencies seeded');
+  console.info('[BOOTSTRAP] currencies seeded');
 
   await seedMonefyAprilMayTransactions();
-  console.log('[BOOTSTRAP] seedMonefyAprilMayTransactions');
+  console.info('[BOOTSTRAP] seedMonefyAprilMayTransactions');
 
   //await devResetAllTables();
 
-  console.log('[BOOTSTRAP] finished');
+  console.info('[BOOTSTRAP] finished');
 };

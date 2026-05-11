@@ -19,8 +19,6 @@ export const TransactionMovementRow = ({
   const category = categories.find(item => item.id === transaction.categoryId);
   const {colors} = useContext(ThemeContext);
 
-  console.log(transaction);
-
   const isIncome = transaction.type === 'income';
 
   return (
@@ -28,6 +26,7 @@ export const TransactionMovementRow = ({
       onPress={() =>
         router.push({
           pathname: '/add-transaction',
+          params: {transactionId: transaction.id},
         })
       }
     >

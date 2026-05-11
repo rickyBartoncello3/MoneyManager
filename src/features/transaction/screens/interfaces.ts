@@ -15,3 +15,7 @@ export type SmartAmountButton = {
   label: string;
   value: string;
 };
+
+export type RouteParams = {
+  transactionId?: string;
+};

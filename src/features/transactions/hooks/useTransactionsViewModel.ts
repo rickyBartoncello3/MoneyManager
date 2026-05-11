@@ -1,78 +1,101 @@
 import {useMemo, useState} from 'react';
+
+import {Account} from '@/src/domain/accounts/Account';
+import {useAccountsQuery} from '@/src/features/accounts/queries/useAccountsQuery';
 import {useCategoriesQuery} from '@/src/features/categories/queries/useCategoriesQuery';
-import {useSettingsStore} from '@/src/store/settings/slice';
 import {GroupMode, interfaces} from '@/src/features/transactions/screens/interfaces';
 import {useTransactionsQuery} from '@/src/features/transactions/queries/useTransactionsQuery';
-import {useAccountsQuery} from '@/src/features/accounts/queries/useAccountsQuery';
-import {Account} from '@/src/domain/accounts/Account';
+import {useSettingsStore} from '@/src/store/settings/slice';
+import {ICON_NAMES} from '@/src/shared/constants/iconNames';
+import {ALL_ACCOUNTS_ID} from '@/src/constants/settings';
+
+const allAccountsOption: Account = {
+  id: ALL_ACCOUNTS_ID,
+  name: 'All accounts',
+  icon: ICON_NAMES.NOTE,
+  type: 'cash',
+  currencyCode: 'ARS',
+  includeInTotal: false,
+  initialBalanceMinor: 0,
+  archivedAt: '',
+  createdAt: '',
+  deletedAt: '',
+  updatedAt: '',
+};
 
 export const useTransactionsViewModel = () => {
-  const accountIdCurrency = useSettingsStore(state => state.accountIdCurrency);
+  const currentAccountId = useSettingsStore(state => state.accountIdCurrent);
+
   const {data: accounts = []} = useAccountsQuery();
-  const accountCurrency = accounts.find(account => account.id === accountIdCurrency)!;
-  const selectedAccountId = accountIdCurrency;
+  const {data: categories = []} = useCategoriesQuery();
 
-  const [selectedAccount, setSelectedAccount] = useState<Account>(accountCurrency);
-  console.log(accountIdCurrency, accountCurrency, selectedAccount);
+  const [selectedAccountId, setSelectedAccountId] = useState(currentAccountId);
   const [groupMode, setGroupMode] = useState<GroupMode>('day');
-
   const [expandedGroupIds, setExpandedGroupIds] = useState<string[]>([]);
+
+  const accountsOptions = useMemo(() => [allAccountsOption, ...accounts], [accounts]);
+
+  const selectedAccount = useMemo(
+    () =>
+      accountsOptions.find(account => account.id === selectedAccountId) ??
+      accountsOptions.find(account => account.id === currentAccountId) ??
+      allAccountsOption,
+    [accountsOptions, selectedAccountId, currentAccountId],
+  );
+
+  const transactionFilters = useMemo(
+    () => ({
+      accountId: selectedAccount.id === ALL_ACCOUNTS_ID ? undefined : selectedAccount.id,
+    }),
+    [selectedAccount.id],
+  );
 
   const {
     data: transactions = [],
     isLoading: isLoadingTransactions,
     error: transactionsError,
-  } = useTransactionsQuery({
-    accountId: selectedAccountId,
-  });
-  const {data: categories = []} = useCategoriesQuery();
+  } = useTransactionsQuery(transactionFilters);
 
-  const groups = useMemo(() => {
-    return interfaces({
-      transactions,
-      categories,
-      mode: groupMode,
-    });
-  }, [transactions, categories, groupMode]);
+  const groups = useMemo(
+    () =>
+      interfaces({
+        transactions,
+        categories,
+        mode: groupMode,
+      }),
+    [transactions, categories, groupMode],
+  );
 
   const areAllExpanded = groups.length > 0 && expandedGroupIds.length === groups.length;
 
   const handleToggleGroup = (groupId: string) => {
-    setExpandedGroupIds(current => {
-      if (current.includes(groupId)) {
-        return current.filter(id => id !== groupId);
-      }
-
-      return [...current, groupId];
-    });
+    setExpandedGroupIds(currentGroupIds =>
+      currentGroupIds.includes(groupId)
+        ? currentGroupIds.filter(currentGroupId => currentGroupId !== groupId)
+        : [...currentGroupIds, groupId],
+    );
   };
 
   const handleToggleExpandAll = () => {
-    if (areAllExpanded) {
-      setExpandedGroupIds([]);
-      return;
-    }
-
-    setExpandedGroupIds(groups.map(group => group.id));
+    setExpandedGroupIds(areAllExpanded ? [] : groups.map(group => group.id));
   };
 
-  const handleChangeGroupMode = (nextMode: GroupMode) => {
-    setGroupMode(nextMode);
+  const handleChangeGroupMode = (nextGroupMode: GroupMode) => {
+    setGroupMode(nextGroupMode);
     setExpandedGroupIds([]);
   };
 
   const handleSelectAccount = (accountId: string) => {
-    const account = accounts.find(account => account.id === accountId)!;
-    setSelectedAccount(account);
+    setSelectedAccountId(accountId);
     setExpandedGroupIds([]);
   };
 
   return {
-    accounts,
+    accounts: accountsOptions,
     transactions,
     transactionsError,
     isLoadingTransactions,
-    selectedAccount: selectedAccount || accountCurrency,
+    selectedAccount,
     groupMode,
     areAllExpanded,
     groups,

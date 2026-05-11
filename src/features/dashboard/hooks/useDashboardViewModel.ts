@@ -4,7 +4,7 @@ import {useSettingsStore} from '@/src/store/settings/slice';
 import {getCurrentMonth} from '@/src/shared/utils/getCurrentMonth';
 
 export const useDashboardViewModel = () => {
-  const accountIdCurrency = useSettingsStore(state => state.accountIdCurrency);
+  const accountIdCurrency = useSettingsStore(state => state.accountIdCurrent);
 
   const selectedMonth = useMemo(() => getCurrentMonth(), []);
 

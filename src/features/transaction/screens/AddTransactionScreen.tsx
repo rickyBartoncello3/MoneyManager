@@ -8,7 +8,6 @@ import Text from '@/src/shared/components/ui/Text/Text';
 import {CustomView} from '@/src/shared/components/ui/CustomView';
 
 import styles from './AddTransactionScreen.styles';
-import {TransactionMode} from '@/src/features/transaction/screens/interfaces';
 import {AmountKeyboardSheet} from '@/src/features/transaction/components/AmountKeyboardSheet/AmountKeyboardSheet';
 import {CategorySheet} from '@/src/features/transaction/components/CategorySheet/CategorySheet';
 import {useAddTransactionViewModel} from '@/src/features/transaction/hooks/useAddTransactionViewModel';
@@ -22,35 +21,10 @@ import {DateTimePickerSheet} from '@/src/features/transaction/components/DateTim
 import {AmountBlock} from '@/src/features/transaction/components/AmountBlock/AmountBlock';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import {SegmentedButtons} from '@/src/shared/components/ui/SegmentedButtons/SegmentedButtons';
+import {TransactionsModes} from '@/src/constants/transactionsModes';
 
 export const AddTransactionScreen = () => {
-  const {
-    isLoading,
-    accounts,
-    categories,
-    dateTimePickerSheetRef,
-    accountSheetRef,
-    categorySheetRef,
-    keyboardSheetRef,
-    mode,
-    date,
-    account,
-    amount,
-    category,
-    note,
-    setMode,
-    setCategory,
-    setNote,
-    openDateTimePickerSheet,
-    openAccountSheet,
-    openCategorySheet,
-    openKeyboardSheet,
-    handleSelectCategory,
-    handleSelectAccount,
-    handleSelectDateTimePicker,
-    handleChangeAmount,
-    handleSave,
-  } = useAddTransactionViewModel();
+  const vm = useAddTransactionViewModel();
   const {top} = useSafeAreaInsets();
   const {colors, currentTheme} = useContext(ThemeContext);
 
@@ -79,40 +53,33 @@ export const AddTransactionScreen = () => {
                 Add Transaction
               </Text>
 
-              <Pressable onPress={handleSave}>
+              <Pressable onPress={vm.handleSave}>
                 <Text weight={700} size={22}>
                   ✓
                 </Text>
               </Pressable>
             </View>
             <SegmentedButtons
-              initialValue={mode}
-              handleOnChange={value => {
-                setMode(value as TransactionMode);
-                setCategory(null);
-              }}
-              values={[
-                {value: 'expense', label: 'Expense'},
-                {value: 'income', label: 'Income'},
-                {value: 'transfer', label: 'Transfer'},
-              ]}
+              initialValue={vm.transactionMode}
+              handleOnChange={vm.handleTransactionModeChange}
+              values={TransactionsModes}
             />
-            <AmountBlock amount={amount} onPress={openKeyboardSheet} />
+            <AmountBlock amount={vm.amount} onPress={vm.openKeyboard} />
             <View style={{gap: currentTheme.spacing.md}}>
               <View style={styles.row}>
                 <Box
                   title={'Account'}
-                  subTitle={account.name}
-                  onPress={openAccountSheet}
+                  subTitle={vm.selectedAccount?.name}
+                  onPress={vm.openAccountSelector}
                   icon={{
-                    name: account.icon,
+                    name: vm.selectedAccount?.icon || ICON_NAMES.WALLET,
                     color: colors.text,
                   }}
                 />
                 <Box
                   title="Date"
-                  subTitle={dayjs(date).format('MMM D, YYYY')}
-                  onPress={openDateTimePickerSheet}
+                  subTitle={dayjs(vm.selectedDate).format('MMM D, YYYY')}
+                  onPress={vm.openDatePicker}
                   icon={{
                     name: ICON_NAMES.CALENDAR,
                     color: colors.text,
@@ -121,14 +88,14 @@ export const AddTransactionScreen = () => {
               </View>
               <Box
                 title={'Currency'}
-                subTitle={category?.name ?? 'Select a category'}
-                onPress={openCategorySheet}
+                subTitle={vm.selectedCategory?.name ?? 'Select a category'}
+                onPress={vm.openCategorySelector}
                 icon={
-                  category
+                  vm.selectedCategory
                     ? {
-                        name: category?.icon,
-                        color: category?.color,
-                        backgroundColor: category?.backgroundColor,
+                        name: vm.selectedCategory?.icon,
+                        color: vm.selectedCategory?.color,
+                        backgroundColor: vm.selectedCategory?.backgroundColor,
                       }
                     : null
                 }
@@ -137,7 +104,7 @@ export const AddTransactionScreen = () => {
                 title={'Note'}
                 subTitle={
                   <TextInput
-                    value={note}
+                    value={vm.note}
                     placeholder={'Add a note'}
                     mode={'outlined'}
                     outlineColor={'transparent'}
@@ -151,7 +118,7 @@ export const AddTransactionScreen = () => {
                     }}
                     textAlign={'left'}
                     textAlignVertical={'top'}
-                    onChangeText={setNote}
+                    onChangeText={vm.setNote}
                   />
                 }
                 onPress={() => {}}
@@ -163,36 +130,36 @@ export const AddTransactionScreen = () => {
             </View>
           </View>
           <Button
-            loading={isLoading}
-            disabled={Number(amount) === 0 || !category}
-            onPress={handleSave}
+            loading={vm.isLoading}
+            disabled={Number(vm.amount) === 0 || !vm.selectedCategory}
+            onPress={vm.handleSave}
             text={'Save Transaction'}
           />
 
           <DateTimePickerSheet
-            bottomSheetRef={dateTimePickerSheetRef}
-            date={date}
-            onSelectDate={handleSelectDateTimePicker}
+            bottomSheetRef={vm.datePickerSheetRef}
+            date={vm.selectedDate}
+            onSelectDate={vm.handleDateSelection}
           />
 
           <AccountSheet
-            bottomSheetRef={accountSheetRef}
-            accounts={accounts!}
-            selectedAccountId={account?.id}
-            onSelectAccount={handleSelectAccount}
+            bottomSheetRef={vm.accountSheetRef}
+            accounts={vm.accounts!}
+            selectedAccountId={vm.selectedAccount?.id}
+            onSelectAccount={vm.handleAccountSelection}
           />
 
           <CategorySheet
-            bottomSheetRef={categorySheetRef}
-            categories={categories}
-            selectedCategoryId={category?.id}
-            onSelectCategory={handleSelectCategory}
+            bottomSheetRef={vm.categorySheetRef}
+            categories={vm.categories}
+            selectedCategoryId={vm.selectedCategory?.id}
+            onSelectCategory={vm.handleCategorySelection}
           />
 
           <AmountKeyboardSheet
-            bottomSheetRef={keyboardSheetRef}
-            amount={amount}
-            onChangeAmount={handleChangeAmount}
+            bottomSheetRef={vm.keyboardSheetRef}
+            amount={vm.amount}
+            onChangeAmount={vm.handleAmountChange}
           />
         </View>
       </CustomView>

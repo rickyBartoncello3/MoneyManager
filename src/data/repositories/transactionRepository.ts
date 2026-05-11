@@ -3,6 +3,7 @@ import {CreateTransactionInput} from '@/src/domain/transactions/CreateTransactio
 import {transactionLocalDataSource} from '@/src/data/local/transactions/transactionLocalDataSource';
 import {transactionMapper} from '@/src/data/mappers/transactionMapper';
 import {TransactionFilters} from '@/src/domain/transactions/TransactionFilters';
+import {Transaction} from '@/src/domain/transactions/Transaction';
 
 export const transactionRepository = {
   async getTransactions() {
@@ -34,5 +35,13 @@ export const transactionRepository = {
     const rows = await transactionLocalDataSource.findByFilters(filters);
 
     return rows.map(transactionMapper.localRowToDomain);
+  },
+
+  async update(transaction: Transaction) {
+    await transactionLocalDataSource.update(
+      transactionMapper.domainToLocalRow(transaction),
+    );
+
+    return transaction;
   },
 };

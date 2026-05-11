@@ -1,5 +1,6 @@
 import {CurrencyCode} from '@/src/domain/currencies/Currency';
 import {storage} from '@/src/core/storage/asyncStorage';
+import {DEFAULT_CURRENCY_CODE} from '@/src/constants/settings';
 export type ThemeMode = 'light' | 'dark' | 'system';
 
 export const settingsLocalDataSource = {
@@ -13,13 +14,13 @@ export const settingsLocalDataSource = {
     await storage.set('theme', theme);
   },
 
-  async getAccountCurrency(): Promise<CurrencyCode> {
+  async getAccountCurrent(): Promise<CurrencyCode> {
     const currency = await storage.getString('accountCurrency');
 
-    return (currency as CurrencyCode) ?? 'ARS';
+    return (currency as CurrencyCode) ?? DEFAULT_CURRENCY_CODE;
   },
 
-  async setAccountCurrency(account: string) {
+  async setAccountCurrent(account: string) {
     await storage.set('accountCurrency', account);
   },
 };

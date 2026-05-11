@@ -1,143 +1,244 @@
-import {useMemo, useRef, useState} from 'react';
-import {useCategoriesQuery} from '@/src/features/categories/queries/useCategoriesQuery';
+import {RefObject, useEffect, useMemo, useRef, useState} from 'react';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
+import dayjs, {Dayjs} from 'dayjs';
+import {DateType} from 'react-native-ui-datepicker';
+
+import {useAccountsQuery} from '@/src/features/accounts/queries/useAccountsQuery';
+import {useCategoriesQuery} from '@/src/features/categories/queries/useCategoriesQuery';
+import {useCurrenciesQuery} from '@/src/features/currencies/queries/useCurrenciesQuery';
+import {useCreateTransactionMutation} from '@/src/features/transaction/queries/useCreateTransactionMutation';
 import {
   CategoryOption,
+  RouteParams,
   TransactionMode,
 } from '@/src/features/transaction/screens/interfaces';
 import {useSettingsStore} from '@/src/store/settings/slice';
-import {useDashboardQuery} from '@/src/features/dashboard/queries/useDashboardQuery';
-import {AccountSummary} from '@/src/domain/dashboard/AccountSummary';
-import {getCurrentMonth} from '@/src/shared/utils/getCurrentMonth';
-import dayjs from 'dayjs';
-import {DateType} from 'react-native-ui-datepicker';
-import {useCreateTransactionMutation} from '@/src/features/transactions/queries/useCreateTransactionMutation';
-import {now} from '@/src/core/date/now';
+import {Account} from '@/src/domain/accounts/Account';
+import {DEFAULT_CURRENCY_CODE} from '@/src/constants/settings';
+import {useRoute} from '@react-navigation/native';
+import {useTransactionsQuery} from '@/src/features/transactions/queries/useTransactionsQuery';
+import {useUpdateTransactionMutation} from '@/src/features/transaction/queries/useUpdateTransactionMutation';
+import {hydrateTransactionForm} from '@/src/shared/utils/hydrateTransactionForm';
+import {toCategoryOption} from '@/src/shared/utils/toCategoryOption';
+import {hasValidAmountLength} from '@/src/shared/utils/hasValidAmountLength';
+import {buildUpdatedTransaction} from '@/src/shared/utils/buildUpdatedTransaction';
+import {buildTransactionPayload} from '@/src/shared/utils/buildTransactionPayload';
+import {router} from 'expo-router';
+
+const INITIAL_AMOUNT = '0';
 
 export const useAddTransactionViewModel = () => {
-  const {data = []} = useCategoriesQuery();
-  const accountIdCurrency = useSettingsStore(state => state.accountIdCurrency);
-  const selectedMonth = useMemo(() => getCurrentMonth(), []);
-  const createTransactionMutation = useCreateTransactionMutation();
-  const {data: summary} = useDashboardQuery({
-    month: selectedMonth,
-    accountIdCurrency,
-  });
-  const dateTimePickerSheetRef = useRef<BottomSheetModal>(null);
-  const accountSheetRef = useRef<BottomSheetModal>(null);
-  const categorySheetRef = useRef<BottomSheetModal>(null);
-  const keyboardSheetRef = useRef<BottomSheetModal>(null);
+  const useCreateBottomSheetRef = () => useRef<BottomSheetModal>(null);
+  const {params} = useRoute();
+  const {transactionId} = (params ?? {}) as RouteParams;
 
-  const accountCurrency = summary?.accounts.find(a => a.id === accountIdCurrency);
+  const {data: accounts = []} = useAccountsQuery();
+  const {data: categories = []} = useCategoriesQuery();
+  const {data: currencies = []} = useCurrenciesQuery();
+  const {data: transactions = []} = useTransactionsQuery();
 
-  const [account, setAccount] = useState<AccountSummary>(accountCurrency!);
-  const [date, setDate] = useState(dayjs());
-  const [mode, setMode] = useState<TransactionMode>('expense');
-  const [amount, setAmount] = useState('0');
-  const [category, setCategory] = useState<CategoryOption | null>(null);
+  const selectedAccountId = useSettingsStore(state => state.accountIdCurrent);
+
+  const createTransaction = useCreateTransactionMutation();
+  const updateTransaction = useUpdateTransactionMutation();
+
+  const datePickerSheetRef = useCreateBottomSheetRef();
+  const accountSheetRef = useCreateBottomSheetRef();
+  const categorySheetRef = useCreateBottomSheetRef();
+  const keyboardSheetRef = useCreateBottomSheetRef();
+
+  const transactionToEdit = useMemo(
+    () =>
+      transactionId
+        ? transactions.find(transaction => transaction.id === transactionId)
+        : undefined,
+    [transactionId, transactions],
+  );
+  const defaultAccount = useMemo(
+    () => accounts.find(account => account.id === selectedAccountId) ?? accounts[0],
+    [accounts, selectedAccountId],
+  );
+
+  const [selectedAccount, setSelectedAccount] = useState<Account | undefined>(
+    defaultAccount,
+  );
+  const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs());
+  const [transactionMode, setTransactionMode] = useState<TransactionMode>('expense');
+  const [amount, setAmount] = useState(INITIAL_AMOUNT);
+  const [selectedCategory, setSelectedCategory] = useState<CategoryOption | null>(null);
   const [note, setNote] = useState<string>();
 
-  const categories: CategoryOption[] = useMemo(() => {
-    return data
-      .filter(category => category.type === mode)
-      .map(category => ({
-        id: category.id,
-        name: category.name,
-        color: category.color,
-        icon: category.icon,
-        backgroundColor: category.backgroundColor,
-      }));
-  }, [mode, data]);
+  const currentCurrency = useMemo(
+    () => currencies.find(currency => currency.code === selectedAccount?.currencyCode),
+    [currencies, selectedAccount?.currencyCode],
+  );
 
-  const openDateTimePickerSheet = () => {
-    dateTimePickerSheetRef.current?.present();
-  };
+  const currencyCode = currentCurrency?.code ?? DEFAULT_CURRENCY_CODE;
 
-  const openAccountSheet = () => {
-    accountSheetRef.current?.present();
-  };
+  const availableCategories = useMemo(
+    () =>
+      categories
+        .filter(category => category.type === transactionMode)
+        .map(toCategoryOption),
+    [categories, transactionMode],
+  );
 
-  const openCategorySheet = () => {
-    categorySheetRef.current?.present();
-  };
-
-  const openKeyboardSheet = () => {
-    keyboardSheetRef.current?.present();
-  };
-
-  const handleSelectDateTimePicker = (date: DateType) => {
-    setDate(date);
-    dateTimePickerSheetRef.current?.dismiss();
-  };
-
-  const handleSelectAccount = (account: AccountSummary) => {
-    setAccount(account);
-    accountSheetRef.current?.dismiss();
-  };
-
-  const handleSelectCategory = (nextCategory: CategoryOption) => {
-    setCategory(nextCategory);
-    categorySheetRef.current?.dismiss();
-  };
-
-  const handleChangeAmount = (amount: string) => {
-    const [integerPart, decimalPart] = amount.split(',');
-    if (
-      integerPart.length <= 9 &&
-      ((decimalPart && decimalPart?.length <= 3) || !decimalPart)
-    ) {
-      setAmount(amount);
+  useEffect(() => {
+    if (!defaultAccount || transactionToEdit) {
+      return;
     }
+
+    setSelectedAccount(defaultAccount);
+  }, [defaultAccount, transactionToEdit]);
+
+  useEffect(() => {
+    if (!transactionToEdit) {
+      return;
+    }
+
+    hydrateTransactionForm({
+      transaction: transactionToEdit,
+      accounts,
+      categories,
+      setSelectedAccount,
+      setTransactionMode,
+      setAmount,
+      setSelectedDate,
+      setNote,
+      setSelectedCategory,
+    });
+  }, [accounts, categories, transactionToEdit]);
+
+  const openSheet = (sheetRef: RefObject<BottomSheetModal | null>) => {
+    sheetRef.current?.present();
   };
 
-  const reset = () => {
+  const closeSheet = (sheetRef: RefObject<BottomSheetModal | null>) => {
+    sheetRef.current?.dismiss();
+  };
+
+  const handleDateSelection = (date: DateType) => {
+    setSelectedDate(dayjs(date));
+    closeSheet(datePickerSheetRef);
+  };
+
+  const handleAccountSelection = (account: Account) => {
+    setSelectedAccount(account);
+    closeSheet(accountSheetRef);
+  };
+
+  const handleCategorySelection = (category: CategoryOption) => {
+    setSelectedCategory(category);
+    closeSheet(categorySheetRef);
+  };
+
+  const handleAmountChange = (value: string) => {
+    if (!hasValidAmountLength(value)) {
+      return;
+    }
+
+    setAmount(value);
+  };
+
+  const resetForm = () => {
     setNote(undefined);
-    setDate(dayjs());
-    setAmount('0');
-    setCategory(null);
+    setSelectedDate(dayjs());
+    setAmount(INITIAL_AMOUNT);
+    setSelectedCategory(null);
   };
 
   const handleSave = () => {
-    createTransactionMutation.mutate({
-      amount: Number(amount),
-      currency: account.currency,
-      accountId: account.id,
-      categoryId: category?.id,
-      occurredAt: now(),
-      note,
-      type: mode,
-      mainCurrency: accountCurrency?.currency!,
-      exchangeRateToMainCurrency: 0,
-    });
+    if (!selectedAccount) {
+      return;
+    }
 
-    reset();
+    if (transactionToEdit && transactionId) {
+      updateTransaction.mutate(
+        buildUpdatedTransaction({
+          transaction: transactionToEdit,
+          transactionId,
+          selectedAccount,
+          transactionMode,
+          selectedCategory,
+          amount,
+          currencyCode,
+          note,
+          occurredAt: selectedDate.toISOString(),
+        }),
+        {
+          onSuccess: () => {
+            resetForm();
+            router.push({
+              pathname: '/transactions',
+            });
+          },
+          onError: error => {
+            console.error('[UPDATE TRANSACTION ERROR]', error);
+          },
+        },
+      );
+
+      resetForm();
+      router.push({
+        pathname: '/transactions',
+      });
+
+      return;
+    }
+
+    createTransaction.mutate(
+      buildTransactionPayload({
+        amount,
+        currencyCode,
+        accountId: selectedAccount.id,
+        categoryId: selectedCategory?.id,
+        occurredAt: selectedDate.toISOString(),
+        note,
+        type: transactionMode,
+      }),
+    );
+    router.push({
+      pathname: '/transactions',
+    });
+    resetForm();
+  };
+
+  const handleTransactionModeChange = (mode: TransactionMode) => {
+    setTransactionMode(mode);
+    setSelectedCategory(null);
   };
 
   return {
-    isLoading: createTransactionMutation.isPending,
-    accounts: summary?.accounts,
-    categories,
-    dateTimePickerSheetRef,
+    isEditing: Boolean(transactionId),
+    isLoading: createTransaction.isPending,
+
+    accounts,
+    categories: availableCategories,
+
+    datePickerSheetRef,
     accountSheetRef,
     categorySheetRef,
     keyboardSheetRef,
-    mode,
-    date,
-    account,
+
+    transactionMode,
+    selectedDate,
+    selectedAccount,
     amount,
-    category,
+    selectedCategory,
     note,
-    setMode,
-    setCategory,
+
     setNote,
-    openDateTimePickerSheet,
-    openAccountSheet,
-    openCategorySheet,
-    openKeyboardSheet,
-    handleSelectCategory,
-    handleSelectAccount,
-    handleSelectDateTimePicker,
-    handleChangeAmount,
+
+    openDatePicker: () => openSheet(datePickerSheetRef),
+    openAccountSelector: () => openSheet(accountSheetRef),
+    openCategorySelector: () => openSheet(categorySheetRef),
+    openKeyboard: () => openSheet(keyboardSheetRef),
+
+    handleDateSelection,
+    handleAccountSelection,
+    handleCategorySelection,
+    handleAmountChange,
+    handleTransactionModeChange,
     handleSave,
   };
 };

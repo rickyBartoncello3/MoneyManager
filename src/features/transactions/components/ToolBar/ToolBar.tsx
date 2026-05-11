@@ -1,13 +1,9 @@
+import React, {useContext, useRef} from 'react';
 import {View} from 'react-native';
 import Text from '@/src/shared/components/ui/Text/Text';
 import styles from './ToolBar.styles';
 import {AccountSheet} from '@/src/features/transaction/components/AccountSheet/AccountSheet';
-import React, {useContext, useMemo, useRef, useState} from 'react';
-import {AccountSummary} from '@/src/domain/dashboard/AccountSummary';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
-import {getCurrentMonth} from '@/src/shared/utils/getCurrentMonth';
-import {useDashboardQuery} from '@/src/features/dashboard/queries/useDashboardQuery';
-import {useSettingsStore} from '@/src/store/settings/slice';
 import {ToolbarProps} from '@/src/features/transactions/components/ToolBar/interfaces';
 import {ICON_NAMES} from '@/src/shared/constants/iconNames';
 import {Box} from '@/src/features/transaction/components/Box/Box';
@@ -17,16 +13,7 @@ import {GroupMode} from '@/src/features/transactions/screens/interfaces';
 import {TouchableRipple} from 'react-native-paper';
 import {CustomIcon} from '@/src/shared/components/ui/TabBarIcon/CustomIcon';
 import {Card} from '@/src/shared/components/ui/Card/Card';
-
-const allAccounts: AccountSummary = {
-  id: 'acc_all',
-  currency: 'ARS',
-  icon: ICON_NAMES.NOTE,
-  type: 'cash',
-  name: 'All accounts',
-  symbol: '',
-  balance: 0,
-};
+import {Account} from '@/src/domain/accounts/Account';
 
 export const ToolBar = ({
   accounts,
@@ -34,20 +21,15 @@ export const ToolBar = ({
   areAllExpanded,
   onChangeGroupMode,
   onToggleExpandAll,
+  onSelectAccount,
+  selectedAccountId,
 }: ToolbarProps) => {
   const {colors, currentTheme} = useContext(ThemeContext);
-  const accountIdCurrency = useSettingsStore(state => state.accountIdCurrency);
-  const selectedMonth = useMemo(() => getCurrentMonth(), []);
-  const {data: summary} = useDashboardQuery({
-    month: selectedMonth,
-    accountIdCurrency,
-  });
-  const accountCurrency = summary?.accounts.find(a => a.id === accountIdCurrency);
-  const [account, setAccount] = useState<AccountSummary>(accountCurrency!);
+  const accountCurrency = accounts.find(a => a.id === selectedAccountId);
   const accountSheetRef = useRef<BottomSheetModal>(null);
 
-  const handleSelectAccount = (account: AccountSummary) => {
-    setAccount(account);
+  const handleSelectAccount = (account: Account) => {
+    onSelectAccount(account.id);
     accountSheetRef.current?.dismiss();
   };
 
@@ -60,10 +42,10 @@ export const ToolBar = ({
         <View style={styles.groupModeRow}>
           <Box
             title={'Account'}
-            subTitle={account.name}
+            subTitle={accountCurrency?.name}
             onPress={openAccountSheet}
             icon={{
-              name: account.icon,
+              name: accountCurrency?.icon || ICON_NAMES.WALLET,
               color: colors.text,
             }}
           />
@@ -97,8 +79,8 @@ export const ToolBar = ({
       </View>
       <AccountSheet
         bottomSheetRef={accountSheetRef}
-        accounts={[allAccounts, ...accounts]}
-        selectedAccountId={account?.id}
+        accounts={accounts}
+        selectedAccountId={accountCurrency?.id}
         onSelectAccount={handleSelectAccount}
       />
     </Card>

@@ -1,10 +1,10 @@
 import {RefObject} from 'react';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
-import {AccountSummary} from '@/src/domain/dashboard/AccountSummary';
+import {Account} from '@/src/domain/accounts/Account';
 
 export type AccountSheetProps = {
   bottomSheetRef: RefObject<BottomSheetModal | null>;
-  accounts: AccountSummary[];
+  accounts: Account[];
   selectedAccountId?: string;
-  onSelectAccount: (account: AccountSummary) => void;
+  onSelectAccount: (account: Account) => void;
 };
