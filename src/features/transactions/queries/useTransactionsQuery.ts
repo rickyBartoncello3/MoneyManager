@@ -1,10 +1,13 @@
+// src/features/transactions/queries/useTransactionsQuery.ts
+
 import {useQuery} from '@tanstack/react-query';
 import {transactionRepository} from '@/src/data/repositories/transactionRepository';
+import {TransactionFilters} from '@/src/domain/transactions/TransactionFilters';
 
-export function useTransactionsQuery() {
+export const useTransactionsQuery = (filters?: TransactionFilters) => {
   return useQuery({
-    queryKey: ['transactions'],
-    queryFn: transactionRepository.getTransactions,
+    queryKey: ['transactions', filters],
+    queryFn: () => transactionRepository.getTransactionsByFilters(filters),
     staleTime: 1000 * 30,
   });
-}
+};

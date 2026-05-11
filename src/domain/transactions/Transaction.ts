@@ -1,4 +1,4 @@
-import {Money} from '@/src/domain/money/Money';
+import {Money} from '@/src/domain/currencies/Money';
 import {TransactionType} from './TransactionType';
 
 export type Transaction = {

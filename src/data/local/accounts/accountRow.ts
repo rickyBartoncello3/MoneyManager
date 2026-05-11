@@ -1,5 +1,5 @@
 import {AccountType} from '@/src/domain/accounts/AccountType';
-import {CurrencyCode} from '@/src/domain/money/Currency';
+import {CurrencyCode} from '@/src/domain/currencies/Currency';
 
 export type AccountRow = {
   id: string;

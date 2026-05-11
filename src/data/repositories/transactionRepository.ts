@@ -2,6 +2,7 @@ import {createTransaction} from '@/src/domain/transactions/createTransaction';
 import {CreateTransactionInput} from '@/src/domain/transactions/CreateTransactionInput';
 import {transactionLocalDataSource} from '@/src/data/local/transactions/transactionLocalDataSource';
 import {transactionMapper} from '@/src/data/mappers/transactionMapper';
+import {TransactionFilters} from '@/src/domain/transactions/TransactionFilters';
 
 export const transactionRepository = {
   async getTransactions() {
@@ -27,5 +28,11 @@ export const transactionRepository = {
   async getSummaryByCategory() {
     const rows = await transactionLocalDataSource.getTotalsByCategory();
     return rows.map(transactionMapper.localRowToCategorySummary);
+  },
+
+  async getTransactionsByFilters(filters?: TransactionFilters) {
+    const rows = await transactionLocalDataSource.findByFilters(filters);
+
+    return rows.map(transactionMapper.localRowToDomain);
   },
 };

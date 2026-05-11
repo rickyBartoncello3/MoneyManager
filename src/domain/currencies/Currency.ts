@@ -15,7 +15,7 @@ export type Currency = {
   name: string;
   symbol: string;
   minorUnits: number;
-  isBase: boolean;
+  isBase: number;
   createdAt: string;
   updatedAt: string;
 };

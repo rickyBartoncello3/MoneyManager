@@ -1,4 +1,4 @@
-import {CurrencyCode} from '@/src/domain/money/Currency';
+import {CurrencyCode} from '@/src/domain/currencies/Currency';
 import {storage} from '@/src/core/storage/asyncStorage';
 export type ThemeMode = 'light' | 'dark' | 'system';
 

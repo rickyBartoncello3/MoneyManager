@@ -1,4 +1,4 @@
-import {CurrencyCode} from '@/src/domain/money/Currency';
+import {CurrencyCode} from '@/src/domain/currencies/Currency';
 
 export type CurrencyRow = {
   code: CurrencyCode;

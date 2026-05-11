@@ -1,4 +1,4 @@
-import {CurrencyCode} from '@/src/domain/money/Currency';
+import {CurrencyCode} from '@/src/domain/currencies/Currency';
 import {TransactionType} from './TransactionType';
 
 export type CreateTransactionInput = {

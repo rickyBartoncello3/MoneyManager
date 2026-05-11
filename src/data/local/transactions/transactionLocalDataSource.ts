@@ -1,5 +1,7 @@
 import {db} from '@/src/core/database/db';
 import {CategoryExpenseTotalRow, TransactionRow} from './transactionRow';
+import {TransactionFilters} from '@/src/domain/transactions/TransactionFilters';
+import {buildFiltersWhere} from '@/src/shared/utils/buildFiltersWhere';
 
 export const transactionLocalDataSource = {
   async findAll(): Promise<TransactionRow[]> {
@@ -120,5 +122,19 @@ export const transactionLocalDataSource = {
     GROUP BY category_id
     ORDER BY total DESC;
   `);
+  },
+
+  async findByFilters(filters?: TransactionFilters): Promise<TransactionRow[]> {
+    const {whereSql, params} = buildFiltersWhere(filters);
+
+    return db.getAll<TransactionRow>(
+      `
+    SELECT *
+    FROM transactions
+    WHERE ${whereSql}
+    ORDER BY occurred_at DESC;
+    `,
+      params,
+    );
   },
 };

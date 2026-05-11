@@ -30,8 +30,6 @@ export const useDashboardViewModel = () => {
     },
   ];
 
-  console.log('dashboardQuery', dashboardQuery.data?.accounts);
-
   return {
     month: selectedMonth,
     isLoading: dashboardQuery.isLoading,

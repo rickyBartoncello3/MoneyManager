@@ -1,77 +1,82 @@
 import {ActivityIndicator, FlatList, View} from 'react-native';
-import Text from '@/src/shared/components/ui/Text/Text';
-import {useTransactionsQuery} from '../queries/useTransactionsQuery';
-import {TransactionItem} from '../components/TransactionItem';
-import {useCreateTransactionMutation} from '@/src/features/transactions/queries/useCreateTransactionMutation';
-import {Button} from '@/src/shared/components/ui/Button';
-import {CategoryType} from '@/src/domain/categories/CategoryType';
-import {useCategoriesQuery} from '@/src/features/categories/queries/useCategoriesQuery';
-import {now} from '@/src/core/date/now';
-import {getRandomInt} from '@/src/shared/utils/getRandomInt';
-import {CustomView} from '@/src/shared/components/ui/CustomView';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-export function TransactionsScreen() {
+import Text from '@/src/shared/components/ui/Text/Text';
+import {CustomView} from '@/src/shared/components/ui/CustomView';
+
+import {TransactionGroupCard} from '../components/TransactionGroupCard/TransactionGroupCard';
+import {ToolBar} from '@/src/features/transactions/components/ToolBar/ToolBar';
+import styles from './TransactionsScreen.styles';
+import {useTransactionsViewModel} from '@/src/features/transactions/hooks/useTransactionsViewModel';
+import {useContext} from 'react';
+import {ThemeContext} from '@/src/application/providers/ThemeProvider';
+
+export const TransactionsScreen = () => {
   const {top} = useSafeAreaInsets();
-  const {data: transactions = [], isLoading, error} = useTransactionsQuery();
-  const createTransactionMutation = useCreateTransactionMutation();
-  const {data: categories = []} = useCategoriesQuery();
+  const {currentTheme} = useContext(ThemeContext);
+  const vm = useTransactionsViewModel();
 
-  const randomWord = (words: string[]) => {
-    return words[Math.floor(Math.random() * words.length)];
-  };
-
-  const type = randomWord(['expense', 'income']) as CategoryType;
-
-  const categoriesSelected = categories?.filter(c => c.type === type).map(c => c.id);
-
-  const category = randomWord(categoriesSelected || ['cat_salary']);
-
-  const amount = getRandomInt(0, 1000);
-
-  const handleCreateMock = () => {
-    createTransactionMutation.mutate({
-      amount: amount,
-      currency: 'ARS',
-      accountId: 'acc_cash_ars',
-      categoryId: category,
-      occurredAt: now(),
-      note: type === 'income' ? 'Mock income' : 'Mock expense',
-      type: type,
-      mainCurrency: 'ARS',
-      exchangeRateToMainCurrency: 0,
-    });
-  };
-
-  if (isLoading || createTransactionMutation.isPending) {
-    return <ActivityIndicator size="large" />;
+  if (vm.isLoadingTransactions) {
+    return (
+      <CustomView>
+        <View style={styles.center}>
+          <ActivityIndicator size="large" />
+        </View>
+      </CustomView>
+    );
   }
 
-  if (error) {
-    console.error('Error fetching transactions:', error);
+  if (vm.transactionsError) {
     return (
-      <View>
-        <Text size={22} weight={900}>
-          Something went wrong.
-        </Text>
-      </View>
+      <CustomView margin>
+        <View style={[styles.root, {marginTop: top}]}>
+          <Text size={22} weight={900}>
+            Something went wrong.
+          </Text>
+        </View>
+      </CustomView>
     );
   }
 
   return (
     <CustomView margin isScrolling={false}>
-      <View style={{marginTop: top}}>
-        <Text size={22} weight={900}>
-          Transactions
-        </Text>
-        <Button text={'Press'} onPress={handleCreateMock} />
-
+      <View style={[styles.root, {marginTop: top, gap: currentTheme.spacing.xxl}]}>
+        <ToolBar
+          accounts={vm.accounts}
+          selectedAccountId={vm.selectedAccount.id}
+          groupMode={vm.groupMode}
+          areAllExpanded={vm.areAllExpanded}
+          onSelectAccount={vm.handleSelectAccount}
+          onChangeGroupMode={vm.handleChangeGroupMode}
+          onToggleExpandAll={vm.handleToggleExpandAll}
+        />
         <FlatList
-          data={transactions}
+          data={vm.groups}
           keyExtractor={item => item.id}
-          renderItem={({item}) => <TransactionItem transaction={item} />}
+          contentContainerStyle={styles.listContent}
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={
+            <View style={styles.emptyState}>
+              <Text size={18} weight={900}>
+                No movements found
+              </Text>
+
+              <Text size={13} weight={600} style={styles.emptyText}>
+                Try changing the account or grouping mode.
+              </Text>
+            </View>
+          }
+          renderItem={({item}) => (
+            <TransactionGroupCard
+              currencyCode={vm.selectedAccount.currencyCode}
+              group={item}
+              categories={vm.categories}
+              isExpanded={vm.expandedGroupIds.includes(item.id)}
+              onToggle={() => vm.handleToggleGroup(item.id)}
+            />
+          )}
         />
       </View>
     </CustomView>
   );
-}
+};

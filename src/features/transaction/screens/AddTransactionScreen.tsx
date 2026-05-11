@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {Pressable, View} from 'react-native';
-import {SegmentedButtons, TextInput} from 'react-native-paper';
+import {TextInput} from 'react-native-paper';
 import {router} from 'expo-router';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
@@ -21,6 +21,7 @@ import dayjs from 'dayjs';
 import {DateTimePickerSheet} from '@/src/features/transaction/components/DateTimePickerSheet/DateTimePickerSheet';
 import {AmountBlock} from '@/src/features/transaction/components/AmountBlock/AmountBlock';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
+import {SegmentedButtons} from '@/src/shared/components/ui/SegmentedButtons/SegmentedButtons';
 
 export const AddTransactionScreen = () => {
   const {
@@ -85,20 +86,12 @@ export const AddTransactionScreen = () => {
               </Pressable>
             </View>
             <SegmentedButtons
-              theme={{
-                colors: {
-                  secondaryContainer: colors.primary,
-                  onSecondaryContainer: colors.text,
-                  primary: colors.primary,
-                  outline: colors.border,
-                },
-              }}
-              value={mode}
-              onValueChange={value => {
+              initialValue={mode}
+              handleOnChange={value => {
                 setMode(value as TransactionMode);
                 setCategory(null);
               }}
-              buttons={[
+              values={[
                 {value: 'expense', label: 'Expense'},
                 {value: 'income', label: 'Income'},
                 {value: 'transfer', label: 'Transfer'},
@@ -127,7 +120,7 @@ export const AddTransactionScreen = () => {
                 />
               </View>
               <Box
-                title={'Category'}
+                title={'Currency'}
                 subTitle={category?.name ?? 'Select a category'}
                 onPress={openCategorySheet}
                 icon={
@@ -185,7 +178,7 @@ export const AddTransactionScreen = () => {
           <AccountSheet
             bottomSheetRef={accountSheetRef}
             accounts={accounts!}
-            selectedAccountId={category?.id}
+            selectedAccountId={account?.id}
             onSelectAccount={handleSelectAccount}
           />
 

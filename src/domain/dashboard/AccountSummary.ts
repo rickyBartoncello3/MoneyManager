@@ -1,4 +1,4 @@
-import {CurrencyCode} from '@/src/domain/money/Currency';
+import {CurrencyCode} from '@/src/domain/currencies/Currency';
 import {AccountType} from '@/src/domain/accounts/AccountType';
 import {IconName} from '@/src/shared/constants/iconNames';
 

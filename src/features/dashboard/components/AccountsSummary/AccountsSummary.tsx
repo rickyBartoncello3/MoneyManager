@@ -33,7 +33,6 @@ export const AccountsSummary = ({
       <View style={styles.list}>
         {accounts.map((account, index) => {
           const isLast = index === accounts.length - 1;
-          console.log('account', account.icon);
 
           return (
             <View key={account.id}>

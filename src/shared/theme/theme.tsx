@@ -424,7 +424,7 @@ export const globalStyles = StyleSheet.create({
 
   btnPrimary: {
     borderRadius: radius.md,
-    paddingVertical: spacing.md,
+    paddingVertical: spacing.xs,
     paddingHorizontal: spacing.lg,
     alignItems: 'center',
     justifyContent: 'center',
