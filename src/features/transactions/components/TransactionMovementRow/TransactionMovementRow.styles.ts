@@ -107,14 +107,11 @@ const styles = StyleSheet.create({
   },
 
   movementRow: {
-    minHeight: 64,
     borderRadius: 16,
-    paddingHorizontal: 10,
-    paddingVertical: 10,
+    paddingLeft: 32,
+    paddingRight: 16,
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
-    backgroundColor: 'rgba(255, 255, 255, 0.58)',
   },
 
   movementIcon: {
@@ -123,24 +120,10 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 10,
   },
 
   movementInfo: {
     flex: 1,
-  },
-
-  movementMeta: {
-    opacity: 0.56,
-    marginTop: 3,
-  },
-
-  incomeAmount: {
-    color: '#16A34A',
-  },
-
-  expenseAmount: {
-    color: '#EF4444',
   },
 
   emptyState: {

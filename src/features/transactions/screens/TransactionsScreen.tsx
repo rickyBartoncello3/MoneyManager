@@ -70,9 +70,9 @@ export const TransactionsScreen = () => {
             <TransactionGroupCard
               currencyCode={vm.selectedAccount.currencyCode}
               group={item}
-              categories={vm.categories}
               isExpanded={vm.expandedGroupIds.includes(item.id)}
               onToggle={() => vm.handleToggleGroup(item.id)}
+              groupMode={vm.groupMode}
             />
           )}
         />

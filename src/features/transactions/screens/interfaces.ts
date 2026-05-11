@@ -1,4 +1,4 @@
-// src/features/transactions/components/ExpandableTransactions/interfaces.ts
+// src/features/transactions/components/TransactionMovementRow/interfaces.ts
 
 import {Transaction} from '@/src/domain/transactions/Transaction';
 import {Category} from '@/src/domain/categories/Category';
@@ -12,7 +12,7 @@ type GroupTransactionsParams = {
   mode: GroupMode;
 };
 
-const formatDay = (date: string) => {
+export const formatDay = (date: string) => {
   const parsedDate = new Date(date);
 
   return parsedDate.toLocaleDateString('es-ARG', {

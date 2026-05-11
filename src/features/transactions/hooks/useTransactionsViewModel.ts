@@ -69,7 +69,6 @@ export const useTransactionsViewModel = () => {
 
   return {
     accounts,
-    categories,
     transactions,
     transactionsError,
     isLoadingTransactions,

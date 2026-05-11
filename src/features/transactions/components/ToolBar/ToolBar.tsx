@@ -30,7 +30,6 @@ const allAccounts: AccountSummary = {
 
 export const ToolBar = ({
   accounts,
-  selectedAccountId,
   groupMode,
   areAllExpanded,
   onChangeGroupMode,
