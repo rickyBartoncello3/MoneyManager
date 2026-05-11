@@ -3,7 +3,7 @@ import Text from '@/src/shared/components/ui/Text/Text';
 import {TransactionMovementRow} from '@/src/features/transactions/components/TransactionMovementRow/TransactionMovementRow';
 import styles from './TransactionGroupCard.styles';
 import {TransactionGroupCardProps} from '@/src/features/transactions/components/TransactionGroupCard/interfaces';
-import {useContext, useMemo} from 'react';
+import {use, useContext, useMemo} from 'react';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import {CustomIcon} from '@/src/shared/components/ui/TabBarIcon/CustomIcon';
 import {ICON_NAMES} from '@/src/shared/constants/iconNames';
@@ -18,7 +18,7 @@ export const TransactionGroupCard = ({
   currencyCode,
   groupMode,
 }: TransactionGroupCardProps) => {
-  const {currentTheme, colors} = useContext(ThemeContext);
+  const {currentTheme, colors} = use(ThemeContext);
   const isPositive = group.total >= 0;
   const {data: currencies = []} = useCurrenciesQuery();
   const {data: categories = []} = useCategoriesQuery();

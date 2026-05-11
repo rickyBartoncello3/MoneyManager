@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {use, useContext} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 
 import Text from '@/src/shared/components/ui/Text/Text';
@@ -11,7 +11,7 @@ import {BoxProps} from '@/src/features/transaction/components/Box/interfaces';
 import {Card} from '@/src/shared/components/ui/Card/Card';
 
 export const Box = ({title, subTitle, icon, onPress}: BoxProps) => {
-  const {colors} = useContext(ThemeContext);
+  const {colors} = use(ThemeContext);
   return (
     <Card style={styles.root}>
       <TouchableOpacity onPress={onPress} style={styles.container}>

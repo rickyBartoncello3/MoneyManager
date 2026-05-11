@@ -70,10 +70,12 @@ export const transactionLocalDataSource = {
   },
 
   async insertMany(rows: TransactionRow[]) {
-    for (const row of rows) {
-      await db.run(
-        `
-      INSERT OR IGNORE INTO transactions (
+    await Promise.all(
+      rows.map(row => {
+        db.run(
+          `
+                  INSERT
+                  OR IGNORE INTO transactions (
         id,
         type,
         amount,
@@ -89,25 +91,26 @@ export const transactionLocalDataSource = {
         updated_at,
         deleted_at
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-      `,
-        [
-          row.id,
-          row.type,
-          row.amount,
-          row.currency,
-          row.amount_in_main_currency,
-          row.main_currency,
-          row.account_id,
-          row.category_id,
-          row.occurred_at,
-          row.note,
-          row.exchange_rate_to_main_currency,
-          row.created_at,
-          row.updated_at,
-          row.deleted_at,
-        ],
-      );
-    }
+              `,
+          [
+            row.id,
+            row.type,
+            row.amount,
+            row.currency,
+            row.amount_in_main_currency,
+            row.main_currency,
+            row.account_id,
+            row.category_id,
+            row.occurred_at,
+            row.note,
+            row.exchange_rate_to_main_currency,
+            row.created_at,
+            row.updated_at,
+            row.deleted_at,
+          ],
+        );
+      }),
+    );
   },
 
   async getTotalsByCategory(): Promise<CategoryExpenseTotalRow[]> {

@@ -1,3 +1,5 @@
+import {CategorySummary} from '@/src/domain/dashboard/CategorySummary';
+
 export interface CategoryItem {
   id: string;
   name: string;
@@ -8,10 +10,10 @@ export interface CategoryItem {
 }
 
 export interface CategoriesSummaryProps {
-  categories: CategoryItem[];
+  categories: CategorySummary[];
   maxVisible?: number;
   title?: string;
   currencySymbol?: string;
   onPressShowMore?: () => void;
-  onPressCategory?: (category: CategoryItem) => void;
+  onPressCategory?: (category: CategorySummary) => void;
 }

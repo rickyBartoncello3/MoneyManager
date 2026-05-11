@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {use, useContext} from 'react';
 import {View} from 'react-native';
 import styles from './AccountsSummary.styles';
 import {AccountRow} from '../AccountRow/AccountRow';
@@ -13,7 +13,7 @@ export const AccountsSummary = ({
   title = 'Cuentas',
   onPressAccount,
 }: AccountsSummaryProps) => {
-  const {colors} = useContext(ThemeContext);
+  const {colors} = use(ThemeContext);
 
   return (
     <Card>

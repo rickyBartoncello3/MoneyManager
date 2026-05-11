@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {use, useContext} from 'react';
 import {Pressable, View} from 'react-native';
 import styles from './AccountSelector.styles';
 import {AccountSelectorProps} from './interfaces';
@@ -10,7 +10,7 @@ export const AccountSelector = ({
   selectedAccountId,
   onSelectAccount,
 }: AccountSelectorProps) => {
-  const {colors} = useContext(ThemeContext);
+  const {colors} = use(ThemeContext);
 
   return (
     <View style={styles.accountSelector}>

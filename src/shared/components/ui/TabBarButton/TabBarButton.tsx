@@ -1,4 +1,4 @@
-import React, {FC, useContext, useMemo} from 'react';
+import React, {FC, use, useContext, useMemo} from 'react';
 import {View, TouchableOpacityProps} from 'react-native';
 import styles from './TabBarButton.styles';
 import {TabBarButtonProps} from './interfaces';
@@ -12,7 +12,7 @@ const TabBarButton: FC<TabBarButtonProps & TouchableOpacityProps> = ({
   isFocused,
   ...props
 }) => {
-  const {colors, currentTheme} = useContext(ThemeContext);
+  const {colors, currentTheme} = use(ThemeContext);
   const tabLabel = useMemo(() => currentTheme.tabLabel, [currentTheme.tabLabel]);
 
   return (

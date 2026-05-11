@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {use, useContext} from 'react';
 import styles from './BottomSheetModal.styles';
 import {BottomSheetModalProps} from './interfaces';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
@@ -14,7 +14,7 @@ export const BottomSheetModal = ({
   snapPoints,
   children,
 }: BottomSheetModalProps) => {
-  const {colors} = useContext(ThemeContext);
+  const {colors} = use(ThemeContext);
 
   const renderBackdrop = (props: BottomSheetBackdropProps) => (
     <BottomSheetBackdrop

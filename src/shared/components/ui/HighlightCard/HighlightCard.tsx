@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {use, useContext} from 'react';
 import {HighlightCardProps} from '@/src/shared/components/ui/Highlight/interfaces';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import {Card} from '@/src/shared/components/ui/Card/Card';
@@ -7,7 +7,7 @@ import {getPercentageLabel} from '@/src/shared/utils/getPercentageLabel';
 import Text from '@/src/shared/components/ui/Text/Text';
 
 export const HighlightCard = ({item}: HighlightCardProps) => {
-  const {colors} = useContext(ThemeContext);
+  const {colors} = use(ThemeContext);
 
   const isPositiveForSpending = item.value < 0;
 
@@ -23,11 +23,9 @@ export const HighlightCard = ({item}: HighlightCardProps) => {
       <Text
         size={20}
         weight={800}
-        style={[
-          {
-            color: percentageColor,
-          },
-        ]}
+        style={{
+          color: percentageColor,
+        }}
       >
         {getPercentageLabel(item.value)}
       </Text>

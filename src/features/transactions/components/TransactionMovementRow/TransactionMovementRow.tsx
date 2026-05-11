@@ -6,7 +6,7 @@ import Text from '@/src/shared/components/ui/Text/Text';
 import styles from './TransactionMovementRow.styles';
 import {TransactionMovementRowProps} from '@/src/features/transactions/components/TransactionMovementRow/interfaces';
 import {TouchableRipple} from 'react-native-paper';
-import {useContext} from 'react';
+import {use, useContext} from 'react';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import {formatDay} from '@/src/features/transactions/screens/interfaces';
 
@@ -17,7 +17,7 @@ export const TransactionMovementRow = ({
   groupMode,
 }: TransactionMovementRowProps) => {
   const category = categories.find(item => item.id === transaction.categoryId);
-  const {colors} = useContext(ThemeContext);
+  const {colors} = use(ThemeContext);
 
   const isIncome = transaction.type === 'income';
 

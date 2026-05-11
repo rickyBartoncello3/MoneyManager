@@ -1,5 +1,5 @@
 import {View} from 'react-native';
-import {useContext} from 'react';
+import {use, useContext} from 'react';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import {globalStyles} from '@/src/shared/theme/theme';
 import {ActivityIndicator, Button as RNButton} from 'react-native-paper';
@@ -7,7 +7,7 @@ import Text from '@/src/shared/components/ui/Text/Text';
 import {ButtonProps} from '@/src/shared/components/ui/Button/interfaces';
 
 export const Button = ({text, styles, onPress, ...props}: ButtonProps) => {
-  const {colors, currentTheme} = useContext(ThemeContext);
+  const {colors, currentTheme} = use(ThemeContext);
 
   return (
     <RNButton

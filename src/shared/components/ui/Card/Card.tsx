@@ -1,11 +1,11 @@
-import React, {useContext} from 'react';
+import React, {use} from 'react';
 import styles from './Card.styles';
 import {Card as RNCard} from 'react-native-paper';
 import {CardProps} from '@/src/shared/components/ui/Card/interfaces';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 
 export const Card = ({children, style}: CardProps) => {
-  const {colors, currentTheme} = useContext(ThemeContext);
+  const {colors, currentTheme} = use(ThemeContext);
 
   return (
     <RNCard

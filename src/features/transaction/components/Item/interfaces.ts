@@ -8,7 +8,6 @@ type Item = {
 };
 
 export type ItemProps<T extends Item> = {
-  key: number;
   item: T;
   isSelected: boolean;
   onSelect: <T>(item: T) => void;

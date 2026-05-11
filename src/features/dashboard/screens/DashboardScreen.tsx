@@ -1,6 +1,6 @@
 import {ActivityIndicator, View} from 'react-native';
 import styles from './Dashboard.styles';
-import {useContext} from 'react';
+import {use, useContext} from 'react';
 import {CustomView} from '@/src/shared/components/ui/CustomView';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import {HeroCard} from '@/src/features/dashboard/components/HeroCard/HeroCard';
@@ -12,7 +12,7 @@ import {useDashboardViewModel} from '@/src/features/dashboard/hooks/useDashboard
 import Text from '@/src/shared/components/ui/Text/Text';
 
 const DashboardScreen = () => {
-  const {colors} = useContext(ThemeContext);
+  const {colors} = use(ThemeContext);
   const vm = useDashboardViewModel();
 
   if (vm.isLoading) {
@@ -73,7 +73,7 @@ const DashboardScreen = () => {
           onPressCategory={category => {
             router.push({
               pathname: '/(tabs)/transactions',
-              params: {categoryId: category.id},
+              params: {categoryId: category.categoryId},
             });
           }}
         />

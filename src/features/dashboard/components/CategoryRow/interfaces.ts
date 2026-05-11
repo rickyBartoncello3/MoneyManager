@@ -1,7 +1,8 @@
-import {CategoryItem} from '../CategoriesSummary/interfaces.ts';
+import {CategoryItem} from '@/src/features/dashboard/components/CategoriesSummary/interfaces';
+import {CategorySummary} from '@/src/domain/dashboard/CategorySummary';
 
 export interface CategoryRowProps {
-  category: CategoryItem;
+  category: CategorySummary;
   currencySymbol?: string;
-  onPress?: (category: CategoryItem) => void;
+  onPress?: (category: CategorySummary) => void;
 }

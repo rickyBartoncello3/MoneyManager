@@ -7,9 +7,9 @@ import styles from './Item.styles';
 import {CustomIcon} from '@/src/shared/components/ui/TabBarIcon/CustomIcon';
 import {ItemProps} from '@/src/features/transaction/components/Item/interfaces';
 
-export const Item = ({key, item, isSelected, onSelect}: ItemProps) => {
+export const Item = ({item, isSelected, onSelect}: ItemProps) => {
   return (
-    <Pressable key={key} onPress={() => onSelect(item)} style={styles.item}>
+    <Pressable onPress={() => onSelect(item)} style={styles.item}>
       <View
         style={[
           styles.iconContainer,

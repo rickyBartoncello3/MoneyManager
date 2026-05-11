@@ -1,4 +1,4 @@
-import React, {useContext, useMemo, useState} from 'react';
+import React, {use, useContext, useMemo, useState} from 'react';
 import {View} from 'react-native';
 
 import Text from '@/src/shared/components/ui/Text/Text';
@@ -20,7 +20,7 @@ export const AmountKeyboardSheet = ({
   amount,
   onChangeAmount,
 }: AmountKeyboardSheetProps) => {
-  const {colors} = useContext(ThemeContext);
+  const {colors} = use(ThemeContext);
   const snapPoints = useMemo(() => [], []);
 
   const [expression, setExpression] = useState(amount);

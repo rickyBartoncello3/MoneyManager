@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {use, useContext} from 'react';
 import {View} from 'react-native';
 import styles from './Highlight.styles';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
@@ -7,7 +7,7 @@ import Text from '@/src/shared/components/ui/Text/Text';
 import {HighlightCard} from '@/src/shared/components/ui/HighlightCard/HighlightCard';
 
 export const Highlights = ({highlightedItems}: HighlightsProps) => {
-  const {colors} = useContext(ThemeContext);
+  const {colors} = use(ThemeContext);
 
   return (
     <View style={styles.container}>

@@ -1,5 +1,5 @@
 import {StyleProp, Text, ViewStyle} from 'react-native';
-import {useContext} from 'react';
+import {use, useContext} from 'react';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import {globalStyles} from '@/src/shared/theme/theme';
 import {TouchableRipple} from 'react-native-paper';
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const Button = ({text, styles, onPress}: Props) => {
-  const {colors} = useContext(ThemeContext);
+  const {colors} = use(ThemeContext);
 
   return (
     <TouchableRipple

@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {use, useContext} from 'react';
 import {Pressable, View} from 'react-native';
 import styles from './CategoryCard.styles';
 import {CategoryCardProps} from './interfaces';
@@ -7,7 +7,7 @@ import Text from '@/src/shared/components/ui/Text/Text';
 import {Icon} from 'react-native-paper/src';
 
 export const CategoryCard = ({category, onCategoryPress}: CategoryCardProps) => {
-  const {colors} = useContext(ThemeContext);
+  const {colors} = use(ThemeContext);
   //const Icon =
   //iconMapper[category.icon as IconName] ?? iconMapper[ICON_NAMES.ADD_TRANSACTION];
   return (

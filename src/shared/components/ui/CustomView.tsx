@@ -1,5 +1,5 @@
 import {StyleProp, View, ViewStyle} from 'react-native';
-import {ReactNode, useContext} from 'react';
+import {ReactNode, use, useContext} from 'react';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import {globalStyles} from '@/src/shared/theme/theme';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -18,7 +18,7 @@ export const CustomView = ({
   children,
   margin = false,
 }: CustomViewProps) => {
-  const {colors} = useContext(ThemeContext);
+  const {colors} = use(ThemeContext);
   const {top} = useSafeAreaInsets();
 
   return (

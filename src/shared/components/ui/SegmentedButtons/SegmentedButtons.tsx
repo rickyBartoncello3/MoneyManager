@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {use, useContext} from 'react';
 import {SegmentedButtonsProps} from './interfaces';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import {SegmentedButtons as RNSegmentedButtons} from 'react-native-paper';
@@ -8,7 +8,7 @@ export const SegmentedButtons = ({
   handleOnChange,
   values,
 }: SegmentedButtonsProps) => {
-  const {colors} = useContext(ThemeContext);
+  const {colors} = use(ThemeContext);
 
   return (
     <RNSegmentedButtons

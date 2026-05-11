@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {use, useContext} from 'react';
 import {View} from 'react-native';
 import styles from './HeroCard.styles';
 import {Card} from 'react-native-paper';
@@ -22,7 +22,7 @@ export const HeroCard = ({
   title = 'Saldo actual',
   badgeLabel = 'Disponible ahora',
 }: HeroCardProps) => {
-  const {colors} = useContext(ThemeContext);
+  const {colors} = use(ThemeContext);
 
   return (
     <Card

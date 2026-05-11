@@ -1,4 +1,4 @@
-import React, {useContext, useRef} from 'react';
+import React, {use, useContext, useRef} from 'react';
 import {View} from 'react-native';
 import Text from '@/src/shared/components/ui/Text/Text';
 import styles from './ToolBar.styles';
@@ -24,7 +24,7 @@ export const ToolBar = ({
   onSelectAccount,
   selectedAccountId,
 }: ToolbarProps) => {
-  const {colors, currentTheme} = useContext(ThemeContext);
+  const {colors, currentTheme} = use(ThemeContext);
   const accountCurrency = accounts.find(a => a.id === selectedAccountId);
   const accountSheetRef = useRef<BottomSheetModal>(null);
 

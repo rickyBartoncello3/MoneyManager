@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {use, useContext} from 'react';
 import {View} from 'react-native';
 import styles from './TabBar.styles';
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
@@ -11,7 +11,7 @@ import {BlurView} from 'expo-blur';
 import {router} from 'expo-router';
 
 const TabBar = ({state, descriptors, navigation}: BottomTabBarProps) => {
-  const {isDark} = useContext(ThemeContext);
+  const {isDark} = use(ThemeContext);
 
   return (
     <BlurView intensity={55} tint={isDark ? 'dark' : 'light'} style={styles.root}>

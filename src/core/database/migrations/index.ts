@@ -5,9 +5,11 @@ import {createExchangeRatesTable} from '@/src/core/database/migrations/004_creat
 import {createTransactionsTable} from '@/src/core/database/migrations/005_create_transactions';
 
 export async function runMigrations() {
-  await createAccountsTable();
-  await createCategoriesTable();
-  await createCurrenciesTable();
-  await createExchangeRatesTable();
-  await createTransactionsTable();
+  await Promise.all([
+    await createAccountsTable(),
+    await createCategoriesTable(),
+    await createCurrenciesTable(),
+    await createExchangeRatesTable(),
+    await createTransactionsTable(),
+  ]);
 }

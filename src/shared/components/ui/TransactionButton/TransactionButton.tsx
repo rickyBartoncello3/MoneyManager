@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {use, useContext} from 'react';
 import {View} from 'react-native';
 import styles from './TransactionButton.styles';
 import {TransactionButtonProps} from './interfaces';
@@ -13,7 +13,7 @@ export const TransactionButton = ({
   icon,
   text,
 }: TransactionButtonProps) => {
-  const {colors, isDark} = useContext(ThemeContext);
+  const {colors, isDark} = use(ThemeContext);
   const Icon = iconMapper[icon] ?? iconMapper[ICON_NAMES.ADD];
 
   return (

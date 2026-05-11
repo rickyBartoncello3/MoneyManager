@@ -1,4 +1,4 @@
-import React, {useContext, useMemo} from 'react';
+import React, {use, useContext, useMemo} from 'react';
 
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import Text from '@/src/shared/components/ui/Text/Text';
@@ -8,7 +8,7 @@ import {AmountBlockProps} from '@/src/features/transaction/components/AmountBloc
 import {Card} from '@/src/shared/components/ui/Card/Card';
 
 export const AmountBlock = ({amount, onPress}: AmountBlockProps) => {
-  const {colors} = useContext(ThemeContext);
+  const {colors} = use(ThemeContext);
 
   const currentValue = useMemo(() => {
     const parts = amount.split(/[+\-×\/]/).filter(Boolean);

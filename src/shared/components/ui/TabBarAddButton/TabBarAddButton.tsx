@@ -1,4 +1,4 @@
-import React, {FC, useContext} from 'react';
+import React, {FC, use, useContext} from 'react';
 import {TouchableOpacity, View, TouchableOpacityProps} from 'react-native';
 import styles from './TabBarAddButton.styles';
 import {TabBarButtonProps} from './interfaces';
@@ -9,7 +9,7 @@ const TabBarAddButton: FC<TabBarButtonProps & TouchableOpacityProps> = ({
   isFocused,
   ...props
 }) => {
-  const {currentTheme} = useContext(ThemeContext);
+  const {currentTheme} = use(ThemeContext);
 
   return (
     <TouchableOpacity {...props} style={styles.root}>

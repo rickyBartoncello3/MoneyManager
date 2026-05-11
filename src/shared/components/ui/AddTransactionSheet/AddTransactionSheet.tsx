@@ -1,4 +1,4 @@
-import React, {useContext, useMemo, useState} from 'react';
+import React, {use, useContext, useMemo, useState} from 'react';
 import styles from './AddTransactionSheet.styles';
 import {AddTransactionBottomSheetProps} from './interfaces';
 import {
@@ -17,7 +17,7 @@ import {TransactionType} from '@/src/domain/transactions/TransactionType';
 export const AddTransactionBottomSheet = ({
   bottomSheetRef,
 }: AddTransactionBottomSheetProps) => {
-  const {colors} = useContext(ThemeContext);
+  const {colors} = use(ThemeContext);
   const [operationType, setOperationType] = useState<TransactionType>('expense');
   const {data: categories = []} = useCategoriesQuery();
 

@@ -8,12 +8,12 @@ import {TransactionGroupCard} from '../components/TransactionGroupCard/Transacti
 import {ToolBar} from '@/src/features/transactions/components/ToolBar/ToolBar';
 import styles from './TransactionsScreen.styles';
 import {useTransactionsViewModel} from '@/src/features/transactions/hooks/useTransactionsViewModel';
-import {useContext} from 'react';
+import {use, useContext} from 'react';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 
 export const TransactionsScreen = () => {
   const {top} = useSafeAreaInsets();
-  const {currentTheme} = useContext(ThemeContext);
+  const {currentTheme} = use(ThemeContext);
   const vm = useTransactionsViewModel();
 
   if (vm.isLoadingTransactions) {

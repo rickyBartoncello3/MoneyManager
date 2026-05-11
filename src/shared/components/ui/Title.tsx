@@ -1,7 +1,7 @@
 import {Text} from 'react-native';
 import {globalStyles} from '../../theme/theme.tsx';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {useContext} from 'react';
+import {use, useContext} from 'react';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 
 export const Title = ({text, safe = false, white = false}: Props) => {
   const {top} = useSafeAreaInsets();
-  const {colors} = useContext(ThemeContext);
+  const {colors} = use(ThemeContext);
 
   return (
     <Text

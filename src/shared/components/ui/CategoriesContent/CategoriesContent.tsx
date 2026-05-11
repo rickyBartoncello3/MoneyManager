@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {use, useContext} from 'react';
 import {FlatList, View} from 'react-native';
 import styles from './CategoriesContent.styles';
 import {CategoriesContentProps} from './interfaces';
@@ -11,7 +11,7 @@ export const CategoriesContent = ({
   categories,
   onCategoryPress,
 }: CategoriesContentProps) => {
-  const {colors} = useContext(ThemeContext);
+  const {colors} = use(ThemeContext);
 
   return (
     <View style={styles.content}>

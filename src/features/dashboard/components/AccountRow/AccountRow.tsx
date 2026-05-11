@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {use, useContext} from 'react';
 import {Pressable, View} from 'react-native';
 import styles from './AccountRow.styles';
 import {AccountRowProps} from './interfaces';
@@ -11,7 +11,7 @@ import {HugeiconsIcon} from '@hugeicons/react-native';
 
 export const AccountRow = ({account, onPress}: AccountRowProps) => {
   const icon = iconMapper[account.icon] ?? iconMapper[ICON_NAMES.ADD_TRANSACTION];
-  const {colors} = useContext(ThemeContext);
+  const {colors} = use(ThemeContext);
 
   const isNegative = account.balance < 0;
 

@@ -1,4 +1,4 @@
-import React, {useContext, useMemo} from 'react';
+import React, {use, useContext, useMemo} from 'react';
 import {View} from 'react-native';
 
 import Text from '@/src/shared/components/ui/Text/Text';
@@ -15,7 +15,7 @@ export const AccountSheet = ({
   selectedAccountId,
   onSelectAccount,
 }: AccountSheetProps) => {
-  const {colors} = useContext(ThemeContext);
+  const {colors} = use(ThemeContext);
   const snapPoints = useMemo(() => [], []);
 
   return (

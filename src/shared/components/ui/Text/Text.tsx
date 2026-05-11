@@ -1,5 +1,5 @@
 import {Text as RNText} from 'react-native';
-import React, {FC, useContext, useMemo} from 'react';
+import React, {FC, use, useContext, useMemo} from 'react';
 import styles from './Text.styles';
 import {TextProps} from './interfaces';
 import typography from '@/src/shared/theme/typography';
@@ -73,7 +73,7 @@ const DEFAULT_SIZE = 16;
 const DEFAULT_WEIGHT = 400;
 
 const Text: FC<TextProps> = ({size, weight, style, ...props}) => {
-  const {colors} = useContext(ThemeContext);
+  const {colors} = use(ThemeContext);
   const dynamicStyle = useMemo(() => {
     const selectedFontFamily = fontFamilyMap[weight] || fontFamilyMap[DEFAULT_WEIGHT];
     const selectedFontSize = fontSizeMap[size] || fontSizeMap[DEFAULT_SIZE];

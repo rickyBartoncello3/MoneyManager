@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {use, useContext} from 'react';
 import {Pressable, View} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import {router} from 'expo-router';
@@ -26,7 +26,7 @@ import {TransactionsModes} from '@/src/constants/transactionsModes';
 export const AddTransactionScreen = () => {
   const vm = useAddTransactionViewModel();
   const {top} = useSafeAreaInsets();
-  const {colors, currentTheme} = useContext(ThemeContext);
+  const {colors, currentTheme} = use(ThemeContext);
 
   return (
     <KeyboardAwareScrollView

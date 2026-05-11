@@ -1,4 +1,4 @@
-import React, {useContext, useMemo, useState} from 'react';
+import React, {use, useContext, useMemo, useState} from 'react';
 import styles from './CategoriesSummary.styles';
 import {View} from 'react-native';
 import {TouchableRipple} from 'react-native-paper';
@@ -16,7 +16,7 @@ export const CategoriesSummary = ({
   onPressShowMore,
   onPressCategory,
 }: CategoriesSummaryProps) => {
-  const {colors} = useContext(ThemeContext);
+  const {colors} = use(ThemeContext);
   const [showAll, setShowAll] = useState(false);
 
   const visibleCategories = useMemo(
@@ -25,6 +25,13 @@ export const CategoriesSummary = ({
   );
 
   const hiddenCategoriesCount = Math.max(categories.length - maxVisible, 0);
+
+  console.log(
+    categories.map(c => ({
+      id: c.categoryId,
+      name: c.name,
+    })),
+  );
 
   return (
     <Card>
@@ -66,7 +73,7 @@ export const CategoriesSummary = ({
         <View style={styles.listContainer}>
           {visibleCategories.map((category, index) => (
             <CategoryRow
-              key={index.toString()}
+              key={`${category.categoryId}-${index}`}
               category={category}
               currencySymbol={currencySymbol}
               onPress={onPressCategory}

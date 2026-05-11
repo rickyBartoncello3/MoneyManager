@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {use, useContext} from 'react';
 import {View} from 'react-native';
 import styles from './HighlightHeader.styles';
 import {Chart01Icon, Chart03Icon} from '../../../assets/icons';
@@ -7,7 +7,7 @@ import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import Text from '@/src/shared/components/ui/Text/Text';
 
 export const HighlightHeader = ({item}: HighlightHeaderProps) => {
-  const {colors} = useContext(ThemeContext);
+  const {colors} = use(ThemeContext);
   return (
     <View style={styles.header}>
       <View

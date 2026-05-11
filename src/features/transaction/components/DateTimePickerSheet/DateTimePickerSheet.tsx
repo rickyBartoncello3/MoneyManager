@@ -1,4 +1,4 @@
-import React, {useContext, useMemo} from 'react';
+import React, {use, useMemo} from 'react';
 
 import {BottomSheetModal} from '@/src/shared/components/ui/BottomSheetModal/BottomSheetModal';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
@@ -10,7 +10,7 @@ export const DateTimePickerSheet = ({
   date,
   onSelectDate,
 }: DateTimePickerSheetProps) => {
-  const {colors} = useContext(ThemeContext);
+  const {colors} = use(ThemeContext);
   const snapPoints = useMemo(() => [], []);
 
   return (
