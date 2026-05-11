@@ -1,6 +1,6 @@
 import {Text} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {use, useContext} from 'react';
+import {use} from 'react';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import {globalStyles} from '@/src/shared/theme/theme';
 

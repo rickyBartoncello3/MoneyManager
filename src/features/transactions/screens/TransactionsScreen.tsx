@@ -8,7 +8,7 @@ import {TransactionGroupCard} from '../components/TransactionGroupCard/Transacti
 import {ToolBar} from '@/src/features/transactions/components/ToolBar/ToolBar';
 import styles from './TransactionsScreen.styles';
 import {useTransactionsViewModel} from '@/src/features/transactions/hooks/useTransactionsViewModel';
-import {use, useContext} from 'react';
+import {use} from 'react';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 
 export const TransactionsScreen = () => {

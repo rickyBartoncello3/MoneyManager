@@ -1,4 +1,4 @@
-import React, {use, useContext, useMemo, useState} from 'react';
+import React, {use, useMemo, useState} from 'react';
 import {View} from 'react-native';
 
 import Text from '@/src/shared/components/ui/Text/Text';

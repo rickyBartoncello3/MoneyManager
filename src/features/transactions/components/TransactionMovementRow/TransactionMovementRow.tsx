@@ -6,7 +6,7 @@ import Text from '@/src/shared/components/ui/Text/Text';
 import styles from './TransactionMovementRow.styles';
 import {TransactionMovementRowProps} from '@/src/features/transactions/components/TransactionMovementRow/interfaces';
 import {TouchableRipple} from 'react-native-paper';
-import {use, useContext} from 'react';
+import {use} from 'react';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import {formatDay} from '@/src/features/transactions/screens/interfaces';
 

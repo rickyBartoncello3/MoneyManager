@@ -1,6 +1,6 @@
 import {ActivityIndicator, View} from 'react-native';
 import styles from './Dashboard.styles';
-import {use, useContext} from 'react';
+import {use} from 'react';
 import {CustomView} from '@/src/shared/components/ui/CustomView';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import {HeroCard} from '@/src/features/dashboard/components/HeroCard/HeroCard';

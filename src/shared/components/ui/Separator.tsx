@@ -1,5 +1,5 @@
 import {StyleProp, View, ViewStyle} from 'react-native';
-import {use, useContext} from 'react';
+import {use} from 'react';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 
 interface Props {

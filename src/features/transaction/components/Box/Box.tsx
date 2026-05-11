@@ -1,4 +1,4 @@
-import React, {use, useContext} from 'react';
+import React, {use} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 
 import Text from '@/src/shared/components/ui/Text/Text';

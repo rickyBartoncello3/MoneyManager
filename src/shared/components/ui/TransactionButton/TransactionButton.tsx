@@ -1,4 +1,4 @@
-import React, {use, useContext} from 'react';
+import React, {use} from 'react';
 import {View} from 'react-native';
 import styles from './TransactionButton.styles';
 import {TransactionButtonProps} from './interfaces';

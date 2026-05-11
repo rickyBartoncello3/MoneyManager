@@ -1,5 +1,5 @@
 import {View} from 'react-native';
-import {use, useContext} from 'react';
+import {use} from 'react';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import {globalStyles} from '@/src/shared/theme/theme';
 import {ActivityIndicator, Button as RNButton} from 'react-native-paper';

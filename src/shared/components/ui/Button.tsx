@@ -1,5 +1,5 @@
 import {StyleProp, Text, ViewStyle} from 'react-native';
-import {use, useContext} from 'react';
+import {use} from 'react';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import {globalStyles} from '@/src/shared/theme/theme';
 import {TouchableRipple} from 'react-native-paper';

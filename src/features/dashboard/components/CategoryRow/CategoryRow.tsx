@@ -1,6 +1,6 @@
-import React, {use, useContext} from 'react';
+import React, {use} from 'react';
 import styles from './CategoryRow.styles';
-import {Pressable, View} from 'react-native';
+import {View} from 'react-native';
 import {CategoryRowProps} from './interfaces';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import Text from '@/src/shared/components/ui/Text/Text';

@@ -1,5 +1,5 @@
 import {Platform, StyleSheet, Switch, Text, View} from 'react-native';
-import {use, useContext} from 'react';
+import {use} from 'react';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 
 interface Props {

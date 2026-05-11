@@ -1,4 +1,4 @@
-import {PropsWithChildren, use, useContext} from 'react';
+import {PropsWithChildren, use} from 'react';
 
 import {StyleProp, ViewStyle, View} from 'react-native';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';

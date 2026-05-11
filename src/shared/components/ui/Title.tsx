@@ -1,7 +1,7 @@
 import {Text} from 'react-native';
 import {globalStyles} from '../../theme/theme.tsx';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {use, useContext} from 'react';
+import {use} from 'react';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 
 interface Props {

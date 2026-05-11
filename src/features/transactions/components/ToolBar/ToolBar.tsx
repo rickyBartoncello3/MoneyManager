@@ -1,4 +1,4 @@
-import React, {use, useContext, useRef} from 'react';
+import React, {use, useRef} from 'react';
 import {View} from 'react-native';
 import Text from '@/src/shared/components/ui/Text/Text';
 import styles from './ToolBar.styles';

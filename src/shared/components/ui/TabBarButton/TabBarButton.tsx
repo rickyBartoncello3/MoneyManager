@@ -1,4 +1,4 @@
-import React, {FC, use, useContext, useMemo} from 'react';
+import React, {FC, use, useMemo} from 'react';
 import {View, TouchableOpacityProps} from 'react-native';
 import styles from './TabBarButton.styles';
 import {TabBarButtonProps} from './interfaces';

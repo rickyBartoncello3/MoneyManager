@@ -1,4 +1,4 @@
-import React, {use, useContext} from 'react';
+import React, {use} from 'react';
 import {HighlightCardProps} from '@/src/shared/components/ui/Highlight/interfaces';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import {Card} from '@/src/shared/components/ui/Card/Card';

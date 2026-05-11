@@ -1,4 +1,4 @@
-import React, {use, useContext} from 'react';
+import React, {use} from 'react';
 import {SegmentedButtonsProps} from './interfaces';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import {SegmentedButtons as RNSegmentedButtons} from 'react-native-paper';

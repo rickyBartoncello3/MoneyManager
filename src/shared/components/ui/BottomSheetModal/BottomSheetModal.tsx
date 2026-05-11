@@ -1,4 +1,4 @@
-import React, {use, useContext} from 'react';
+import React, {use} from 'react';
 import styles from './BottomSheetModal.styles';
 import {BottomSheetModalProps} from './interfaces';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';

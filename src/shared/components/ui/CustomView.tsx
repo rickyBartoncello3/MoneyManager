@@ -1,5 +1,5 @@
 import {StyleProp, View, ViewStyle} from 'react-native';
-import {ReactNode, use, useContext} from 'react';
+import {ReactNode, use} from 'react';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import {globalStyles} from '@/src/shared/theme/theme';
 import {ScrollView} from 'react-native-gesture-handler';

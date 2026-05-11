@@ -1,4 +1,4 @@
-import React, {use, useContext} from 'react';
+import React, {use} from 'react';
 import {Pressable, View} from 'react-native';
 import styles from './CategoryCard.styles';
 import {CategoryCardProps} from './interfaces';

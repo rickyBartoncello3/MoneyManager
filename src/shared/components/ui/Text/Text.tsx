@@ -1,5 +1,5 @@
 import {Text as RNText} from 'react-native';
-import React, {FC, use, useContext, useMemo} from 'react';
+import React, {FC, use, useMemo} from 'react';
 import styles from './Text.styles';
 import {TextProps} from './interfaces';
 import typography from '@/src/shared/theme/typography';

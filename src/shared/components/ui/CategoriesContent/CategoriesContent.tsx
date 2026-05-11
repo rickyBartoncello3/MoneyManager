@@ -1,4 +1,4 @@
-import React, {use, useContext} from 'react';
+import React, {use} from 'react';
 import {FlatList, View} from 'react-native';
 import styles from './CategoriesContent.styles';
 import {CategoriesContentProps} from './interfaces';
