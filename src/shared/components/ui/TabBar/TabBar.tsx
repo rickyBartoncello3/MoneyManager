@@ -69,7 +69,7 @@ const TabBar = ({state, descriptors, navigation}: BottomTabBarProps) => {
             title={label}
             renderIcon={({color, strokeWidth}) => (
               <CustomIcon
-                name={String(label).toLowerCase()}
+                name={String(options.title).toLowerCase()}
                 color={color}
                 strokeWidth={strokeWidth}
               />

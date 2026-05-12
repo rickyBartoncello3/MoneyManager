@@ -12,5 +12,6 @@ export default StyleSheet.create({
   cardsContainer: {
     flexDirection: 'row',
     gap: 12,
+    justifyContent: 'space-between',
   },
 });

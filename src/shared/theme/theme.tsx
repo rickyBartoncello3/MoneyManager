@@ -1,36 +1,74 @@
 import {StyleSheet} from 'react-native';
 import {moderateScale} from '@/src/shared/theme/scaling';
-export interface ThemeColors {
+export type ThemeColors = {
   // Brand
   primary: string;
   primaryDark: string;
   primaryLight: string;
+  primarySoft: string;
+  primarySurface: string;
 
   // Base
   text: string;
   textSecondary: string;
   textMuted: string;
+  textDisabled: string;
   background: string;
+  surface: string;
   cardBackground: string;
   elevatedCardBackground: string;
+  modalBackground: string;
 
   // Borders / dividers
   border: string;
+  borderStrong: string;
   divider: string;
 
   // Money states
   income: string;
+  incomeSoft: string;
+  incomeText: string;
   expense: string;
+  expenseSoft: string;
+  expenseText: string;
   positive: string;
   negative: string;
   warning: string;
+  warningSoft: string;
+  warningText: string;
+  danger: string;
+  dangerSoft: string;
+  dangerText: string;
+  success: string;
+  successSoft: string;
+  successText: string;
+  info: string;
+  infoSoft: string;
+  infoText: string;
 
   // UI
   buttonTextColor: string;
+  buttonDisabledBackground: string;
+  buttonDisabledText: string;
   tabActive: string;
   tabInactive: string;
+  tabBackground: string;
+  tabBorder: string;
   icon: string;
   iconMuted: string;
+  iconDisabled: string;
+  inputBackground: string;
+  inputBorder: string;
+  inputFocusedBorder: string;
+  inputPlaceholder: string;
+  chipBackground: string;
+  chipActiveBackground: string;
+  chipText: string;
+  chipActiveText: string;
+  overlay: string;
+  shadow: string;
+  skeletonBase: string;
+  skeletonHighlight: string;
 
   // Charts
   chartGreen: string;
@@ -40,6 +78,9 @@ export interface ThemeColors {
   chartPink: string;
   chartPurple: string;
   chartGray: string;
+  chartCyan: string;
+  chartRed: string;
+  chartIndigo: string;
 
   // Special surfaces
   balanceCardBackground: string;
@@ -47,10 +88,37 @@ export interface ThemeColors {
   balanceCardMutedText: string;
   insightCardBackground: string;
   accountRowBackground: string;
+  transactionRowBackground: string;
+  transactionGroupBackground: string;
+  bottomSheetBackground: string;
+  keyboardButtonBackground: string;
+  keyboardOperatorBackground: string;
+  keyboardEqualBackground: string;
   badgeBackground: string;
   badgeText: string;
-}
 
+  // Calendar / date picker
+  calendarSelectedBackground: string;
+  calendarSelectedText: string;
+  calendarTodayText: string;
+  calendarDisabledText: string;
+
+  // Category fallback colors
+  categoryFood: string;
+  categoryFoodBackground: string;
+  categoryTransport: string;
+  categoryTransportBackground: string;
+  categoryShopping: string;
+  categoryShoppingBackground: string;
+  categoryHealth: string;
+  categoryHealthBackground: string;
+  categoryHome: string;
+  categoryHomeBackground: string;
+  categoryTravel: string;
+  categoryTravelBackground: string;
+  categorySalary: string;
+  categorySalaryBackground: string;
+};
 export interface ThemeSpacing {
   xs: number;
   sm: number;
@@ -99,32 +167,70 @@ export const lightColors: ThemeColors = {
   primary: '#16A34A',
   primaryDark: '#0F6B38',
   primaryLight: '#DCFCE7',
+  primarySoft: 'rgba(22, 163, 74, 0.12)',
+  primarySurface: '#F0FDF4',
 
   // Base
   text: '#0F172A',
   textSecondary: '#475569',
   textMuted: '#94A3B8',
+  textDisabled: '#CBD5E1',
   background: '#F7F8FA',
+  surface: '#FFFFFF',
   cardBackground: '#FFFFFF',
   elevatedCardBackground: '#FFFFFF',
+  modalBackground: '#FFFFFF',
 
   // Borders / dividers
   border: '#E5E7EB',
+  borderStrong: '#CBD5E1',
   divider: '#EEF0F3',
 
   // Money states
   income: '#16A34A',
+  incomeSoft: 'rgba(22, 163, 74, 0.14)',
+  incomeText: '#15803D',
   expense: '#EF4444',
+  expenseSoft: 'rgba(239, 68, 68, 0.12)',
+  expenseText: '#DC2626',
   positive: '#16A34A',
   negative: '#EF4444',
   warning: '#F59E0B',
+  warningSoft: 'rgba(245, 158, 11, 0.14)',
+  warningText: '#B45309',
+  danger: '#EF4444',
+  dangerSoft: 'rgba(239, 68, 68, 0.12)',
+  dangerText: '#B91C1C',
+  success: '#16A34A',
+  successSoft: 'rgba(22, 163, 74, 0.14)',
+  successText: '#15803D',
+  info: '#2563EB',
+  infoSoft: 'rgba(37, 99, 235, 0.12)',
+  infoText: '#1D4ED8',
 
   // UI
   buttonTextColor: '#FFFFFF',
+  buttonDisabledBackground: '#CBD5E1',
+  buttonDisabledText: '#64748B',
   tabActive: '#16A34A',
   tabInactive: '#64748B',
+  tabBackground: 'rgba(255, 255, 255, 0.86)',
+  tabBorder: 'rgba(226, 232, 240, 0.8)',
   icon: '#0F172A',
   iconMuted: '#94A3B8',
+  iconDisabled: '#CBD5E1',
+  inputBackground: '#FFFFFF',
+  inputBorder: '#E5E7EB',
+  inputFocusedBorder: '#16A34A',
+  inputPlaceholder: '#94A3B8',
+  chipBackground: 'rgba(148, 163, 184, 0.14)',
+  chipActiveBackground: '#006B3F',
+  chipText: '#64748B',
+  chipActiveText: '#FFFFFF',
+  overlay: 'rgba(15, 23, 42, 0.42)',
+  shadow: 'rgba(15, 23, 42, 0.12)',
+  skeletonBase: '#E5E7EB',
+  skeletonHighlight: '#F8FAFC',
 
   // Charts
   chartGreen: '#22C55E',
@@ -134,6 +240,9 @@ export const lightColors: ThemeColors = {
   chartPink: '#F43F5E',
   chartPurple: '#8B5CF6',
   chartGray: '#CBD5E1',
+  chartCyan: '#06B6D4',
+  chartRed: '#EF4444',
+  chartIndigo: '#6366F1',
 
   // Special surfaces
   balanceCardBackground: '#065F46',
@@ -141,8 +250,36 @@ export const lightColors: ThemeColors = {
   balanceCardMutedText: '#BBF7D0',
   insightCardBackground: '#FFFFFF',
   accountRowBackground: '#FFFFFF',
+  transactionRowBackground: '#FFFFFF',
+  transactionGroupBackground: 'rgba(148, 163, 184, 0.08)',
+  bottomSheetBackground: '#FFFFFF',
+  keyboardButtonBackground: 'rgba(148, 163, 184, 0.12)',
+  keyboardOperatorBackground: 'rgba(148, 163, 184, 0.18)',
+  keyboardEqualBackground: '#16A34A',
   badgeBackground: '#DCFCE7',
   badgeText: '#15803D',
+
+  // Calendar / date picker
+  calendarSelectedBackground: '#16A34A',
+  calendarSelectedText: '#FFFFFF',
+  calendarTodayText: '#16A34A',
+  calendarDisabledText: '#CBD5E1',
+
+  // Category fallback colors
+  categoryFood: '#22C55E',
+  categoryFoodBackground: 'rgba(34, 197, 94, 0.16)',
+  categoryTransport: '#3B82F6',
+  categoryTransportBackground: 'rgba(59, 130, 246, 0.16)',
+  categoryShopping: '#FB7185',
+  categoryShoppingBackground: 'rgba(251, 113, 133, 0.16)',
+  categoryHealth: '#EC4899',
+  categoryHealthBackground: 'rgba(236, 72, 153, 0.16)',
+  categoryHome: '#F59E0B',
+  categoryHomeBackground: 'rgba(245, 158, 11, 0.16)',
+  categoryTravel: '#06B6D4',
+  categoryTravelBackground: 'rgba(6, 182, 212, 0.16)',
+  categorySalary: '#10B981',
+  categorySalaryBackground: 'rgba(16, 185, 129, 0.16)',
 };
 
 export const darkColors: ThemeColors = {
@@ -150,32 +287,70 @@ export const darkColors: ThemeColors = {
   primary: '#22C55E',
   primaryDark: '#16A34A',
   primaryLight: '#14532D',
+  primarySoft: 'rgba(34, 197, 94, 0.14)',
+  primarySurface: '#052E1A',
 
   // Base
   text: '#F8FAFC',
   textSecondary: '#CBD5E1',
   textMuted: '#64748B',
+  textDisabled: '#475569',
   background: '#070B0F',
+  surface: '#0B1117',
   cardBackground: '#111827',
   elevatedCardBackground: '#172033',
+  modalBackground: '#111827',
 
   // Borders / dividers
   border: '#1F2937',
+  borderStrong: '#334155',
   divider: '#273244',
 
   // Money states
   income: '#22C55E',
+  incomeSoft: 'rgba(34, 197, 94, 0.16)',
+  incomeText: '#86EFAC',
   expense: '#F87171',
+  expenseSoft: 'rgba(248, 113, 113, 0.14)',
+  expenseText: '#FCA5A5',
   positive: '#22C55E',
   negative: '#F87171',
   warning: '#FBBF24',
+  warningSoft: 'rgba(251, 191, 36, 0.14)',
+  warningText: '#FDE68A',
+  danger: '#F87171',
+  dangerSoft: 'rgba(248, 113, 113, 0.14)',
+  dangerText: '#FCA5A5',
+  success: '#22C55E',
+  successSoft: 'rgba(34, 197, 94, 0.16)',
+  successText: '#86EFAC',
+  info: '#60A5FA',
+  infoSoft: 'rgba(96, 165, 250, 0.14)',
+  infoText: '#BFDBFE',
 
   // UI
   buttonTextColor: '#FFFFFF',
+  buttonDisabledBackground: '#334155',
+  buttonDisabledText: '#94A3B8',
   tabActive: '#22C55E',
   tabInactive: '#94A3B8',
+  tabBackground: 'rgba(17, 24, 39, 0.86)',
+  tabBorder: 'rgba(51, 65, 85, 0.8)',
   icon: '#F8FAFC',
   iconMuted: '#64748B',
+  iconDisabled: '#475569',
+  inputBackground: '#111827',
+  inputBorder: '#273244',
+  inputFocusedBorder: '#22C55E',
+  inputPlaceholder: '#64748B',
+  chipBackground: 'rgba(148, 163, 184, 0.14)',
+  chipActiveBackground: '#22C55E',
+  chipText: '#CBD5E1',
+  chipActiveText: '#052E1A',
+  overlay: 'rgba(0, 0, 0, 0.58)',
+  shadow: 'rgba(0, 0, 0, 0.34)',
+  skeletonBase: '#1F2937',
+  skeletonHighlight: '#334155',
 
   // Charts
   chartGreen: '#22C55E',
@@ -185,6 +360,9 @@ export const darkColors: ThemeColors = {
   chartPink: '#FB7185',
   chartPurple: '#A78BFA',
   chartGray: '#64748B',
+  chartCyan: '#22D3EE',
+  chartRed: '#F87171',
+  chartIndigo: '#818CF8',
 
   // Special surfaces
   balanceCardBackground: '#064E3B',
@@ -192,10 +370,37 @@ export const darkColors: ThemeColors = {
   balanceCardMutedText: '#BBF7D0',
   insightCardBackground: '#111827',
   accountRowBackground: '#111827',
+  transactionRowBackground: '#172033',
+  transactionGroupBackground: 'rgba(148, 163, 184, 0.08)',
+  bottomSheetBackground: '#111827',
+  keyboardButtonBackground: 'rgba(148, 163, 184, 0.12)',
+  keyboardOperatorBackground: 'rgba(148, 163, 184, 0.18)',
+  keyboardEqualBackground: '#22C55E',
   badgeBackground: '#14532D',
   badgeText: '#BBF7D0',
-};
 
+  // Calendar / date picker
+  calendarSelectedBackground: '#22C55E',
+  calendarSelectedText: '#052E1A',
+  calendarTodayText: '#22C55E',
+  calendarDisabledText: '#475569',
+
+  // Category fallback colors
+  categoryFood: '#22C55E',
+  categoryFoodBackground: 'rgba(34, 197, 94, 0.16)',
+  categoryTransport: '#60A5FA',
+  categoryTransportBackground: 'rgba(96, 165, 250, 0.16)',
+  categoryShopping: '#FB7185',
+  categoryShoppingBackground: 'rgba(251, 113, 133, 0.16)',
+  categoryHealth: '#F472B6',
+  categoryHealthBackground: 'rgba(244, 114, 182, 0.16)',
+  categoryHome: '#FBBF24',
+  categoryHomeBackground: 'rgba(251, 191, 36, 0.16)',
+  categoryTravel: '#22D3EE',
+  categoryTravelBackground: 'rgba(34, 211, 238, 0.16)',
+  categorySalary: '#34D399',
+  categorySalaryBackground: 'rgba(52, 211, 153, 0.16)',
+};
 export const spacing: ThemeSpacing = {
   xs: moderateScale(4),
   sm: moderateScale(8),

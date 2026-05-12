@@ -14,14 +14,14 @@ export function ReportsScreen() {
       title: 'Gasto semanal',
       subtitle: 'vs. semana anterior',
       value: getRandomInt(-10, 10),
-      chartType: 'bar',
+      icon: 'bar',
     },
     {
       id: 'monthly-spending',
       title: 'Gasto mensual',
       subtitle: 'vs. mes anterior',
       value: getRandomInt(-10, 10),
-      chartType: 'line',
+      icon: 'line',
     },
   ];
 
@@ -31,14 +31,14 @@ export function ReportsScreen() {
       title: 'Dolar',
       subtitle: 'compra',
       value: usdToArs?.sell || 0,
-      chartType: 'bar',
+      icon: 'bar',
     },
     {
       id: 'monthly-spending',
       title: 'Dolar',
       subtitle: 'venta',
       value: usdToArs?.buy || 0,
-      chartType: 'bar',
+      icon: 'bar',
     },
   ];
 

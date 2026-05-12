@@ -1,11 +1,11 @@
-export type HighlightTrend = 'up' | 'down' | 'neutral';
+import {ICON_NAMES} from '@/src/shared/constants/iconNames';
 
 export interface HighlightItem {
   id: string;
   title: string;
   subtitle: string;
   value: number;
-  chartType: 'bar' | 'line';
+  icon: ICON_NAMES;
 }
 
 export interface HighlightsProps {

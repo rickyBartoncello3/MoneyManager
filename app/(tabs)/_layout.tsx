@@ -2,8 +2,10 @@ import React from 'react';
 import {Tabs} from 'expo-router';
 import TabBar from '@/src/shared/components/ui/TabBar/TabBar';
 import {TabRoutes} from '@/src/constants/tabRoutes';
+import {useTranslation} from 'react-i18next';
 
 export default function TabLayout() {
+  const {t} = useTranslation();
   return (
     <Tabs
       initialRouteName="index"
@@ -16,7 +18,7 @@ export default function TabLayout() {
         name={TabRoutes.HOME}
         options={{
           title: 'Home',
-          tabBarLabel: 'Home',
+          tabBarLabel: t('tabs.home'),
         }}
       />
 
@@ -24,7 +26,7 @@ export default function TabLayout() {
         name={TabRoutes.TRANSACTIONS}
         options={{
           title: 'Transactions',
-          tabBarLabel: 'Transactions',
+          tabBarLabel: t('tabs.transactions'),
         }}
       />
 
@@ -40,7 +42,7 @@ export default function TabLayout() {
         name={TabRoutes.REPORTS}
         options={{
           title: 'Reports',
-          tabBarLabel: 'Reports',
+          tabBarLabel: t('tabs.reports'),
         }}
       />
 
@@ -48,7 +50,7 @@ export default function TabLayout() {
         name={TabRoutes.SETTINGS}
         options={{
           title: 'More',
-          tabBarLabel: 'More',
+          tabBarLabel: t('tabs.more'),
         }}
       />
     </Tabs>

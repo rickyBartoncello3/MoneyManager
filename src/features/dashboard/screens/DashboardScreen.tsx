@@ -68,7 +68,9 @@ const DashboardScreen = () => {
           categories={dashboard.categories || []}
           maxVisible={6}
           onPressShowMore={() => {
-            console.log('Mostrar todas las categorías');
+            router.push({
+              pathname: '/(tabs)/transactions',
+            });
           }}
           onPressCategory={category => {
             router.push({
@@ -80,11 +82,11 @@ const DashboardScreen = () => {
         <AccountsSummary
           accounts={dashboard.accounts || []}
           mainCurrency="ARS"
-          onPressSeeAll={() => {
-            console.log('Ver todas las cuentas');
-          }}
           onPressAccount={account => {
-            console.log('Cuenta seleccionada:', account.name);
+            router.push({
+              pathname: '/(tabs)/transactions',
+              params: {accountId: account.id},
+            });
           }}
         />
       </View>

@@ -4,6 +4,7 @@ import Svg, {Circle} from 'react-native-svg';
 import styles from './CircularProgress.styles';
 import Text from '../Text/Text';
 import {CircularProgressProps} from './interfaces';
+import {useTranslation} from 'react-i18next';
 
 export const CircularProgress = ({
   progress,
@@ -13,6 +14,7 @@ export const CircularProgress = ({
   trackColor,
   textColor,
 }: CircularProgressProps) => {
+  const {t} = useTranslation();
   const normalizedProgress = Math.min(Math.max(progress, 0), 1);
 
   const radius = (size - strokeWidth) / 2;
@@ -49,7 +51,7 @@ export const CircularProgress = ({
           {percentage}%
         </Text>
         <Text size={14} weight={500} style={[styles.label, {color: textColor}]}>
-          usado
+          {t('dashboard.spent')}
         </Text>
       </View>
     </View>

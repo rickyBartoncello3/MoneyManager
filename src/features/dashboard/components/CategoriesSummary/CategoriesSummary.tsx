@@ -7,15 +7,16 @@ import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import {Card} from '@/src/shared/components/ui/Card/Card';
 import Text from '@/src/shared/components/ui/Text/Text';
 import {CategoryRow} from '@/src/features/dashboard/components/CategoryRow/CategoryRow';
+import {useTranslation} from 'react-i18next';
 
 export const CategoriesSummary = ({
   categories,
   maxVisible = 6,
-  title = 'Categorías',
   currencySymbol = '$',
   onPressShowMore,
   onPressCategory,
 }: CategoriesSummaryProps) => {
+  const {t} = useTranslation();
   const {colors} = use(ThemeContext);
   const [showAll, setShowAll] = useState(false);
 
@@ -26,26 +27,11 @@ export const CategoriesSummary = ({
 
   const hiddenCategoriesCount = Math.max(categories.length - maxVisible, 0);
 
-  console.log(
-    categories.map(c => ({
-      id: c.categoryId,
-      name: c.name,
-    })),
-  );
-
   return (
     <Card>
       <View style={styles.header}>
-        <Text
-          size={14}
-          weight={800}
-          style={[
-            {
-              color: colors.text,
-            },
-          ]}
-        >
-          {title}
+        <Text size={14} weight={800} style={{color: colors.text}}>
+          {t('dashboard.categories')}
         </Text>
         <View>
           {hiddenCategoriesCount > 0 ? (

@@ -37,6 +37,10 @@ import {
   ArrowDown01Icon,
   ArrowUp01Icon,
   ArrowLeft01Icon,
+  Chart03Icon,
+  Chart01Icon,
+  ArrowUp02Icon,
+  ArrowDown02Icon,
 } from '@hugeicons/core-free-icons';
 import {IconName} from '@/src/shared/constants/iconNames';
 
@@ -82,7 +86,9 @@ export const iconMapper = {
   moneyReceive: MoneyReceiveIcon,
   arrowRight01: ArrowRight01Icon,
   arrowDown01: ArrowDown01Icon,
+  arrowDown02: ArrowDown02Icon,
   arrowUp01: ArrowUp01Icon,
+  arrowUp02: ArrowUp02Icon,
   arrowLeft01: ArrowLeft01Icon,
   dollarCircle: DollarCircleIcon,
   calendar: Calendar01Icon,
@@ -90,4 +96,6 @@ export const iconMapper = {
 
   unfoldMore: UnfoldMoreIcon,
   unfoldLess: UnfoldLessIcon,
+  barChart: Chart01Icon,
+  lineChart: Chart03Icon,
 } as unknown as Record<IconName, IconSvgElement>;

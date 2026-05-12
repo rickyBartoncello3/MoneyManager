@@ -7,7 +7,9 @@ import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import Text from '@/src/shared/components/ui/Text/Text';
 import {Chip} from '@/src/shared/components/ui/Chip/Chip';
 import {CircularProgress} from '@/src/shared/components/ui/CircularProgress/CircularProgress';
-import {Metric} from '@/src/features/dashboard/components/HeroCard/Metric';
+import {Metric} from '@/src/features/dashboard/components/Metric/Metric';
+import {useTranslation} from 'react-i18next';
+import {ICON_NAMES} from '@/src/shared/constants/iconNames';
 
 const formatMoney = (value: number, currencySymbol = '$') => {
   return `${currencySymbol}${value.toLocaleString('es-AR')}`;
@@ -19,20 +21,14 @@ export const HeroCard = ({
   monthlyBudget,
   progress,
   currencySymbol = '$',
-  title = 'Saldo actual',
-  badgeLabel = 'Disponible ahora',
 }: HeroCardProps) => {
+  const {t} = useTranslation();
   const {colors} = use(ThemeContext);
 
   return (
     <Card
       mode="contained"
-      style={[
-        styles.card,
-        {
-          backgroundColor: colors.balanceCardBackground,
-        },
-      ]}
+      style={[styles.card, {backgroundColor: colors.balanceCardBackground}]}
     >
       <Card.Content style={styles.content}>
         <View style={styles.topRow}>
@@ -40,14 +36,9 @@ export const HeroCard = ({
             <Text
               size={16}
               weight={600}
-              style={[
-                styles.title,
-                {
-                  color: colors.balanceCardMutedText,
-                },
-              ]}
+              style={[styles.title, {color: colors.balanceCardMutedText}]}
             >
-              {title}
+              {t('dashboard.currentBalance')}
             </Text>
             <Text
               size={36}
@@ -62,7 +53,7 @@ export const HeroCard = ({
               {formatMoney(currentBalance, currencySymbol)}
             </Text>
             <Chip
-              text={badgeLabel}
+              text={t('dashboard.availableNow')}
               color={colors.badgeText}
               backgroundColor={colors.badgeBackground}
             />
@@ -79,8 +70,18 @@ export const HeroCard = ({
         <View style={styles.divider} />
 
         <View style={styles.bottomRow}>
-          <Metric title={'Gastado este mes'} amount={spent} />
-          <Metric title={'Presupuesto'} amount={monthlyBudget} />
+          <Metric
+            icon={ICON_NAMES.ARROW_UP_2}
+            title={t('dashboard.income')}
+            amount={monthlyBudget}
+          />
+          <Metric
+            icon={ICON_NAMES.ARROW_DOWN_2}
+            title={t('dashboard.expense')}
+            amount={spent}
+            color={colors.expenseText}
+            backgroundColor={colors.expenseSoft}
+          />
         </View>
       </Card.Content>
     </Card>

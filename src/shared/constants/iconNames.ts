@@ -36,11 +36,16 @@ export const ICON_NAMES = {
   ARROW_DOWN: 'arrowDown01',
   ARROW_UP: 'arrowUp01',
   ARROW_LEFT: 'arrowLeft01',
+  ARROW_DOWN_2: 'arrowDown02',
+  ARROW_UP_2: 'arrowUp02',
   CALENDAR: 'calendar',
   NOTE: 'note',
 
   UNFOLD_MORE: 'unfoldMore',
   UNFOLD_LESS: 'unfoldLess',
+
+  BAR_CHART: 'barChart',
+  LINE_CHART: 'lineChart',
 } as const;
 
 export type IconName = (typeof ICON_NAMES)[keyof typeof ICON_NAMES];
