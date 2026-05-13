@@ -7,14 +7,14 @@ import {GroupMode, interfaces} from '@/src/features/transactions/screens/interfa
 import {useTransactionsQuery} from '@/src/features/transactions/queries/useTransactionsQuery';
 import {useSettingsStore} from '@/src/store/settings/slice';
 import {ICON_NAMES} from '@/src/shared/constants/iconNames';
-import {ALL_ACCOUNTS_ID} from '@/src/constants/settings';
+import {ALL_ACCOUNTS_ID, DEFAULT_CURRENCY_CODE} from '@/src/constants/settings';
 
 const allAccountsOption: Account = {
   id: ALL_ACCOUNTS_ID,
   name: 'All accounts',
   icon: ICON_NAMES.NOTE,
   type: 'cash',
-  currencyCode: 'ARS',
+  currencyCode: DEFAULT_CURRENCY_CODE,
   includeInTotal: false,
   initialBalanceMinor: 0,
   archivedAt: '',

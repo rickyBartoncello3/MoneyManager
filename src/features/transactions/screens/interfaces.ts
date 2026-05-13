@@ -23,11 +23,11 @@ export const formatDay = (date: string) => {
 
 const getSignedAmount = (transaction: Transaction) => {
   if (transaction.type === 'income') {
-    return transaction.amountInMainCurrency.amount;
+    return transaction.amount.amount;
   }
 
   if (transaction.type === 'expense') {
-    return -transaction.amountInMainCurrency.amount;
+    return -transaction.amount.amount;
   }
 
   return 0;
