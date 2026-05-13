@@ -1,6 +1,7 @@
 import {CurrencyCode} from '@/src/domain/currencies/Currency';
 import {storage} from '@/src/core/storage/asyncStorage';
 import {DEFAULT_CURRENCY_CODE} from '@/src/constants/settings';
+import {now} from '@/src/core/date/now';
 export type ThemeMode = 'light' | 'dark' | 'system';
 
 export const settingsLocalDataSource = {
@@ -22,5 +23,15 @@ export const settingsLocalDataSource = {
 
   async setAccountCurrent(account: string) {
     await storage.set('accountCurrency', account);
+  },
+
+  async getFocusDate(): Promise<string> {
+    const focusDate = await storage.getString('focusDate');
+
+    return (focusDate as string) ?? now();
+  },
+
+  async setFocusDate(focusDate: string) {
+    await storage.set('focusDate', focusDate);
   },
 };

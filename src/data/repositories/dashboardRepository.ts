@@ -1,6 +1,8 @@
 import {dashboardLocalDataSource} from '@/src/data/local/dashboard/dashboardLocalDataSource';
 import {dashboardMapper} from '@/src/data/mappers/dashboardMapper';
 import {DashboardSummary} from '@/src/domain/dashboard/DashboardSummary';
+import {getWeekRange} from '@/src/shared/utils/getWeekRange';
+import {now} from '@/src/core/date/now';
 
 const getPreviousMonth = (month: string) => {
   const [year, monthNumber] = month.split('-').map(Number);
@@ -87,7 +89,7 @@ export const dashboardRepository = {
     const expenseCategories = categories.filter(c => c.type === 'expense');
     const incomeCategories = categories.filter(c => c.type === 'income');
 
-    const currentWeekRange = getCurrentWeekRange();
+    const currentWeekRange = getWeekRange(now());
     const previousWeekRange = getPreviousWeekRange();
 
     const currentWeekSpent = await dashboardLocalDataSource.getSpentBetween(
@@ -110,7 +112,7 @@ export const dashboardRepository = {
       currentBalance === 0 ? 0 : Number(spentThisMonth / currentBalance);
 
     return {
-      month,
+      date: month,
       accountCurrency,
 
       currentBalance,

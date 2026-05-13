@@ -1,8 +1,6 @@
 import {ActivityIndicator, View} from 'react-native';
 import styles from './Dashboard.styles';
-import {use} from 'react';
 import {CustomView} from '@/src/shared/components/ui/CustomView';
-import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import {HeroCard} from '@/src/features/dashboard/components/HeroCard/HeroCard';
 import {Highlights} from '@/src/shared/components/ui/Highlight/Highlight';
 import {CategoriesSummary} from '@/src/features/dashboard/components/CategoriesSummary/CategoriesSummary';
@@ -10,20 +8,26 @@ import {AccountsSummary} from '@/src/features/dashboard/components/AccountsSumma
 import {router} from 'expo-router';
 import {useDashboardViewModel} from '@/src/features/dashboard/hooks/useDashboardViewModel';
 import Text from '@/src/shared/components/ui/Text/Text';
+import {Gesture, GestureDetector} from 'react-native-gesture-handler';
+import {runOnJS} from 'react-native-reanimated';
+import {Header} from '@/src/shared/components/ui/Hearder/Header';
 
 const DashboardScreen = () => {
-  const {colors} = use(ThemeContext);
   const vm = useDashboardViewModel();
 
-  if (vm.isLoading) {
-    return (
-      <CustomView>
-        <ActivityIndicator size="large" />
-      </CustomView>
-    );
-  }
+  const swipeGesture = Gesture.Pan().onEnd(event => {
+    const minSwipeDistance = 60;
 
-  if (vm.error || !vm.data) {
+    if (event.translationX > minSwipeDistance) {
+      runOnJS(vm.goToPreviousMonth)();
+    }
+
+    if (event.translationX < -minSwipeDistance) {
+      runOnJS(vm.goToNextMonth)();
+    }
+  });
+
+  /*if (vm.error || !vm.data) {
     return (
       <CustomView>
         <Text size={22} weight={900}>
@@ -31,65 +35,50 @@ const DashboardScreen = () => {
         </Text>
       </CustomView>
     );
-  }
+  }*/
 
   const dashboard = vm.data;
 
   return (
     <CustomView margin>
-      <View style={styles.root}>
-        <View>
-          <Text size={22} weight={900} style={{color: colors.text}}>
-            Home
-          </Text>
+      {vm.isLoading && <ActivityIndicator size="large" />}
+      <Header monthLabel={vm.monthLabel} />
+      <GestureDetector gesture={swipeGesture}>
+        <View style={styles.container}>
+          <HeroCard
+            currentBalance={dashboard.currentBalance!}
+            spent={dashboard.spentThisMonth || 0}
+            monthlyBudget={dashboard.available || 0}
+            progress={dashboard.budgetProgress!}
+          />
+          <Highlights highlightedItems={dashboard.spendingInsight} />
+          <CategoriesSummary
+            categories={dashboard.categories || []}
+            maxVisible={6}
+            onPressShowMore={() => {
+              router.push({
+                pathname: '/(tabs)/transactions',
+              });
+            }}
+            onPressCategory={category => {
+              router.push({
+                pathname: '/(tabs)/transactions',
+                params: {categoryId: category.categoryId},
+              });
+            }}
+          />
+          <AccountsSummary
+            accounts={dashboard.accounts || []}
+            mainCurrency="ARS"
+            onPressAccount={account => {
+              router.push({
+                pathname: '/(tabs)/transactions',
+                params: {accountId: account.id},
+              });
+            }}
+          />
         </View>
-        <View>
-          <Text size={22} weight={900} style={{color: colors.text}}>
-            May 2026
-          </Text>
-        </View>
-        <View>
-          <Text size={22} weight={900} style={{color: colors.text}}>
-            Home
-          </Text>
-        </View>
-      </View>
-      <View style={styles.container}>
-        <HeroCard
-          currentBalance={dashboard.currentBalance!}
-          spent={dashboard.spentThisMonth || 0}
-          monthlyBudget={dashboard.available || 0}
-          progress={dashboard.budgetProgress!}
-        />
-
-        <Highlights highlightedItems={dashboard.spendingInsight} />
-
-        <CategoriesSummary
-          categories={dashboard.categories || []}
-          maxVisible={6}
-          onPressShowMore={() => {
-            router.push({
-              pathname: '/(tabs)/transactions',
-            });
-          }}
-          onPressCategory={category => {
-            router.push({
-              pathname: '/(tabs)/transactions',
-              params: {categoryId: category.categoryId},
-            });
-          }}
-        />
-        <AccountsSummary
-          accounts={dashboard.accounts || []}
-          mainCurrency="ARS"
-          onPressAccount={account => {
-            router.push({
-              pathname: '/(tabs)/transactions',
-              params: {accountId: account.id},
-            });
-          }}
-        />
-      </View>
+      </GestureDetector>
     </CustomView>
   );
 };

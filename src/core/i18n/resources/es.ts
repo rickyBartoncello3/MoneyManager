@@ -65,7 +65,7 @@ export const es = {
     title: 'Panel',
     currentBalance: 'Saldo actual',
     spent: 'usado',
-    spentThisWeek: 'Gastado este mes',
+    spentThisWeek: 'Gastado esta semana',
     spentThisMonth: 'Gasto mensual',
     availableNow: 'Disponible ahora',
     vsSpentPreviousWeek: 'vs. semana anterior',

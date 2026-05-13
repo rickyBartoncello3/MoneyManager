@@ -12,7 +12,7 @@ import {useTranslation} from 'react-i18next';
 import {ICON_NAMES} from '@/src/shared/constants/iconNames';
 
 const formatMoney = (value: number, currencySymbol = '$') => {
-  return `${currencySymbol}${value.toLocaleString('es-AR')}`;
+  return `${currencySymbol}${Number(value).toLocaleString('es-AR')}`;
 };
 
 export const HeroCard = ({

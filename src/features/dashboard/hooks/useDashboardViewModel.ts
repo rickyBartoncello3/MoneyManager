@@ -1,15 +1,19 @@
-import {useMemo} from 'react';
+import {useState} from 'react';
 import {useDashboardQuery} from '../queries/useDashboardQuery';
 import {useSettingsStore} from '@/src/store/settings/slice';
-import {getCurrentMonth} from '@/src/shared/utils/getCurrentMonth';
+import {formatMonth} from '@/src/shared/utils/formatMonth';
 import {useTranslation} from 'react-i18next';
 import {ICON_NAMES} from '@/src/shared/constants/iconNames';
+import {addMonths} from '@/src/shared/utils/addMonths';
+import {formatMonthLabel} from '@/src/shared/utils/formatMonthLabel';
 
 export const useDashboardViewModel = () => {
   const accountIdCurrency = useSettingsStore(state => state.accountIdCurrent);
+  const setFocusDate = useSettingsStore(state => state.setFocusDate);
+  const focusDate = useSettingsStore(state => state.focusDate);
   const {t} = useTranslation();
 
-  const selectedMonth = useMemo(() => getCurrentMonth(), []);
+  const [selectedMonth, setSelectedMonth] = useState(formatMonth(focusDate));
 
   const dashboardQuery = useDashboardQuery({
     month: selectedMonth,
@@ -33,12 +37,32 @@ export const useDashboardViewModel = () => {
     },
   ];
 
+  const goToPreviousMonth = () => {
+    const newDateFocused = addMonths(selectedMonth, -1);
+    setFocusDate(newDateFocused);
+    setSelectedMonth(newDateFocused);
+  };
+
+  const goToNextMonth = () => {
+    const newDateFocused = addMonths(selectedMonth, 1);
+    setFocusDate(newDateFocused);
+    setSelectedMonth(newDateFocused);
+  };
+
+  const goToCurrentMonth = () => {
+    setSelectedMonth(formatMonth());
+  };
+
   return {
     t,
+    monthLabel: formatMonthLabel(selectedMonth),
     month: selectedMonth,
     isLoading: dashboardQuery.isLoading,
     error: dashboardQuery.error,
     data: {...dashboardQuery.data, spendingInsight},
     refetch: dashboardQuery.refetch,
+    goToCurrentMonth,
+    goToPreviousMonth,
+    goToNextMonth,
   };
 };

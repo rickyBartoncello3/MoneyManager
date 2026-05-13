@@ -10,6 +10,7 @@ import styles from './TransactionsScreen.styles';
 import {useTransactionsViewModel} from '@/src/features/transactions/hooks/useTransactionsViewModel';
 import {use} from 'react';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
+import {Header} from '@/src/shared/components/ui/Hearder/Header';
 
 export const TransactionsScreen = () => {
   const {top} = useSafeAreaInsets();
@@ -40,42 +41,45 @@ export const TransactionsScreen = () => {
 
   return (
     <CustomView margin isScrolling={false}>
-      <View style={[styles.root, {marginTop: top, gap: currentTheme.spacing.xxl}]}>
-        <ToolBar
-          accounts={vm.accounts}
-          selectedAccountId={vm.selectedAccount.id}
-          groupMode={vm.groupMode}
-          areAllExpanded={vm.areAllExpanded}
-          onSelectAccount={vm.handleSelectAccount}
-          onChangeGroupMode={vm.handleChangeGroupMode}
-          onToggleExpandAll={vm.handleToggleExpandAll}
-        />
-        <FlatList
-          data={vm.groups}
-          keyExtractor={item => item.id}
-          contentContainerStyle={styles.listContent}
-          showsVerticalScrollIndicator={false}
-          ListEmptyComponent={
-            <View style={styles.emptyState}>
-              <Text size={18} weight={900}>
-                No movements found
-              </Text>
+      <View style={[styles.root, {marginTop: top, gap: currentTheme.spacing.xs}]}>
+        <Header monthLabel={vm.focusDate} />
+        <View style={{gap: currentTheme.spacing.xxl}}>
+          <ToolBar
+            accounts={vm.accounts}
+            selectedAccountId={vm.selectedAccount.id}
+            groupMode={vm.groupMode}
+            areAllExpanded={vm.areAllExpanded}
+            onSelectAccount={vm.handleSelectAccount}
+            onChangeGroupMode={vm.handleChangeGroupMode}
+            onToggleExpandAll={vm.handleToggleExpandAll}
+          />
+          <FlatList
+            data={vm.groups}
+            keyExtractor={item => item.id}
+            contentContainerStyle={styles.listContent}
+            showsVerticalScrollIndicator={false}
+            ListEmptyComponent={
+              <View style={styles.emptyState}>
+                <Text size={18} weight={900}>
+                  No movements found
+                </Text>
 
-              <Text size={13} weight={600} style={styles.emptyText}>
-                Try changing the account or grouping mode.
-              </Text>
-            </View>
-          }
-          renderItem={({item}) => (
-            <TransactionGroupCard
-              currencyCode={vm.selectedAccount.currencyCode}
-              group={item}
-              isExpanded={vm.expandedGroupIds.includes(item.id)}
-              onToggle={() => vm.handleToggleGroup(item.id)}
-              groupMode={vm.groupMode}
-            />
-          )}
-        />
+                <Text size={13} weight={600} style={styles.emptyText}>
+                  Try changing the account or grouping mode.
+                </Text>
+              </View>
+            }
+            renderItem={({item}) => (
+              <TransactionGroupCard
+                currencyCode={vm.selectedAccount.currencyCode}
+                group={item}
+                isExpanded={vm.expandedGroupIds.includes(item.id)}
+                onToggle={() => vm.handleToggleGroup(item.id)}
+                groupMode={vm.groupMode}
+              />
+            )}
+          />
+        </View>
       </View>
     </CustomView>
   );

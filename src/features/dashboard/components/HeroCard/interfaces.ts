@@ -9,10 +9,3 @@ export interface HeroCardProps {
   title?: string;
   badgeLabel?: string;
 }
-
-export interface MetricProps {
-  icon: ICON_NAMES;
-  amount: number;
-  title: string;
-  currencySymbol?: string;
-}

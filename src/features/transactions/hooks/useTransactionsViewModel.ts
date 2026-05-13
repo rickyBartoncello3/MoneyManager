@@ -8,6 +8,7 @@ import {useTransactionsQuery} from '@/src/features/transactions/queries/useTrans
 import {useSettingsStore} from '@/src/store/settings/slice';
 import {ICON_NAMES} from '@/src/shared/constants/iconNames';
 import {ALL_ACCOUNTS_ID, DEFAULT_CURRENCY_CODE} from '@/src/constants/settings';
+import {formatMonth} from '@/src/shared/utils/formatMonth';
 
 const allAccountsOption: Account = {
   id: ALL_ACCOUNTS_ID,
@@ -25,6 +26,7 @@ const allAccountsOption: Account = {
 
 export const useTransactionsViewModel = () => {
   const currentAccountId = useSettingsStore(state => state.accountIdCurrent);
+  const focusDate = useSettingsStore(state => state.focusDate);
 
   const {data: accounts = []} = useAccountsQuery();
   const {data: categories = []} = useCategoriesQuery();
@@ -46,8 +48,9 @@ export const useTransactionsViewModel = () => {
   const transactionFilters = useMemo(
     () => ({
       accountId: selectedAccount.id === ALL_ACCOUNTS_ID ? undefined : selectedAccount.id,
+      date: new Date(focusDate).toISOString(),
     }),
-    [selectedAccount.id],
+    [selectedAccount.id, focusDate],
   );
 
   const {
@@ -63,7 +66,7 @@ export const useTransactionsViewModel = () => {
         categories,
         mode: groupMode,
       }),
-    [transactions, categories, groupMode],
+    [transactions, categories, groupMode, focusDate],
   );
 
   const areAllExpanded = groups.length > 0 && expandedGroupIds.length === groups.length;
@@ -91,6 +94,7 @@ export const useTransactionsViewModel = () => {
   };
 
   return {
+    focusDate,
     accounts: accountsOptions,
     transactions,
     transactionsError,
