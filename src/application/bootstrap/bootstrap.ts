@@ -2,7 +2,7 @@ import {runMigrations} from '@/src/core/database/migrations';
 import {seedDefaultAccounts} from '@/src/core/database/seed/seedDefaultAccounts';
 import {seedDefaultCategories} from '@/src/core/database/seed/seedDefaultCategories';
 import {seedDefaultCurrencies} from '@/src/core/database/seed/seedDefaultCurrencies';
-import {seedMonefyAprilMayTransactions} from '@/src/core/database/seed/seedMonefyAprilMayTransactions';
+import {seedTransactions2026} from '@/src/core/database/seed/seedMonefyAprilMayTransactions';
 
 export const bootstrapApp = async () => {
   console.info('[BOOTSTRAP] starting');
@@ -19,8 +19,8 @@ export const bootstrapApp = async () => {
   await seedDefaultCurrencies();
   console.info('[BOOTSTRAP] currencies seeded');
 
-  await seedMonefyAprilMayTransactions();
-  console.info('[BOOTSTRAP] seedMonefyAprilMayTransactions');
+  await seedTransactions2026();
+  console.info('[BOOTSTRAP] seedTransactions2026');
 
   //await devResetAllTables();
 

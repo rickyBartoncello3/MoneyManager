@@ -10,6 +10,7 @@ import {ICON_NAMES} from '@/src/shared/constants/iconNames';
 import {TouchableRipple} from 'react-native-paper';
 import {useCurrenciesQuery} from '@/src/features/currencies/queries/useCurrenciesQuery';
 import {useCategoriesQuery} from '@/src/features/categories/queries/useCategoriesQuery';
+import {formatMoney} from '@/src/shared/utils/formatMoney';
 
 export const TransactionGroupCard = ({
   group,
@@ -61,8 +62,7 @@ export const TransactionGroupCard = ({
               weight={900}
               style={{color: isPositive ? colors.income : colors.expense}}
             >
-              {currency?.symbol || '$'}
-              {Math.abs(group.total).toFixed(3)}
+              {formatMoney(Number(Math.abs(group.total)), currency?.symbol || '$')}
             </Text>
           </View>
         </View>
