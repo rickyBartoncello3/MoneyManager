@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from './CircularProgress.styles.ts';
-import {ChipProps} from './interfaces.ts';
+import styles from './CircularProgress.styles';
+import {ChipProps} from './interfaces';
 import {View} from 'react-native';
-import Text from '../Text/Text.tsx';
+import Text from '../Text/Text';
 
 export const Chip = ({text, backgroundColor, color}: ChipProps) => {
   return (

@@ -22,9 +22,10 @@ export const accountLocalDataSource = {
   },
 
   async insertMany(rows: AccountRow[]) {
-    for (const row of rows) {
-      await db.run(
-        `
+    await Promise.all(
+      rows.map(async row => {
+        await db.run(
+          `
         INSERT OR IGNORE INTO accounts (
           id,
           name,
@@ -39,20 +40,21 @@ export const accountLocalDataSource = {
           deleted_at
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
         `,
-        [
-          row.id,
-          row.name,
-          row.type,
-          row.icon,
-          row.currency_code,
-          row.initial_balance_minor,
-          row.include_in_total,
-          row.archived_at,
-          row.created_at,
-          row.updated_at,
-          row.deleted_at,
-        ],
-      );
-    }
+          [
+            row.id,
+            row.name,
+            row.type,
+            row.icon,
+            row.currency_code,
+            row.initial_balance_minor,
+            row.include_in_total,
+            row.archived_at,
+            row.created_at,
+            row.updated_at,
+            row.deleted_at,
+          ],
+        );
+      }),
+    );
   },
 };

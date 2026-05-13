@@ -1,6 +1,6 @@
 import {RefObject, useEffect, useMemo, useRef, useState} from 'react';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
-import dayjs, {Dayjs} from 'dayjs';
+import dayjs from 'dayjs';
 import {DateType} from 'react-native-ui-datepicker';
 
 import {useAccountsQuery} from '@/src/features/accounts/queries/useAccountsQuery';
@@ -62,7 +62,7 @@ export const useAddTransactionViewModel = () => {
   const [selectedAccount, setSelectedAccount] = useState<Account | undefined>(
     defaultAccount,
   );
-  const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs());
+  const [selectedDate, setSelectedDate] = useState(() => dayjs());
   const [transactionMode, setTransactionMode] = useState<TransactionMode>('expense');
   const [amount, setAmount] = useState(INITIAL_AMOUNT);
   const [selectedCategory, setSelectedCategory] = useState<CategoryOption | null>(null);

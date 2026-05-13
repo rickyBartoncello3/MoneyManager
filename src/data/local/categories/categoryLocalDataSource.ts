@@ -22,9 +22,10 @@ export const categoryLocalDataSource = {
   },
 
   async insertMany(rows: CategoryRow[]) {
-    for (const row of rows) {
-      await db.run(
-        `
+    await Promise.all(
+      rows.map(async row => {
+        await db.run(
+          `
                     INSERT OR IGNORE INTO categories (
           id,
           name,
@@ -38,19 +39,20 @@ export const categoryLocalDataSource = {
           deleted_at
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
                 `,
-        [
-          row.id,
-          row.name,
-          row.type,
-          row.icon,
-          row.color,
-          row.background_color,
-          row.archived_at,
-          row.created_at,
-          row.updated_at,
-          row.deleted_at,
-        ],
-      );
-    }
+          [
+            row.id,
+            row.name,
+            row.type,
+            row.icon,
+            row.color,
+            row.background_color,
+            row.archived_at,
+            row.created_at,
+            row.updated_at,
+            row.deleted_at,
+          ],
+        );
+      }),
+    );
   },
 };

@@ -20,9 +20,10 @@ export const currencyLocalDataSource = {
   },
 
   async insertMany(rows: CurrencyRow[]) {
-    for (const row of rows) {
-      await db.run(
-        `
+    await Promise.all(
+      rows.map(async row => {
+        await db.run(
+          `
         INSERT OR IGNORE INTO currencies (
           code,
           name,
@@ -33,16 +34,17 @@ export const currencyLocalDataSource = {
           updated_at
         ) VALUES (?, ?, ?, ?, ?, ?, ?);
         `,
-        [
-          row.code,
-          row.name,
-          row.symbol,
-          row.minor_units,
-          row.is_base,
-          row.created_at,
-          row.updated_at,
-        ],
-      );
-    }
+          [
+            row.code,
+            row.name,
+            row.symbol,
+            row.minor_units,
+            row.is_base,
+            row.created_at,
+            row.updated_at,
+          ],
+        );
+      }),
+    );
   },
 };

@@ -1,9 +1,11 @@
 import React, {FC, use} from 'react';
-import {TouchableOpacity, View, TouchableOpacityProps} from 'react-native';
+import {View, TouchableOpacityProps} from 'react-native';
 import styles from './TabBarAddButton.styles';
 import {TabBarButtonProps} from './interfaces';
-import {AddCircleIcon} from '../../../assets/icons';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
+import {TouchableRipple} from 'react-native-paper';
+import {CustomIcon} from '@/src/shared/components/ui/TabBarIcon/CustomIcon';
+import {ICON_NAMES} from '@/src/shared/constants/iconNames';
 
 const TabBarAddButton: FC<TabBarButtonProps & TouchableOpacityProps> = ({
   isFocused,
@@ -12,16 +14,16 @@ const TabBarAddButton: FC<TabBarButtonProps & TouchableOpacityProps> = ({
   const {currentTheme} = use(ThemeContext);
 
   return (
-    <TouchableOpacity {...props} style={styles.root}>
+    <TouchableRipple {...props} style={styles.root}>
       <View style={[styles.container, {backgroundColor: currentTheme.colors.background}]}>
-        <AddCircleIcon
+        <CustomIcon
+          name={ICON_NAMES.ADD_CIRCLE}
+          size={60}
           color={'white'}
-          width={60}
-          height={60}
-          fill={currentTheme.colors.primary}
+          fillColor={currentTheme.colors.primary}
         />
       </View>
-    </TouchableOpacity>
+    </TouchableRipple>
   );
 };
 

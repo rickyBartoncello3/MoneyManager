@@ -40,29 +40,11 @@ export const CategoryRow = ({
             {category.name}
           </Text>
         </View>
-
         <View style={styles.rightContent}>
-          <Text
-            size={12}
-            weight={800}
-            style={[
-              {
-                color: colors.text,
-              },
-            ]}
-          >
+          <Text size={12} weight={800} style={{color: colors.text}}>
             {formatMoney(category.total, currencySymbol)}
           </Text>
-
-          <Text
-            size={10}
-            weight={600}
-            style={[
-              {
-                color: colors.textSecondary,
-              },
-            ]}
-          >
+          <Text size={10} weight={600} style={{color: colors.textSecondary}}>
             {category.percentage.toFixed(0)}%
           </Text>
         </View>

@@ -67,22 +67,13 @@ export const CategoriesSummary = ({
           ))}
         </View>
       </View>
-
       {hiddenCategoriesCount > 0 ? (
         <TouchableRipple
           borderless
           onPress={() => setShowAll(prev => !prev)}
           style={[styles.showMoreButton]}
         >
-          <Text
-            size={12}
-            weight={800}
-            style={[
-              {
-                color: colors.textMuted,
-              },
-            ]}
-          >
+          <Text size={12} weight={800} style={{color: colors.textMuted}}>
             {showAll
               ? t('dashboard.showLess')
               : `${t('dashboard.show')} ${hiddenCategoriesCount} ${t('dashboard.more')} ↓`}

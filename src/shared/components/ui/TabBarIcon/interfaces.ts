@@ -5,4 +5,5 @@ export interface TabBarIconProps {
   size?: number;
   color?: string;
   strokeWidth?: number;
+  fillColor?: string;
 }

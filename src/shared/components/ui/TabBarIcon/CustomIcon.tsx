@@ -9,10 +9,17 @@ export const CustomIcon = ({
   color,
   size = 24,
   strokeWidth = 1.8,
+  fillColor = 'transparent',
 }: TabBarIconProps) => {
   const icon = iconMapper[name] ?? iconMapper[ICON_NAMES.ADD_TRANSACTION];
 
   return (
-    <HugeiconsIcon icon={icon} size={size} color={color} strokeWidth={strokeWidth} />
+    <HugeiconsIcon
+      icon={icon}
+      size={size}
+      color={color}
+      strokeWidth={strokeWidth}
+      fill={fillColor}
+    />
   );
 };

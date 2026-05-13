@@ -23,11 +23,11 @@ export const CategorySheet = ({
           Select Category
         </Text>
         <View style={styles.categoryGrid}>
-          {categories.map((item, index) => {
+          {categories.map(item => {
             const isSelected = selectedCategoryId === item.id;
             return (
               <Item
-                key={index}
+                key={item.id}
                 item={item}
                 isSelected={isSelected}
                 onSelect={onSelectCategory}

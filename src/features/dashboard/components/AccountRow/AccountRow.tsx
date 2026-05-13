@@ -44,16 +44,7 @@ export const AccountRow = ({account, onPress}: AccountRowProps) => {
         </View>
 
         <View style={styles.accountInfo}>
-          <Text
-            size={12}
-            weight={700}
-            numberOfLines={1}
-            style={[
-              {
-                color: colors.text,
-              },
-            ]}
-          >
+          <Text size={12} weight={700} numberOfLines={1} style={{color: colors.text}}>
             {account.name}
           </Text>
           <Text
@@ -72,15 +63,7 @@ export const AccountRow = ({account, onPress}: AccountRowProps) => {
       </View>
 
       <View style={styles.rightContent}>
-        <Text
-          size={16}
-          weight={800}
-          style={[
-            {
-              color: amountColor,
-            },
-          ]}
-        >
+        <Text size={16} weight={800} style={{color: amountColor}}>
           {formatMoney(account.balance, account.symbol)}
         </Text>
 

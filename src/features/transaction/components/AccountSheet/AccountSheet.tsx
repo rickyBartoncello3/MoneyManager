@@ -25,11 +25,11 @@ export const AccountSheet = ({
           Select Account
         </Text>
         <View style={styles.categoryGrid}>
-          {accounts.map((item, index) => {
+          {accounts.map(item => {
             const isSelected = selectedAccountId === item.id;
             return (
               <Item
-                key={index}
+                key={item.id}
                 item={{
                   ...item,
                   color: colors.text,
