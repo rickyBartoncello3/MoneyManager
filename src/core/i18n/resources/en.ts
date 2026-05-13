@@ -75,5 +75,9 @@ export const en = {
     categories: 'Categories',
     accounts: 'Accounts',
     highlights: 'Highlights',
+    showMore: 'Show more',
+    show: 'Show',
+    more: 'more',
+    showLess: 'Show less ↑',
   },
 };

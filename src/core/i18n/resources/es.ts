@@ -75,5 +75,9 @@ export const es = {
     categories: 'Categorías',
     accounts: 'Cuentas',
     highlights: 'Destacados',
+    showMore: 'Ver más',
+    show: 'Mostrar',
+    more: 'más',
+    showLess: 'Mostrar menos ↑',
   },
 };

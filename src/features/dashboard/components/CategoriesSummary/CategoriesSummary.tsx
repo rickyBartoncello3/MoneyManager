@@ -49,7 +49,7 @@ export const CategoriesSummary = ({
                   },
                 ]}
               >
-                Ver más
+                {t('dashboard.showMore')}
               </Text>
             </TouchableRipple>
           ) : null}
@@ -83,7 +83,9 @@ export const CategoriesSummary = ({
               },
             ]}
           >
-            {showAll ? 'Mostrar menos ↑' : `Mostrar ${hiddenCategoriesCount} más ↓`}
+            {showAll
+              ? t('dashboard.showLess')
+              : `${t('dashboard.show')} ${hiddenCategoriesCount} ${t('dashboard.more')} ↓`}
           </Text>
         </TouchableRipple>
       ) : null}
