@@ -62,7 +62,7 @@ export const TransactionGroupCard = ({
               weight={900}
               style={{color: isPositive ? colors.income : colors.expense}}
             >
-              {formatMoney(Number(Math.abs(group.total)), currency?.symbol || '$')}
+              {formatMoney(group.total, currency?.symbol, 3)}
             </Text>
           </View>
         </View>

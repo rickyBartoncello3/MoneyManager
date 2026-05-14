@@ -1,5 +1,3 @@
-// src/features/transactions/queries/useUpdateTransactionMutation.ts
-
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {transactionRepository} from '@/src/data/repositories/transactionRepository';
 

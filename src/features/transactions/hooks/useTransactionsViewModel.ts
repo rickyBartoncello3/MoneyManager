@@ -8,7 +8,7 @@ import {useTransactionsQuery} from '@/src/features/transactions/queries/useTrans
 import {useSettingsStore} from '@/src/store/settings/slice';
 import {ICON_NAMES} from '@/src/shared/constants/iconNames';
 import {ALL_ACCOUNTS_ID, DEFAULT_CURRENCY_CODE} from '@/src/constants/settings';
-import {formatMonth} from '@/src/shared/utils/formatMonth';
+import {formatMonthLabel} from '@/src/shared/utils/formatMonthLabel';
 
 const allAccountsOption: Account = {
   id: ALL_ACCOUNTS_ID,
@@ -66,7 +66,7 @@ export const useTransactionsViewModel = () => {
         categories,
         mode: groupMode,
       }),
-    [transactions, categories, groupMode, focusDate],
+    [transactions, categories, groupMode],
   );
 
   const areAllExpanded = groups.length > 0 && expandedGroupIds.length === groups.length;
@@ -94,7 +94,7 @@ export const useTransactionsViewModel = () => {
   };
 
   return {
-    focusDate,
+    focusDate: formatMonthLabel(focusDate),
     accounts: accountsOptions,
     transactions,
     transactionsError,

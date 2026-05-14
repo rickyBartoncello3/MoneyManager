@@ -1,5 +1,3 @@
-// src/features/transactions/components/TransactionMovementRow/TransactionMovementRow.tsx
-
 import {View} from 'react-native';
 import {router} from 'expo-router';
 import Text from '@/src/shared/components/ui/Text/Text';
@@ -9,6 +7,7 @@ import {TouchableRipple} from 'react-native-paper';
 import {use} from 'react';
 import {ThemeContext} from '@/src/application/providers/ThemeProvider';
 import {formatDay} from '@/src/features/transactions/screens/interfaces';
+import {formatMoney} from '@/src/shared/utils/formatMoney';
 
 export const TransactionMovementRow = ({
   transaction,
@@ -20,6 +19,7 @@ export const TransactionMovementRow = ({
   const {colors} = use(ThemeContext);
 
   const isIncome = transaction.type === 'income';
+  const amount = formatMoney(transaction.amount.amount, symbol, 3);
 
   return (
     <TouchableRipple
@@ -52,15 +52,12 @@ export const TransactionMovementRow = ({
           </Text>
           {groupMode === 'category' && (
             <Text size={14} weight={900} style={{color: colors.text}}>
-              {symbol}
-              {transaction.amount.amount.toFixed(3)}
+              {amount}
             </Text>
           )}
         </View>
         <Text size={14} weight={900} style={{color: colors.text}}>
-          {groupMode === 'day'
-            ? `${symbol} ${transaction.amount.amount.toFixed(3)}`
-            : `${formatDay(transaction.occurredAt)}`}
+          {groupMode === 'day' ? `${amount}` : `${formatDay(transaction.occurredAt)}`}
         </Text>
       </View>
     </TouchableRipple>

@@ -45,8 +45,12 @@ export const useDashboardViewModel = () => {
 
   const goToNextMonth = () => {
     const newDateFocused = addMonths(selectedMonth, 1);
-    setFocusDate(newDateFocused);
-    setSelectedMonth(newDateFocused);
+    const nextDate = new Date(newDateFocused);
+    const currentDate = new Date();
+    if (nextDate < currentDate) {
+      setFocusDate(newDateFocused);
+      setSelectedMonth(newDateFocused);
+    }
   };
 
   const goToCurrentMonth = () => {

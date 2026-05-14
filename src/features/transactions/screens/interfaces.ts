@@ -1,5 +1,3 @@
-// src/features/transactions/components/TransactionMovementRow/interfaces.ts
-
 import {Transaction} from '@/src/domain/transactions/Transaction';
 import {Category} from '@/src/domain/categories/Category';
 import {TransactionGroup} from '@/src/features/transactions/components/TransactionGroupCard/interfaces';

@@ -1,5 +1,3 @@
-// src/features/transactions/components/TransactionMovementRow/TransactionGroupCard.styles.ts
-
 import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({

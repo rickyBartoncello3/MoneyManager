@@ -1,5 +1,3 @@
-// src/features/transactions/queries/useTransactionsQuery.ts
-
 import {useQuery} from '@tanstack/react-query';
 import {transactionRepository} from '@/src/data/repositories/transactionRepository';
 import {TransactionFilters} from '@/src/domain/transactions/TransactionFilters';

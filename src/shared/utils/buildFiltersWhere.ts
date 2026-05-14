@@ -1,13 +1,10 @@
 import * as SQLite from 'expo-sqlite';
-import {getMonthRange} from '@/src/shared/utils/getMonthRange';
 import {TransactionFilters} from '@/src/domain/transactions/TransactionFilters';
 import {getDateRange} from '@/src/shared/utils/getDateRange';
 
 export const buildFiltersWhere = (filters?: TransactionFilters) => {
   const where: string[] = ['deleted_at IS NULL'];
   const params: unknown[] = [];
-
-  console.log('filters', filters?.date);
 
   if (filters?.date) {
     const {start, end} = getDateRange(filters.date, 'month');
@@ -38,8 +35,6 @@ export const buildFiltersWhere = (filters?: TransactionFilters) => {
     where.push('currency = ?');
     params.push(filters.currency);
   }
-
-  console.log({params});
 
   return {
     whereSql: where.join(' AND '),

@@ -1,5 +1,12 @@
-export const formatMoney = (value: number, symbol = '$') => {
-  const absValue = Math.abs(value);
+import currency from 'currency.js';
 
-  return `${value < 0 ? '-' : ''}${symbol} ${absValue.toLocaleString('es-AR')}`;
+export const formatMoney = (value: number | string, symbol = '$', precision = 0) => {
+  const number = currency(value, {
+    symbol: symbol,
+    precision: precision,
+    separator: '.',
+    decimal: ',',
+  });
+
+  return `${number.format()}`;
 };

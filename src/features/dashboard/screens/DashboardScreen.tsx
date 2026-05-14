@@ -7,7 +7,6 @@ import {CategoriesSummary} from '@/src/features/dashboard/components/CategoriesS
 import {AccountsSummary} from '@/src/features/dashboard/components/AccountsSummary/AccountsSummary';
 import {router} from 'expo-router';
 import {useDashboardViewModel} from '@/src/features/dashboard/hooks/useDashboardViewModel';
-import Text from '@/src/shared/components/ui/Text/Text';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import {runOnJS} from 'react-native-reanimated';
 import {Header} from '@/src/shared/components/ui/Hearder/Header';
@@ -15,27 +14,20 @@ import {Header} from '@/src/shared/components/ui/Hearder/Header';
 const DashboardScreen = () => {
   const vm = useDashboardViewModel();
 
-  const swipeGesture = Gesture.Pan().onEnd(event => {
-    const minSwipeDistance = 60;
+  const swipeGesture = Gesture.Pan()
+    .activeOffsetX([-40, 40])
+    .failOffsetY([-20, 20])
+    .onEnd(event => {
+      const minSwipeDistance = 80;
 
-    if (event.translationX > minSwipeDistance) {
-      runOnJS(vm.goToPreviousMonth)();
-    }
+      if (event.translationX > minSwipeDistance) {
+        runOnJS(vm.goToPreviousMonth)();
+      }
 
-    if (event.translationX < -minSwipeDistance) {
-      runOnJS(vm.goToNextMonth)();
-    }
-  });
-
-  /*if (vm.error || !vm.data) {
-    return (
-      <CustomView>
-        <Text size={22} weight={900}>
-          Something went wrong.
-        </Text>
-      </CustomView>
-    );
-  }*/
+      if (event.translationX < -minSwipeDistance) {
+        runOnJS(vm.goToNextMonth)();
+      }
+    });
 
   const dashboard = vm.data;
 
