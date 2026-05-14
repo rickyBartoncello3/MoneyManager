@@ -10,4 +10,6 @@ export type AccountSummary = {
   currency: CurrencyCode;
   symbol: string;
   balance: number;
+  income: number;
+  expense: number;
 };

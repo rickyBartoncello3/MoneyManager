@@ -3,40 +3,9 @@ import {dashboardMapper} from '@/src/data/mappers/dashboardMapper';
 import {DashboardSummary} from '@/src/domain/dashboard/DashboardSummary';
 import {getWeekRange} from '@/src/shared/utils/getWeekRange';
 import {now} from '@/src/core/date/now';
+import {getPreviousMonth} from '@/src/shared/utils/getPreviousMonth';
 
-const getPreviousMonth = (month: string) => {
-  const [year, monthNumber] = month.split('-').map(Number);
-  const date = new Date(year, monthNumber - 2, 1);
-
-  const previousYear = date.getFullYear();
-  const previousMonth = String(date.getMonth() + 1).padStart(2, '0');
-
-  return `${previousYear}-${previousMonth}`;
-};
-
-const getCurrentWeekRange = () => {
-  const now = new Date();
-
-  const day = now.getDay();
-  const diffToMonday = day === 0 ? -6 : 1 - day;
-
-  const monday = new Date(now);
-  monday.setDate(now.getDate() + diffToMonday);
-  monday.setHours(0, 0, 0, 0);
-
-  const sunday = new Date(monday);
-  sunday.setDate(monday.getDate() + 6);
-  sunday.setHours(23, 59, 59, 999);
-
-  return {
-    start: monday.toISOString(),
-    end: sunday.toISOString(),
-  };
-};
-
-const getPreviousWeekRange = () => {
-  const current = getCurrentWeekRange();
-
+const getPreviousWeekRange = (current: {start: string; end: string}) => {
   const start = new Date(current.start);
   start.setDate(start.getDate() - 7);
 
@@ -56,6 +25,16 @@ const calculatePercentageChange = (current: number, previous: number) => {
   return ((current - previous) / previous) * 100;
 };
 
+const findAccountById = <T extends {id: string}>(
+  accounts: T[],
+  accountId: string,
+): T | undefined => accounts.find(account => account.id === accountId);
+
+const getAccountBalance = <T extends {id: string; balance: number}>(
+  accounts: T[],
+  accountId: string,
+): number => findAccountById(accounts, accountId)?.balance ?? 0;
+
 export const dashboardRepository = {
   async getSummary(params: {
     month: string;
@@ -65,61 +44,78 @@ export const dashboardRepository = {
 
     const previousMonth = getPreviousMonth(month);
 
-    const accountsRows = await dashboardLocalDataSource.getAccountsSummary();
+    const [currentAccountsRows, previousAccountsRows] = await Promise.all([
+      dashboardLocalDataSource.getAccountsSummary(month),
+      dashboardLocalDataSource.getAccountsSummary(previousMonth),
+    ]);
 
-    const accounts = accountsRows.map(dashboardMapper.accountSummaryRowToDomain);
+    const currentAccounts = currentAccountsRows.map(
+      dashboardMapper.accountSummaryRowToDomain,
+    );
+    const previousAccounts = previousAccountsRows.map(
+      dashboardMapper.accountSummaryRowToDomain,
+    );
 
-    const accountCurrency = accounts.find(a => a.id === accountIdCurrency)!;
-    const currentBalance = accounts.find(a => a.id === accountCurrency?.id)?.balance || 0;
+    const currentAccount = findAccountById(currentAccounts, accountIdCurrency)!;
+    const previousAccount = findAccountById(previousAccounts, accountIdCurrency)!;
 
-    const spentThisMonth = await dashboardLocalDataSource.getSpentByMonth(month);
+    const currentBalance = getAccountBalance(currentAccounts, currentAccount.id);
+    const previousBalance = getAccountBalance(previousAccounts, currentAccount.id);
 
-    const spentPreviousMonth =
-      await dashboardLocalDataSource.getSpentByMonth(previousMonth);
+    const accounts = currentAccounts.map(account => {
+      const previousBalance = getAccountBalance(previousAccounts, account.id);
+
+      return {
+        ...account,
+        balance: previousBalance + account.balance,
+      };
+    });
+
+    const spentThisMonth = currentAccount.expense;
+    const spentPreviousMonth = previousAccount.expense;
 
     const categoryRows = await dashboardLocalDataSource.getCategoryBreakdownByMonth(
       month,
-      accountCurrency.id,
+      currentAccount.id,
     );
-
     const categories = categoryRows.map(row =>
       dashboardMapper.categoryExpenseSummaryRowToDomain(row, spentThisMonth),
     );
 
     const expenseCategories = categories.filter(c => c.type === 'expense');
-    const incomeCategories = categories.filter(c => c.type === 'income');
+    const income = categories
+      .filter(category => category.type === 'income')
+      .reduce((total, category) => total + category.total, 0);
 
     const currentWeekRange = getWeekRange(now());
-    const previousWeekRange = getPreviousWeekRange();
+    const previousWeekRange = getPreviousWeekRange(currentWeekRange);
 
-    const currentWeekSpent = await dashboardLocalDataSource.getSpentBetween(
-      currentWeekRange.start,
-      currentWeekRange.end,
-    );
-
-    const previousWeekSpent = await dashboardLocalDataSource.getSpentBetween(
-      previousWeekRange.start,
-      previousWeekRange.end,
-    );
+    const [currentWeekSpent, previousWeekSpent] = await Promise.all([
+      dashboardLocalDataSource.getSpentBetween(
+        currentWeekRange.start,
+        currentWeekRange.end,
+      ),
+      dashboardLocalDataSource.getSpentBetween(
+        previousWeekRange.start,
+        previousWeekRange.end,
+      ),
+    ]);
 
     const weeklyChange = calculatePercentageChange(currentWeekSpent, previousWeekSpent);
-
     const monthlyChange = calculatePercentageChange(spentThisMonth, spentPreviousMonth);
 
-    const income = incomeCategories.reduce((acc, cat) => acc + cat.total, 0);
-    const available = income - spentThisMonth;
     const budgetProgress =
       currentBalance === 0 ? 0 : Number(spentThisMonth / currentBalance);
 
     return {
-      date: month,
-      accountCurrency,
+      month: '',
+      currentAccount: currentAccount,
 
       currentBalance,
       spentThisMonth,
       income,
-      available,
       budgetProgress,
+      previousBalance,
 
       weeklySpendingInsight: {
         value: currentWeekSpent,
@@ -130,7 +126,6 @@ export const dashboardRepository = {
         value: spentThisMonth,
         percentageChange: monthlyChange,
       },
-
       categories: expenseCategories,
       accounts,
     };

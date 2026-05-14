@@ -4,12 +4,12 @@ import {InsightSummary} from './InsightSummary';
 
 export type DashboardSummary = {
   month: string;
-  accountCurrency: AccountSummary;
+  currentAccount: AccountSummary;
 
   currentBalance: number;
+  previousBalance: number;
   spentThisMonth: number;
   income: number;
-  available: number;
   budgetProgress: number;
 
   weeklySpendingInsight: InsightSummary;

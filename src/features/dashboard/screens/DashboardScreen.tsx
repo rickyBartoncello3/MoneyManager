@@ -40,7 +40,7 @@ const DashboardScreen = () => {
           <HeroCard
             currentBalance={dashboard.currentBalance!}
             spent={dashboard.spentThisMonth || 0}
-            monthlyBudget={dashboard.available || 0}
+            monthlyBudget={dashboard.income || 0}
             progress={dashboard.budgetProgress!}
           />
           <Highlights highlightedItems={dashboard.spendingInsight} />

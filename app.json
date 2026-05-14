@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Money Manager",
-    "slug": "money-manager",
+    "slug": "RNMoneyManager",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/images/icon.png",

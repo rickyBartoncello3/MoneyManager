@@ -7,40 +7,56 @@ import {
 import {getMonthRange} from '@/src/shared/utils/getMonthRange';
 
 export const dashboardLocalDataSource = {
-  async getAccountsSummary(): Promise<AccountSummaryRow[]> {
-    return db.getAll<AccountSummaryRow>(`
-      SELECT
-        a.id,
-        a.name,
-        a.type,
-        a.icon,
-        a.currency_code,
-        c.symbol,
-        a.initial_balance_minor,
-        COALESCE(SUM(
-          CASE
-            WHEN t.type = 'income' THEN t.amount
-            ELSE 0
-          END
-        ), 0) as income_total,
-        COALESCE(SUM(
-          CASE
-            WHEN t.type = 'expense' THEN t.amount
-            ELSE 0
-          END
-        ), 0) as expense_total
-      FROM accounts a
-      LEFT JOIN transactions t
-        ON t.account_id = a.id
-        AND t.deleted_at IS NULL
-      LEFT JOIN currencies c
-        ON c.code = a.currency_code
-      WHERE a.deleted_at IS NULL
-      GROUP BY a.id, a.name, a.type, a.currency_code, a.initial_balance_minor
-      ORDER BY a.created_at ASC;
-    `);
-  },
+  async getAccountsSummary(month: string): Promise<AccountSummaryRow[]> {
+    const {start, end} = getMonthRange(month);
 
+    return db.getAll<AccountSummaryRow>(
+      `
+                SELECT
+                    a.id,
+                    a.name,
+                    a.type,
+                    a.icon,
+                    a.currency_code,
+                    c.symbol,
+                    a.initial_balance_minor,
+
+                    COALESCE(SUM(
+                                     CASE
+                                         WHEN t.type = 'income' THEN t.amount
+                                         ELSE 0
+                                         END
+                             ), 0) as income_total,
+
+                    COALESCE(SUM(
+                                     CASE
+                                         WHEN t.type = 'expense' THEN t.amount
+                                         ELSE 0
+                                         END
+                             ), 0) as expense_total
+
+                FROM accounts a
+                         LEFT JOIN transactions t
+                                   ON t.account_id = a.id
+                                       AND t.deleted_at IS NULL
+                                       AND t.occurred_at >= ?
+                                       AND t.occurred_at <= ?
+                         LEFT JOIN currencies c
+                                   ON c.code = a.currency_code
+                WHERE a.deleted_at IS NULL
+                GROUP BY
+                    a.id,
+                    a.name,
+                    a.type,
+                    a.icon,
+                    a.currency_code,
+                    c.symbol,
+                    a.initial_balance_minor
+                ORDER BY a.created_at ASC;
+            `,
+      [start, end],
+    );
+  },
   async getSpentByMonth(month: string): Promise<number> {
     const {start, end} = getMonthRange(month);
     return this.getSpentBetween(start, end);
