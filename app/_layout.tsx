@@ -31,6 +31,14 @@ export default function RootLayout() {
     SpaceMono: require('../src//assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
   });
+
+  useEffect(() => {
+    async function prepare() {
+      await SplashScreen.hideAsync();
+    }
+
+    prepare();
+  }, []);
   useEffect(() => {
     async function start() {
       if (!loaded) {
